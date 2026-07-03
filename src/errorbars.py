@@ -65,7 +65,7 @@ print("\n=== P(D) collapse residuals ===")
 Dp, Pp = [], []
 for r in range(R):
     g = np.random.default_rng(2000+r).uniform(0.05, 0.6, size=64)  # wide g mix
-    for t in np.linspace(0.05, 4.0, 50):
+    for t in np.linspace(0.05, 4.0, 200):
         d = exact.record_distinguishability(g, t)
         if d < 60:
             Dp.append(d)
