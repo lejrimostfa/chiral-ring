@@ -42,31 +42,54 @@ chirality `Σ_i s_i`; the individual chiralities never objectify in the DFS.
 
 ---
 
-## C2 — additivity deficit = multi-information — **INFIRMED (literal); firm part holds**
+## C2 — Collective (synergistic) irreversibility — **REINTERPRETED & CONFIRMED (extensive synergy); literal multi-information identity INFIRMED**
 
-Figures: `fig_multi_c_deficit.png`, `fig_multi_d_sweep_f.png`.
+Figures: `fig_multi_c_deficit.png`, `fig_multi_d_sweep_f.png`,
+`fig_multi_c2_exact.png`, `fig_multi_deficit_scaling.png`.
+Scripts: `run_scenarios.py c`, `analyze_c2.py`, `run_deficit_scaling.py`.
 
-Firm, confirmed part: `Δ(t) = ⟨σ_S⟩ − Σ_i⟨σ_i⟩ ≥ 0` everywhere (exactly 0 for
-disjoint baths; positive and monotone increasing in the shared fraction f:
-`0 → 0.33 → 2.29 → … → 43.7` nats as `f: 0 → 1`).
+**Firm part (confirmed):** `Δ(t) = ⟨σ_S⟩ − Σ_i⟨σ_i⟩ ≥ 0` everywhere; exactly 0
+for disjoint baths (machine precision); monotone increasing in the shared
+fraction (`0 → 0.33 → … → 43.7` nats as `f: 0 → 1` at N=64, t=2).
 
-Refuted part: the identity `Δ = record multi-information` **fails**, and it must,
-for a structural reason:
+**Exact decomposition (enumeration, verified to 1e-14 across seeds, times, f):**
 
-    Δ(final) = 44.35 ± 5.48 nats     (extensive; grows with shared-qubit count)
-    any multi-information of M=2 chirality bits ≤ M ln2 = 1.386 nats   (bounded)
-    Δ / (posterior total correlation)  ≈ 2.5×10^3   (median over t)
+    Δ = I(s₁;s₂|ξ) + C_bwd
 
-Δ is an **extensive excess distinguishability** (joint minus marginal KL over the
-records), unbounded in N. Any genuine multi-information of the M chirality bits
-is bounded by `M ln2`. They cannot be equal. (Note: at large t the posterior
-total correlation itself → 0 as posteriors sharpen, while Δ keeps growing — the
-mismatch widens.) The marginal `σ_i` uses Option A (marginal-likelihood ratio,
-fixed in `multi_definitions.md §4.1`); under this choice the deficit measures the
-record information that is joint-only, not a bounded correlation. **Verdict:**
-`Δ ≥ 0` is real and turns on with bath sharing; the "= multi-information"
-identity is a category error (extensive vs bounded). Per the C2 stop-loss we do
-not re-open the σ_i definition; the negative result stands as reported.
+- `I(s₁;s₂|ξ) ≤ ln 2` is the genuine record-induced multi-information — the
+  object the original conjecture pointed at. It IS inside Δ, but bounded.
+- `C_bwd` is the antipodal cross co-information (the pointwise record synergy
+  `i(ξ;s₁;s₂)` scored on the true branch but averaged over records drawn from
+  the antipodal branch). It is a cross-entropy-type term with no bounded
+  Shannon reading — this is the extensive part.
+- Universal constant: the bounded fraction `I(s₁;s₂|ξ)/Δ → 0.1249 ≈ 1/8` as
+  `t → 0`, independent of disorder seed and of f (tested f ∈ {0.3, 0.6, 1.0},
+  4 seeds); it decays to ~0.01 at large t. The conjectured multi-information
+  never dominates the deficit.
+
+**Scaling (the synergistic-irreversibility reading, confirmed):**
+
+    f=1, t=1.0, N ∈ {16,32,64,128}:  Δ = 0.6876·N − 0.385,  R² = 0.99995
+
+Δ is **linear-extensive in the total number of shared records** (the intercept
+is negligible against the ~88-nat scale at N=128). At fixed N=64, sweeping the
+shared count k mixes shared and private records and shows onset curvature
+(`R² ≈ 0.95`, β < 0): the deficit is *not* additively decomposable qubit-by-qubit
+in a mixed bath —
+
+**Per-record decomposition: NOT exact.** With
+`δ_n = KL_n^joint − Σ_i KL_n^(i)` (closed form, exactly 0 on private qubits),
+enumeration at N=10 gives relative residuals `|Δ − Σ_n δ_n|/Δ` of 0.20–0.85
+with a sign change: `Σ_n δ_n` is a closed-form extensive *proxy*, not an
+identity. The residual is the intra-marginal record-correlation term
+`Σ_i [Σ_n KL_n^(i) − D_i]`. No new closed form is claimed in the notes.
+
+**Verdict:** the deficit is a **collective (synergistic) irreversibility** —
+an entropy production carried only by the joint record channel, extensive in
+the number of shared records (R²=0.99995), containing the record
+multi-information as its bounded (≤ ln 2, small-t fraction 1/8) component. The
+literal identity `Δ = multi-information` stays infirmed. Option A for σ_i
+unchanged (stop-loss respected).
 
 ---
 
@@ -108,65 +131,84 @@ present with `e^{σ}` weight, exactly as predicted.
 
 ---
 
-## C5 — arrow frustration — **OPEN; observed regime = f-dependent with a threshold**
+## C5 — arrow frustration — **RESOLVED: sharing-controlled arrow reversal; the preparation of the shared witnesses decides which arrow wins**
 
-Figures: `fig_multi_e_frustration.png`, `fig_multi_e_crossing.png`.
+Figures: `fig_multi_e_frustration.png`, `fig_multi_e_crossing.png`,
+`fig_multi_c5_prescriptions.png`, `fig_multi_fstar_stability.png`.
+Scripts: `run_scenarios.py e`, `run_c5_robustness.py`, `run_fstar_stability.py`.
+Prescriptions derived in `multi_definitions.md §6bis` before coding.
 
-**Modelling choice (stated, not derived).** Ring 1 forward (fresh bath), ring 2
-mirror (charged for T, records to consume), sharing fraction f. A shared qubit
-cannot simultaneously be fresh (ring 1 is writing it) and mirror-charged
-(ring 2 wants to consume it). *Prescription F:* shared qubits are fresh and read
-forward by both rings; only ring-2-private qubits carry the mirror charge. Other
-prescriptions (shared qubits mirror-charged, or a 50/50 split) would give
-different curves; C5 has no privileged answer, so we report what this one
-produces. Limits are validated: f=0 gives `σ_1=+D_1` (forward) and `σ_2=−D_2^mir`
-(mirror), matching the model tests.
+**Setup.** Ring 1 forward (fresh bath), ring 2 mirror (charged for T=1.5),
+sharing fraction f. A shared qubit cannot simultaneously accumulate and consume;
+its preparation is a boundary-condition choice, tested three ways (exclusive
+qubits fixed: ring-1-private fresh, ring-2-private mirror-charged):
+**F** shared fresh (T_c=0) · **M** shared mirror-charged (T_c=T) · **H** shared
+half-charged (T_c=T/2). f=0 limits reproduce `σ_1=+D_1`, `σ_2=−D_2^mir` exactly
+(sampler validated bit-for-bit against the step-4 code).
 
-Observed (σ in nats, final time; T=1.5):
+**Robustness result (N=64, t=0.5, R=10):**
 
-| f | σ_1 (forward) | σ_2 (mirror) | σ_2 zero-crossing in t |
-|---|---------------|--------------|------------------------|
-| 0.00 | +40.0 | consumes, → 0 at t≈1.45 | t≈1.45 |
-| 0.25 | +38.5 | +17.3 | t≈0.80 |
-| 0.50 | +35.7 | +25.4 | t≈0.65 |
-| 1.00 | +28.1 | +29.8 | none (accumulates throughout) |
+| prescription | shared witnesses | f\*(σ₂) | f\*(σ₁) | which arrow flips |
+|---|---|---|---|---|
+| F | fresh (accumulate)      | **0.761** | none | the **mirror** ring's |
+| M | charged (consume)       | none | **0.103** | the **forward** ring's |
+| H | half-charged (consume, weaker) | none | **0.683** | the **forward** ring's, late |
 
-Two effects, neither matching a pure hypothesis:
-- The forward ring's arrow **attenuates** with sharing (`σ_1: 40 → 28`): shared
-  qubits carry joint information, diluting each ring's marginal arrow.
-- The mirror ring's arrow **reverses**: fresh shared qubits inject forward
-  entropy production that overwhelms the mirror consumption. At the intermediate
-  time t=0.5 the mirror arrow annuls at a sharing threshold
+The phenomenon — a sharing-controlled reversal of exactly one ring's arrow —
+exists under **all three** prescriptions. Which arrow cedes, and at what f, is
+set by the shared witnesses' preparation: fresh witnesses drag both arrows
+forward (the mirror ring flips); charged witnesses drag both backward (the
+forward ring flips); a weaker charge flips the forward ring only at much larger
+sharing. This is outcome (ii) of the work order: *the preparation of the shared
+witnesses decides which arrow wins.*
 
-      f* = 0.761   (σ_2 < 0 consuming below f*, σ_2 > 0 accumulating above).
+**Statistical stability (prescription F, per-realization f\*, R=20):**
 
-**Verdict:** not hypothesis (a) "majority wins" and not (b) "symmetric
-attenuation" — the observed regime is (c) **f-dependent with a threshold f\***:
-below f* the mirror ring still runs its arrow backward; above f* the shared fresh
-qubits flip it forward. The forward ring meanwhile weakens monotonically. We
-report this regime without asserting it is the unique physics — under a different
-shared-qubit prescription the threshold would move; the *existence* of a
-sharing-controlled reversal is the robust observation.
+| | N=32 | N=64 | N=128 |
+|---|---|---|---|
+| t=0.5 | 0.763 ± 0.039 | 0.765 ± 0.034 | 0.748 ± 0.040 |
+| t=1.0 | 0.128 ± 0.036 | 0.114 ± 0.018 | 0.103 ± 0.014 |
+
+20/20 realizations show a crossing in every cell; all std ≤ 0.04 < 0.1, so the
+word **threshold** (not "crossover") is licensed by the pre-registered
+criterion. f\* is N-independent at fixed t and self-averaging (std shrinks with
+N); it moves with t (0.76 → 0.11) as the mirror charge is consumed.
+
+**Verdict:** not hypothesis (a) "majority wins", not (b) "symmetric
+attenuation" — regime (c), now sharpened: a **prescription-dependent, disorder-
+stable threshold** at which the arrow of the ring whose witnesses are
+outnumbered reverses. The robust, prescription-independent facts: (i) exactly
+one arrow flips, never both; (ii) the flip is controlled by f; (iii) the loser
+is determined by the shared-witness preparation, not by which ring is "forward"
+or "mirror".
 
 ---
 
-## Data collapse (step 5) — collapse SURVIVES sharing, BREAKS in the DFS
+## Data collapse (step 5) — collapse SURVIVES sharing, BREAKS in the DFS — now with disorder error bars
 
-Figure: `fig_multi_collapse.png`. Pooled marginal `(D_i=⟨σ_i⟩, P_i)` over
-coupling type, time, ring index, realization (1008 generic points).
+Figures: `fig_multi_collapse.png`, `fig_multi_collapse_errors.png`.
+Scripts: `collapse_multi.py`, `run_collapse_errors.py`.
+
+Pooled fit (step 5, 1008 generic points):
 
     GENERIC collapse (shared f=0..1 + random): RMS residual = 0.0200,
         max = 0.0795 (bootstrap 95% CI on max [0.0735, 0.0795])
-    per-config RMS: shared f=0.00..1.00 and random all in [0.010, 0.026]
     identical (DFS): RMS = 0.393   <- breaks the collapse
 
-**The number that decides it:** the Paper-1 co-transition collapse survives bath
-sharing at RMS 0.020 (all shared/random configs on one master curve), but the
-DFS leaves it at RMS 0.39. The break is not noise: in the DFS the marginal
+Per-realization master curves (T4, R=10 — each realization builds its own
+generic master curve and is scored against it):
+
+    generic RMS = 0.0179 ± 0.0037   (max over realizations 0.0245)
+    DFS     RMS = 0.4008 ± 0.0097   (min over realizations 0.3796)
+    worst-case separation  min(DFS) / max(generic) = 15.5×
+
+**The number that decides it:** the dichotomy is disorder-stable — the worst
+DFS realization sits 15.5× above the worst generic one; the two distributions
+do not approach. The break is not noise: in the DFS the marginal
 distinguishability `D_i` accrues while `P_i` stays pinned at chance (individual
-chirality is unrecordable), so `(D_i, P_i)` runs along `P_i ≈ 0.5` off the curve.
-Collapse-breaking is itself the decoherence-free-subspace signature, tying step 5
-back to C1 and C3.
+chirality is unrecordable), so `(D_i, P_i)` runs along `P_i ≈ 0.5` off the
+curve. Collapse-breaking is itself the decoherence-free-subspace signature,
+tying step 5 back to C1 and C3.
 
 ---
 
@@ -175,12 +217,40 @@ back to C1 and C3.
 | Conjecture | Verdict | Deciding number |
 |-----------|---------|-----------------|
 | C1 DFS objectivity | **Confirmed** | P_1=0.50 (indiv, chance) vs P_total=1.0 (identical); P_1=1.0 (random) |
-| C2 deficit = multi-info | **Infirmed (literal)**; Δ≥0 firm | Δ=44.4 nats ≫ M ln2 = 1.39 nats (extensive vs bounded) |
+| C2 synergistic irreversibility | **Reinterpreted & confirmed**; literal identity infirmed | Δ=0.688·N, R²=0.99995; exact Δ=I(s₁;s₂\|ξ)+C_bwd; I/Δ→1/8 |
 | C3 entanglement off records | **Confirmed** | DFS C≡1 (D_rel≡0); random C↓0 monotone in D_rel |
 | C4 detailed FT | **Confirmed** | FT slope = 1.00±0.02; ⟨σ⟩=D; σ<0 fraction 0.31→0.01 |
-| C5 arrow frustration | **Open → regime (c)** | forward σ_1: 40→28; mirror σ_2 flips at f*=0.76 |
-| Collapse survival | Survives; DFS excepted | generic RMS=0.020 vs DFS RMS=0.39 |
+| C5 arrow frustration | **Resolved: reversal robust, threshold prescription-dependent** | F/M/H: f\*=0.761/0.103/0.683; std(f\*)≤0.04 → threshold |
+| Collapse survival | Survives; DFS excepted (disorder-stable) | 0.0179±0.0037 vs 0.4008±0.0097 (15.5× worst case) |
 
-Negative results are results: C2's identity is false for a clean structural
-reason (extensive deficit vs bounded multi-information), and the collapse break
-in the DFS is a positive diagnostic of where records fail to form.
+Negative results are results: the literal C2 identity fails (and the exact
+decomposition says precisely how), the per-record decomposition of Δ fails
+(residual documented), and the collapse break in the DFS is a positive
+diagnostic of where records fail to form.
+
+---
+
+## What changed vs the first pass
+
+1. **C2 upgraded from "category error" to an exact statement.** The first pass
+   compared Δ against the posterior total correlation (bounded) and stopped at
+   "extensive vs bounded, cannot match". The re-analysis found the exact
+   decomposition `Δ = I(s₁;s₂|ξ) + C_bwd` (machine precision, enumeration), a
+   universal small-t bounded fraction `1/8`, and the clean extensivity law
+   `Δ = 0.688·N` (R²=0.99995). The conjectured multi-information is *inside* Δ;
+   it just never dominates. Renamed: collective (synergistic) irreversibility.
+2. **C5's f\* = 0.76 was indeed prescription-dependent — the worry was
+   founded.** Under M (charged shared witnesses) it is the *forward* ring that
+   flips, at f\* = 0.103; under H at 0.683. What survives all prescriptions:
+   exactly one arrow flips, controlled by f, and the loser is chosen by the
+   shared-witness preparation. The single-prescription "mirror flips at 0.76"
+   statement of the first pass is now the F-row of a table.
+3. **"Threshold" vocabulary is now licensed by measurement**, not assumption:
+   std(f\*) ≤ 0.04 < 0.1 across 120 realization-cells (20 per cell, all with
+   crossings), N-independent and self-averaging.
+4. **The collapse dichotomy carries error bars**: 0.0179±0.0037 vs
+   0.4008±0.0097, worst-case separation 15.5× — previously a single pooled
+   number each.
+5. **One negative result added**: the per-record decomposition `Δ = Σ_n δ_n` is
+   not exact (residual 0.20–0.85, sign-changing); `Σ_n δ_n` remains a useful
+   closed-form extensive proxy (exactly zero on private qubits).
