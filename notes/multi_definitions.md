@@ -216,6 +216,56 @@ decays exactly as records distinguishing the two branches form — and in the DF
 concurrence is protected: `C(t) = 1 ∀t`. Slogan: *entanglement survives exactly
 where no records form.*
 
+## 6bis. Shared-qubit prescriptions (C5 robustness)
+
+*Added before coding the consolidation run (prescriptions F/M/H); the C5
+frustration scenario needs a stated preparation for the SHARED qubits, and the
+threshold f* may depend on it. Exclusive qubits keep their §5 preparation
+throughout: ring-1-private fresh, ring-2-private mirror-charged for duration T.*
+
+**Unified net-phase form.** Consider a qubit forward-charged for a duration
+`T_c` at its full conditional rate `a_n(S)` (the charging run is the joint
+forward evolution; conditional on `S` the qubit accumulates phase `a_n(S) T_c`),
+then Θ-conjugated (entangled boundary condition, exactly as §5), then re-evolved
+forward for time `t`. Θ-conjugation flips the accumulated phase; the physical
+record bias is therefore
+
+    β_n(S,t) = sin( 2 a_n(S) (t − T_c) ),      T_c = 0 for a fresh qubit.  (21)
+
+**Scoring convention (the T-trap).** `σ` compares against the FORWARD-protocol
+reference (Paper 1 Eq. 5). Per `backward_process.md` §3, the record labels are
+kept and the trajectory conjugation is carried by the draw law — not by
+relabeling the apparatus. Operationally, per qubit:
+
+    fresh  (T_c = 0):  μ_n(S,t) = sin(2 a_n(S) t),        draw P(r) = (1+rμ)/2
+    charged (T_c > 0): μ_n(S,t) = sin(2 a_n(S) (T_c − t)), draw P(r) = (1−rμ)/2
+
+Both cases have physical bias (21); both are scored with the forward likelihood
+`(1+rμ)/2` in σ and in the posterior. Per-qubit contributions to ⟨σ⟩ are then
+`±ε_n ln[(1+ε_n)/(1−ε_n)]` with `ε_n = |μ_n|`: `+` accumulating (fresh), `−`
+consuming (charged). The `f=0` limits reproduce §5/§8 exactly (`⟨σ⟩ = ±D`).
+`T` here is always the CHARGE DURATION; the mirror quality argument is
+`T_c − t` (decreasing), matching `ε_n^mir(t) = |sin(2 g_n (T−t))|` of Eq. (16).
+
+**The three prescriptions for shared qubits** (`a_n(S) = s_1 g_{1,n} + s_2 g_{2,n}`):
+
+- **F — fresh (reference, existing):** `T_c = 0`.
+  `ε_n^F(t) = |sin(2 a_n(S) t)|`, accumulating.
+- **M — mirror-charged:** `T_c = T` (same construction as the ring-2 mirror
+  bath, but the charge is written at the combined rate).
+  `ε_n^M(t) = |sin(2 a_n(S) (T − t))|`, consuming on `t ∈ [0, T]`.
+- **H — half-charged:** `T_c = T/2`.
+  `ε_n^H(t) = |sin(2 a_n(S) (T/2 − t))|`, consuming for `t < T/2` only; at
+  `t ≥ T/2` the half-charge is exhausted and the qubit physically
+  re-accumulates while the convention keeps the backward reference. The
+  robustness figure is evaluated at `t = 0.5 < T/2 = 0.75`, strictly inside
+  the consuming regime.
+
+Under M, at `f = 1` every qubit is charged: BOTH rings consume — the natural
+expectation is that the forward ring's arrow can flip under M (the preparation
+of the shared witnesses decides which arrow wins). No prediction is privileged;
+the run decides.
+
 ## 7. The five conjectures (targets)
 
 - **C1 — DFS objectivity.** Identical couplings ⟹ the `(+,−)↔(−,+)` coherences
