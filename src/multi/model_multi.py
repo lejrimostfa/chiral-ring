@@ -151,8 +151,27 @@ def sample_joint(g_mat, t, n_traj=20_000, rng=None):
     m_tot = post @ tot
     denom = abs(tot).max() if abs(tot).max() > 0 else 1.0
     pol_total = float(np.mean(np.abs(m_tot)) / denom)
+    # conditional on the true branch having nonzero total chirality: in the DFS
+    # the zero-total sector produces no records, so this restriction isolates
+    # whether the (recordable) total current objectifies (C1).
+    tot_true = np.abs(S_all[bidx].sum(axis=1))
+    nz = tot_true > 0
+    pol_total_cond = (float(np.mean(np.abs(m_tot[nz])) / denom)
+                      if nz.any() else float("nan"))
 
-    out = {"P_i": P_i, "pol_total": pol_total}
+    # posterior total correlation = record multi-information estimate (C2), nats:
+    # TC = sum_i H(s_i|xi) - H(S|xi), averaged over trajectories. Independent of
+    # the deficit Delta, so Delta vs TC is a genuine test of the C2 identity.
+    eps_ = 1e-15
+    Hjoint = -np.sum(np.where(post > eps_, post * np.log(post + eps_), 0.0), axis=1)
+    Hmarg = np.zeros(n_traj)
+    for i in range(M):
+        pi = np.clip(post[:, S_all[:, i] > 0].sum(axis=1), eps_, 1 - eps_)
+        Hmarg += -(pi * np.log(pi) + (1 - pi) * np.log(1 - pi))
+    tc = float(np.mean(Hmarg - Hjoint))
+
+    out = {"P_i": P_i, "pol_total": pol_total,
+           "pol_total_cond": pol_total_cond, "tc": tc}
     if M == 2:
         s1s2 = (S_all[:, 0] * S_all[:, 1]).astype(float)
         chi_traj = post @ s1s2                       # E[s1 s2|xi] per trajectory
@@ -211,6 +230,67 @@ def sample_mirror_sigma(g_row, T, t, n_traj=20_000, rng=None, s=+1):
     r = np.where(u < (1 - b) / 2, 1, -1).astype(float)
     sig = np.sum(np.log1p(r * b) - np.log1p(-r * b), axis=1)  # forward score
     return float(np.mean(sig)), float(np.std(sig) / np.sqrt(n_traj))
+
+
+# ----------------------------------------------------------------------
+# Frustration sampler (C5): ring 0 forward, ring 1 mirror, sharing qubits.
+# ----------------------------------------------------------------------
+def sample_frustration(g_mat, t, T, mirror_mask, n_traj=20_000, rng=None):
+    """Two rings sharing a bath, opposite arrows (work-order 4e / C5).
+
+    Convention: ring 0 is FORWARD (fresh), ring 1 is MIRROR (charged for T).
+    `mirror_mask` (bool, length N) marks the qubits that carry ring-1's mirror
+    charge; those records are drawn from the BACKWARD law. Every other qubit is
+    fresh and drawn FORWARD. A SHARED qubit (coupled to both rings) is by
+    construction fresh (ring 0 is writing it now, so it cannot also hold a mirror
+    charge): mirror_mask is True only on ring-1-private qubits.
+
+    Scoring is always the forward likelihood with the physical bias:
+      forward qubit : mu_n(S) = sin(2 a_n(S) t)          (full combined phase)
+      mirror qubit  : mu_n(S) = sin(2 a_n(S) (T - t))    (residual, ring-1 only)
+
+    This is a modelling CHOICE for the shared qubits (documented in
+    results_multi.md); C5 has no privileged answer. Limits reproduce the
+    validated cases: mirror_mask all-True (f=0) -> <sigma_1>=+D_1, <sigma_1 is
+    ring0 fresh>, and ring1 pure mirror -> <sigma_1>=-D_1.
+
+    Returns dict: sigma (M,), P_i (M,), sigma_S, plus the per-time scalars used
+    by the frustration figure.
+    """
+    rng = rng or np.random.default_rng(0)
+    g_mat = np.asarray(g_mat, float)
+    M, N = g_mat.shape
+    mirror_mask = np.asarray(mirror_mask, bool)
+    S_all = all_branches(M)
+    B = S_all.shape[0]
+    a = S_all @ g_mat                                   # (B,N) combined phase rate
+    mu = np.empty((B, N))
+    mu[:, ~mirror_mask] = np.sin(2.0 * a[:, ~mirror_mask] * t)          # forward
+    mu[:, mirror_mask] = np.sin(2.0 * a[:, mirror_mask] * (T - t))      # residual
+    mu = np.clip(mu, -1 + 1e-12, 1 - 1e-12)
+
+    bidx = rng.integers(0, B, size=n_traj)
+    mu_true = mu[bidx]
+    # draw sign: forward qubits (1 + r mu)/2 ; mirror qubits backward (1 - r mu)/2
+    sgn = np.where(mirror_mask, -1.0, 1.0)[None, :]
+    u = rng.random((n_traj, N))
+    r = np.where(u < (1 + sgn * mu_true) / 2, 1, -1).astype(float)
+
+    logL = np.log1p(r[:, None, :] * mu[None, :, :]).sum(axis=2)
+    post = np.exp(logL - logL.max(axis=1, keepdims=True))
+    post /= post.sum(axis=1, keepdims=True)
+    m_i = post @ S_all.astype(float)
+    P_i = np.mean(np.abs(m_i), axis=0)
+
+    sig_S = np.sum(np.log1p(r * mu_true) - np.log1p(-r * mu_true), axis=1)
+    from scipy.special import logsumexp
+    sigma = np.zeros(M)
+    for i in range(M):
+        plus = S_all[:, i] > 0
+        Lp = logsumexp(logL[:, plus], axis=1)
+        Lm = logsumexp(logL[:, ~plus], axis=1)
+        sigma[i] = float(np.mean(S_all[bidx, i].astype(float) * (Lp - Lm)))
+    return {"sigma": sigma, "P_i": P_i, "sigma_S": float(np.mean(sig_S))}
 
 
 # ----------------------------------------------------------------------
