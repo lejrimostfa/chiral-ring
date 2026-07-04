@@ -266,6 +266,113 @@ expectation is that the forward ring's arrow can flip under M (the preparation
 of the shared witnesses decides which arrow wins). No prediction is privileged;
 the run decides.
 
+## 6ter. Deficit decomposition theorem
+
+*Added at consolidation (final task B). Verified independently by
+`src/multi/verify_multi.py` (from-scratch enumeration, no import of
+`model_multi`).*
+
+**Setting.** `S = (s_1,…,s_M)` uniform on `{±1}^M` (independent fair prior).
+Records `ξ ∈ Ξ` with conditional law `P(ξ|S)`. Marginal-channel likelihoods
+`P(ξ|s_i) = 2^{-(M-1)} Σ_{s_{-i}} P(ξ|S)` and mixture `P(ξ) = 2^{-M} Σ_S P(ξ|S)`.
+Arrows as in §3–4: `σ_S[ξ] = ln[P(ξ|S)/P(ξ|−S)]`,
+`σ_i[ξ] = s_i ln[P(ξ|s_i=+1)/P(ξ|s_i=−1)]` (Option A), and the deficit
+`Δ = ⟨σ_S⟩ − Σ_i ⟨σ_i⟩` with `⟨·⟩ = E_S E_{ξ∼P(·|S)}`.
+
+**Hypotheses.**
+- (H1) uniform independent prior on `S`;
+- (H2) *antipodal flip symmetry*: there is an involution `ξ ↦ ξ̄` of the record
+  space with `P(ξ̄|S) = P(ξ|−S)` for every `S`.
+
+For the collision model, `ξ̄ = −ξ` (flip every record) satisfies (H2) for ANY
+of the preparations used in this note (fresh, mirror, prescriptions F/M/H):
+every per-qubit bias is odd in `S` (`μ_n(−S) = −μ_n(S)`, since all accumulated
+phases are linear in `S`), so `p_n(r|−S) = (1−rμ_n(S))/2 = p_n(−r|S)`.
+Conditional independence of the records is NOT required. (H1)+(H2) imply
+`P(ξ̄|s_i) = P(ξ|−s_i)` (sum the flip identity over `s_{-i}`, reindex
+`s_{-i} → −s_{-i}`) and `P(ξ̄) = P(ξ)`.
+
+**Theorem (deficit decomposition).** Under (H1)–(H2),
+
+    Δ = TC(s_1;…;s_M | ξ) + C_bwd,                                     (22)
+
+with the (non-negative, bounded) posterior total correlation
+
+    TC(s_1;…;s_M|ξ) = E_ξ [ Σ_i H(s_i|ξ) − H(S|ξ) ]
+                    = I(ξ;S) − Σ_i I(ξ;s_i)   ∈ [0, (M−1) ln 2],       (23)
+
+and the backward cross co-information — the exact expression, nothing hidden:
+
+    C_bwd = − 2^{−M} Σ_S Σ_ξ P(ξ|−S) · J(ξ,S),
+    J(ξ,S) ≡ ln [ P(ξ|S) P(ξ)^{M−1} / Π_i P(ξ|s_i) ].                  (24)
+
+`J` is the pointwise co-information score of the record with the M
+chiralities; `C_bwd` evaluates it on the TRUE branch `S` but averages over
+records drawn from the ANTIPODAL branch `−S`. It is a cross-entropy-type
+functional, extensive in general, with no bounded Shannon reading.
+
+**Derivation.**
+1. *Pointwise identity.* Adding and subtracting `(M−1) ln P(ξ)` (which cancels
+   between the two brackets):
+
+       σ_S[ξ] − Σ_i σ_i[ξ]
+         = [ln P(ξ|S) − Σ_i ln P(ξ|s_i)] − [ln P(ξ|−S) − Σ_i ln P(ξ|−s_i)]
+         = J(ξ,S) − J(ξ,−S).                                           (25)
+
+   (In `σ_i`, `s_i ln[L_i^+/L_i^-] = ln P(ξ|s_i) − ln P(ξ|−s_i)` evaluated at
+   the true `s_i`.)
+2. *Forward average of the first term.* `E_S E_{ξ|S} J(ξ,S)
+   = E ln[P(ξ|S)/P(ξ)] − Σ_i E ln[P(ξ|s_i)/P(ξ)] = I(ξ;S) − Σ_i I(ξ;s_i)`,
+   and with the independent prior `I(ξ;S) − Σ_i I(ξ;s_i)
+   = Σ_i H(s_i|ξ)-sum minus `H(S|ξ)` in expectation, i.e. (23).
+3. *Backward form of the second term.* By (H2) applied factor by factor,
+   `J(ξ,−S) = J(ξ̄,S)`. Changing variables `ξ → ξ̄` in the sum
+   (`Σ_ξ P(ξ|S) J(ξ̄,S) = Σ_η P(η̄|S) J(η,S) = Σ_η P(η|−S) J(η,S)`):
+
+       E_S E_{ξ∼P(·|S)} J(ξ,−S) = E_S E_{ξ∼P(·|−S)} J(ξ,S) = −C_bwd.   (26)
+
+4. Subtract: `Δ = (23) + C_bwd`. ∎
+
+For `M = 2`, `TC(s_1;s_2|ξ) = E_ξ I(s_1;s_2|ξ) ≤ ln 2` — the record-induced
+multi-information of the ring pair, i.e. the object conjecture C2 pointed at.
+
+**Exact linearization lemma (M=2 collision biases).** For `s_i = ±1`,
+
+    sin(2 a_n(S) t) = s_1 ũ_n + s_2 ṽ_n   EXACTLY, with
+    ũ_n = sin(2 g_{1,n} t) cos(2 g_{2,n} t),
+    ṽ_n = cos(2 g_{1,n} t) sin(2 g_{2,n} t)                            (27)
+
+(direct angle-addition with `s_i² = 1`; no `s_1 s_2` term arises). All M=2
+record biases are exactly linear in the branch variables.
+
+**Small-t theorem (leading order; proven symbolically for N = 1, 2 —
+`verify_multi.py` check (ii) — generic couplings, and confirmed numerically at
+N = 10 to the expected O(t²) accuracy).** Writing (27) and expanding in the
+joint scale `λ` (`ũ, ṽ → λũ, λṽ`), both sides are controlled by ONE collective
+invariant, the record-channel overlap `w ≡ Σ_n ũ_n ṽ_n`:
+
+    Δ        = 4 w² λ⁴ + O(λ⁶),
+    TC(·|ξ)  = (1/2) w² λ⁴ + O(λ⁶),
+    ⇒  TC/Δ  = 1/8  exactly at leading order, ANY couplings.            (28)
+
+(The λ² coefficients of both quantities vanish identically.) Consequences:
+- the universal `0.1249` observed numerically at small t across seeds and
+  shared fractions is the exact constant `1/8`;
+- at small t the deficit is *collective-quadratic* — `Δ ∝ (Σ_n ũ_nṽ_n)²` is
+  the square of a single sum, so it scales like N² (all-shared, same-sign
+  couplings) and is NOT per-record additive. This coexists with the observed
+  linear-extensive scaling `Δ ≈ 0.688·N` at t = 1.0 (results, task T3): the
+  deficit crosses over from collective-quadratic (weak records) to
+  extensive-linear (strong records). Consistent with the exact failure of the
+  per-record decomposition (T3, check C).
+
+**Sign of C_bwd (status: numerically supported conjecture, no proof).**
+`verify_multi.py` check (iii): exhaustive N=1 grid over all flip-symmetric
+product laws (min `C_bwd = −4·10⁻¹⁶`, i.e. 0 at machine precision, attained on
+the boundary) and 6000 random product laws at N ∈ {2,3,4} (min `+1.6·10⁻⁸`):
+no violation. Since `TC ≥ 0` always, `C_bwd ≥ 0` would imply `Δ ≥ 0`
+unconditionally on this family.
+
 ## 7. The five conjectures (targets)
 
 - **C1 — DFS objectivity.** Identical couplings ⟹ the `(+,−)↔(−,+)` coherences
