@@ -6,9 +6,10 @@ import matplotlib.pyplot as plt
 from model import run_unit_tests
 import exact
 import evolve
+import os
 
 rng = np.random.default_rng(42)
-FIG = "/home/claude/chiral-ring/figures/"
+FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "")
 
 # ---------- 0. unit tests ----------
 run_unit_tests()

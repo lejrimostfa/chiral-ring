@@ -3,9 +3,10 @@ import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import exact, collision
 
-FIG = "/home/claude/chiral-ring/figures/"
+FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "")
 rng = np.random.default_rng(42)
 
 # ================= Part A: collision protocol, N = 120 =================

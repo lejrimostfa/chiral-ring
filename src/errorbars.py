@@ -15,9 +15,10 @@ import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+import os
 import exact, variant_b as vb
 
-FIG = "../figures/"
+FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "")
 R = 10                 # disorder realizations (raise to 20 for final)
 NTRAJ = 50_000
 GBAR = 0.2
