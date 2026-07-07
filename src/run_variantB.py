@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 import exact, variant_b as vb
 
-FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "")
+FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "paper1", "")
 rng = np.random.default_rng(42)
 
 N, gbar = 16, 0.2

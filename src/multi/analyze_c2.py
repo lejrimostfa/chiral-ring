@@ -34,7 +34,7 @@ import matplotlib.pyplot as plt
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import model_multi as mm
 
-FIG = os.path.join(os.path.dirname(__file__), "..", "..", "figures", "")
+FIG = os.path.join(os.path.dirname(__file__), "..", "..", "figures", "paper2", "")
 LN2 = np.log(2.0)
 
 

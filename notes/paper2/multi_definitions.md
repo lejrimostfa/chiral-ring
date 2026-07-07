@@ -1,7 +1,8 @@
 # Multi-Ring Model — Definitions and Conjectures (Paper 2)
 
-Companion to `chiral_ring_spec.md` and `backward_process.md` (Paper 1). Paper 1
-is the foundation and is **not modified**. All Paper-2 code lives in `src/multi/`.
+Companion to `../paper1/chiral_ring_spec.md` and `../paper1/backward_process.md`
+(Paper 1). Paper 1 is the foundation and is **not modified**. All Paper-2 code
+lives in `src/multi/`.
 
 Status: definitions fixed before coding (work-order step 1). Conjectures C1–C5
 are stated here as targets; verdicts live in `results_multi.md`.

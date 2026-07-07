@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import os
 import exact, collision
 
-FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "")
+FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "paper1", "")
 rng = np.random.default_rng(42)
 
 # ================= Part A: collision protocol, N = 120 =================

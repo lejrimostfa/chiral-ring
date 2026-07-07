@@ -9,7 +9,7 @@ import evolve
 import os
 
 rng = np.random.default_rng(42)
-FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "")
+FIG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "paper1", "")
 
 # ---------- 0. unit tests ----------
 run_unit_tests()
