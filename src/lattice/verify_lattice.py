@@ -144,9 +144,10 @@ def gate_G4_local_vs_global(L=4, n_traj=4000, seed=5):
     rng = np.random.default_rng(seed); true_idx = 0
     R = sample_records(beta[true_idx], n_traj, rng)
     _, sig_g = productions(R, beta, S_all, true_idx)
+    S_true = S_all[true_idx]
     agree, corr = [], []
     for i in range(L):
-        sl = local_marginal_sigma(R, G, Tc, t, S_all, true_idx, i)
+        sl = local_marginal_sigma(R, G, Tc, t, S_true, i)
         agree.append(np.sign(sig_g[:, i].mean()) == np.sign(sl.mean()))
         corr.append(np.corrcoef(sig_g[:, i], sl)[0, 1])
     ok = all(agree)

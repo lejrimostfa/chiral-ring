@@ -140,32 +140,28 @@ def productions(R, beta, S_all, true_idx):
     return sig_S, sig_i
 
 
-def local_marginal_sigma(R, G, Tc, t, S_all, true_idx, i, protocol="inst"):
-    """sigma_i using ONLY ring i's accessible witnesses (all witnesses coupling
-    to ring i: its private bath + every shared link touching it), marginalizing
-    uniformly over the neighbour chiralities. Topology-agnostic: the accessible
-    set is read from the coupling matrix, so chain and square use the same code."""
+def local_marginal_sigma(R, G, Tc, param, S_true, i):
+    """sigma_i using ONLY ring i's accessible witnesses (its private bath + every
+    shared link touching it), marginalizing uniformly over the neighbour
+    chiralities. SCALABLE: cost is O(2^(deg+1)) per ring, independent of L (it
+    never enumerates the 2^L global branches). `S_true` is the true chirality
+    vector (only S_true[i] is used); `param` is the snapshot t or collision dt.
+
+    Topology-agnostic: the accessible set is read from the coupling matrix, so
+    chain and square use the same code."""
     W = np.nonzero(G[i])[0]                                     # witnesses on i
     vars_ = [i] + sorted({j for n in W for j in np.nonzero(G[:, n])[0] if j != i})
-    combos = np.array(list(product([1, -1], repeat=len(vars_))))
-    a = np.zeros((len(combos), len(W)))
-    for k, v in enumerate(vars_):
-        a += combos[:, k:k + 1] * G[v, W][None, :]
-    if protocol == "collision":
-        beta = np.sin(2 * a * (t - Tc[W])[None, :])            # dt passed as t
-    else:
-        beta = np.sin(2 * a * (t - Tc[W])[None, :])
-    LL = np.log((1 + R[:, None, :][:, :, W] * beta[None, :, :]) / 2).sum(axis=2)
-    s_true = S_all[true_idx, i]
-    for sgn_case, store in ((+1, 'p'), (-1, 'm')):
-        m = LL[:, combos[:, 0] == sgn_case]
+    combos = np.array(list(product([1, -1], repeat=len(vars_))))  # local branches
+    a = combos @ G[np.ix_(vars_, W)]                           # (n_combos, |W|)
+    beta = np.sin(2 * a * (param - Tc[W])[None, :])
+    RW = R[:, W]                                                # (n_traj, |W|)
+    LL = np.log((1 + RW[:, None, :] * beta[None, :, :]) / 2).sum(axis=2)
+    lp = {}
+    for sgn in (+1, -1):                                        # marginalize vars>0
+        m = LL[:, combos[:, 0] == sgn]
         mx = m.max(axis=1, keepdims=True)
-        lp = mx.squeeze(1) + np.log(np.exp(m - mx).mean(axis=1))
-        if store == 'p':
-            lp_p = lp
-        else:
-            lp_m = lp
-    return np.where(s_true == 1, lp_p - lp_m, lp_m - lp_p)
+        lp[sgn] = mx.squeeze(1) + np.log(np.exp(m - mx).mean(axis=1))
+    return lp[+1] - lp[-1] if S_true[i] == 1 else lp[-1] - lp[+1]
 
 
 # --------------------------------------------------- closed-form distinguishab.
