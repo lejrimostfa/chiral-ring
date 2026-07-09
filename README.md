@@ -2,6 +2,15 @@
 
 **An exactly solvable model of the arrow of time.**
 
+<p align="center">
+  <img src="figures/fig_boucles_3d.png" width="760"
+       alt="Left: one ring carries both chirality senses at once, watched by its recording witnesses (Paper I). Right: two rings sharing witnesses have their histories linked by what those witnesses write (Paper II).">
+</p>
+
+<p align="center"><sub><b>Left (Paper I)</b> — a single ring holds both chirality
+senses at once, spied on by its recording witnesses. <b>Right (Paper II)</b> — two
+rings sharing witnesses: what the shared records write links the two histories.</sub></p>
+
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 ![Verification: machine precision](https://img.shields.io/badge/verification-machine%20precision-brightgreen.svg)
