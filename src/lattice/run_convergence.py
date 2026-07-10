@@ -29,7 +29,8 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import label
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lattice import build_square, draw_signs, sample_records, local_marginal_sigma
+from lattice import (build_square, draw_signs, sample_records,
+                     local_marginal_sigma, torus_percolation)
 
 FIG = os.path.join(os.path.dirname(__file__), "..", "..", "figures", "paper3", "")
 DATA = os.path.join(os.path.dirname(__file__), "convergence_data.npz")
@@ -60,15 +61,9 @@ def tau_grid(S, n_c, seed):
 
 
 def stats(grid):
-    lab, n = label(grid > 0)
-    if n == 0:
-        return False, 0.0, 0.0
-    sizes = np.bincount(lab.ravel())[1:]
-    perc = len(set(lab[0]) - {0} & (set(lab[-1]) - {0})) > 0
-    big = sizes.max()
-    rest = sizes[sizes != big]
-    S = (rest ** 2).sum() / rest.sum() if rest.sum() > 0 else 0.0
-    return perc, big / grid.size, S
+    """(perc, Pinf, S) with torus (periodic-BC) connectivity and the wrapping
+    percolation criterion, consistent with the periodic build_square."""
+    return torus_percolation(grid > 0)
 
 
 def measure():

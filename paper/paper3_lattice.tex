@@ -1,0 +1,843 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, linkcolor=blue!60!black, citecolor=blue!60!black, urlcolor=blue!60!black}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\peff}{p_{\mathrm{eff}}}
+\newcommand{\conv}{\mathrm{conv}}
+\newcommand{\rhoalign}{\rho_c^{\mathrm{align}}}
+\newcommand{\rhoperc}{\rho_c^{\mathrm{perc}}}
+\newcommand{\Pperc}{P_{\mathrm{perc}}}
+% Figure helper: include if present, framed placeholder otherwise (repo figures)
+\newcommand{\repofig}[2]{\IfFileExists{#1}{\includegraphics[width=#2]{#1}}{\fbox{\parbox{#2}{\centering\vspace{2em}\texttt{\detokenize{#1}}\\ (figure in \texttt{figures/paper3/})\vspace{2em}}}}}
+
+\title{Percolation of the arrow of time:\\
+an exact factorization law for lattices of shared quantum environments}
+\author{Mostfa Lejri\\ \small Independent Researcher}
+\date{\small Draft: July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+In companion papers we showed that decoherence fixes a local arrow of time
+equal to the record information of a monitored T-odd observable, and that
+competing arrows are arbitrated by the preparation of shared records. Here we
+ask how many local arrows knit into one. We study lattices of chiral rings,
+each monitored by a private recording bath and sharing witnesses with its
+neighbours, with a density $\rho$ of contrarian rings prepared with
+record-consuming (time-mirrored) private baths. Three results follow. First,
+a single universal conversion curve $\conv(f)$, the probability that sharing
+fraction $f$ converts a contrarian, is independent of $\rho$ (spread $0.007$)
+and carries all the model physics. Second, an exact factorization law: under fresh
+shared witnesses the arrow field reduces to independent-site occupation
+$\peff = 1-\rho\,(1-\conv(f))$, with bulk conversion correlations compatible
+with zero ($-0.025$) and a single finite-range nearest-neighbour correction
+($+0.11$, from shared links) that leaves the universality class unchanged.
+Both thresholds then follow in closed form with no free parameter: global
+reversal at $\rhoalign = 1/[2(1-\conv)]$ (residual $0.003$) and percolation
+of the aligned domain at $\rhoperc = (1-p_c)/(1-\conv)$ (mean residual
+$0.022$). The universality class follows from the reduction itself: a
+synthetic independent-site field is statistically indistinguishable from the
+quantum lattice (mean deviation $0.040$, below the $0.056$ sampling floor),
+so the aligned-domain transition inherits standard 2D percolation. Direct
+exponent estimates are consistent ($\gamma/\nu = 1.78$ against $1.79$, quasi
+exact and robust; $\nu_{\mathrm{eff}}$ drifting toward $4/3$ with size) and
+are presented as consistency checks, not measurements. Third, the
+factorization is a property of the boundary condition: charging the shared
+witnesses (prescription M) reverses the flow. A majority of fresh rings is
+converted backward and the global alignment flips sign, the F/M duality of
+the companion paper operating at the scale of the whole lattice. The
+direction of global time, in this model, is decided by the preparation of
+the records the world shares, compressed into one measurable curve.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+Two companion papers built, in an exactly solvable model, a quantitative
+bridge between the fixation of a time-reversal-odd observable and the
+irreversibility of the monitoring process. The first \cite{p1} showed that
+for a single three-site chiral ring monitored by recording qubits the
+unconditional stochastic entropy production vanishes identically (the arrow
+of time is spontaneously broken, existing only relative to a branch) and
+that the branch-relative entropy production equals exactly the accumulated
+distinguishability $D(t)$ of the environmental records. The second \cite{p2}
+shared the environment between rings: a common bath fixes only what it can
+distinguish, joint irreversibility carries an irreducibly collective
+component with the exact decomposition $\Delta = I + C_{\mathrm{bwd}}$, and
+when two rings with opposed arrows compete for shared witnesses, exactly one
+arrow flips, at a sharp threshold $f^* \approx 0.40 < 1/2$ whose position,
+and the identity of the loser, is set by the preparation of the shared
+records (the F/M duality). Both papers end on the same conjecture, stated in
+\cite{p1} as a contagion of local arrows into a consistent global one
+(records begetting records, in the Darwinian sense of
+\cite{zurek2009,riedel2012}) and in \cite{p2} as the natural next step: a
+lattice of rings with nearest-neighbour bath overlap, asking whether
+alignment percolates.
+
+This paper answers that question, and the answer has more structure than the
+conjecture asked for. The many-arrow problem does not merely resemble a
+percolation problem; under the fresh shared-witness prescription it
+\emph{reduces} to one. Three results organize the paper, and we announce
+their epistemic statuses with them, continuing the practice of the
+companions. First (measured, with its universality mechanically explained):
+a single conversion curve $\conv(f)$, the probability that a contrarian ring
+is converted by sharing fraction $f$, is independent of the contrarian
+density $\rho$ and carries all the model physics
+(Sec.~\ref{sec:conversion}). Second (the factorization law, carrying the paper; two of its three
+structural facts are proven, the third verified as a positivity identity,
+and a three-step numerical falsification programme fails to break it): the
+arrow field
+is an independent site-percolation field of occupation
+$\peff = 1 - \rho(1-\conv(f))$, every collective threshold follows in closed
+form with no free parameter, and the universality class of the
+aligned-domain transition is inherited from standard two-dimensional
+percolation by equivalence rather than measured
+(Secs.~\ref{sec:factorization} and \ref{sec:global}). Third (the boundary,
+exact in its mechanism): the reduction is a property of the record boundary
+condition. Charging the shared witnesses reverses the global arrow and
+destroys the factorization itself, the F/M duality of \cite{p2} operating at
+the scale of the whole lattice (Sec.~\ref{sec:M}).
+
+Section~\ref{sec:model} defines the lattice model, the local arrow, and the
+validation gates. Section~\ref{sec:conversion} establishes the exact
+baseline, the one-dimensional crossover, and the universal conversion curve.
+Section~\ref{sec:factorization} states the factorization law and its
+numerical proof. Section~\ref{sec:global} treats the percolation of the
+global arrow and the status of the exponents. Section~\ref{sec:M} sets the
+boundary of the reduction. Section~\ref{sec:discussion} consolidates the
+epistemic statuses and the openings.
+
+\section{The lattice model}
+\label{sec:model}
+
+\subsection{Rings, shared bonds, and the sharing fraction}
+
+Each site $i$ of a lattice (a chain of length $L$ in 1D, an $L \times L$
+square lattice with periodic boundary conditions in 2D) carries the
+three-site chiral ring of \cite{p1}: a conserved chirality $s_i = \pm 1$,
+the T-odd pointer doublet. The joint branch is $S = (s_1,\dots,s_{N_r})$ for
+$N_r$ rings, and the record variable of witness $n$ is the linear form
+$a_n(S) = \sum_i s_i\, G_{i,n}$ of \cite{p2}, with $G_{i,n} \ge 0$ the
+coupling matrix. Every ring owns a private bath of $N_p$ qubits, coupled to
+it alone; every nearest-neighbour bond $\langle i,j\rangle$ carries $N_s$
+shared qubits, coupled equally to both its rings: witnesses that record the
+compound variable $s_i + s_j$, the lattice version of the shared witnesses
+of \cite{p2}. The structural sharing fraction is the fraction of a ring's
+accessible witnesses that are shared,
+%
+\begin{equation}
+f \;=\; \frac{\deg \cdot N_s}{N_p + \deg \cdot N_s},
+\label{eq:f}
+\end{equation}
+%
+with $\deg$ the coordination number ($\deg = 4$ in the 2D bulk). This
+convention is the one implemented by the 2D production runs (their $f$
+grid reproduces Eq.~\eqref{eq:f} exactly at $N_p=8$); the 1D runs used a
+per-bond label, converted in Sec.~\ref{sec:conversion}.
+Throughout, $f$ is swept structurally, by the integer $N_s$ at fixed
+coupling scale, never by the coupling strength: strong shared couplings fold
+the record bias $|\sin|$ and pollute the arrow with recurrences, the lattice
+version of the finite-size revivals removed by the collision protocol in
+\cite{p1}. Parameters throughout: $N_p = 8$ (2D) or $3$ (1D), collision
+window $\Delta t = 0.3$, charge time $T = 1.0$, couplings drawn as in
+\cite{p1} with scale $0.25$, true branch $S_{\mathrm{true}} = (+1,\dots,+1)$.
+
+\subsection{Contrarians and the collision protocol}
+
+A fraction $\rho$ of rings, chosen uniformly at random (the contrarian
+minority), is prepared with a mirror-charged private bath: following the
+mirror preparation of \cite{p2}, their private witnesses start in the
+$\Theta$-conjugate of a forward evolution of duration $T$, so their records
+are consumed rather than accumulated and their branch-relative entropy
+production is negative. The remaining fraction $1-\rho$ (the fresh majority)
+owns record-free private baths. The shared witnesses on every bond are
+prepared fresh, prescription F of \cite{p2}, except in Sec.~\ref{sec:M},
+where they are charged (prescription M). All preparations enter through the
+unified record bias of \cite{p2},
+%
+\begin{equation}
+\beta_n(S) \;=\; \sin\!\big(2\, a_n(S)\, (\Delta t - T_c)\big),
+\qquad T_c = 0 \;(\mathrm{F,\ fresh}), \quad T_c = T \;(\mathrm{M,\ charged}),
+\label{eq:beta}
+\end{equation}
+%
+and each witness is a collision-protocol record: it interacts during one
+window, is measured once, and its record is permanent. Records therefore
+accumulate monotonically, the ratchet regime of \cite{p1}, and the arrow of
+the next subsection is well defined.
+
+\subsection{The local arrow}
+\label{sec:arrow}
+
+For a single ring, \cite{p1} identified the branch-relative entropy
+production with the record distinguishability $D$; for two competing rings,
+\cite{p2} used the sign of the marginal production $\sigma_i$ as the arrow.
+On the lattice we refine the state sign into a rate sign:
+%
+\begin{equation}
+\tau_i \;=\; \mathrm{sign}\!\left(\frac{d\langle \sigma_i^{\mathrm{loc}}\rangle}{dt}\right),
+\label{eq:tau}
+\end{equation}
+%
+the direction of \emph{accumulation} of ring $i$'s accessible record
+information: growing (forward, $\tau_i = +1$) or being consumed (backward,
+$\tau_i = -1$). Here $\sigma_i^{\mathrm{loc}}$ is built from the marginal
+likelihood ratio of \cite{p2} restricted to ring $i$'s accessible witnesses
+(its private bath plus every shared bond touching it), with the neighbour
+chiralities marginalized. Two remarks fix the status of this definition.
+
+\emph{Why a rate, not a state sign.} The inference ratio
+$\langle\sigma_i\rangle$ measures how much has been fixed, a stock; the
+physically contagious quantity, what a shared witness transmits between
+rings, is the direction in which that stock is currently moving. The two
+signs can disagree only in a transient (a stock still positive but already
+being consumed), which is precisely the window where non-permanent records
+produce recurrences, hence the collision protocol. At $f = 0$ the two
+definitions coincide exactly for the canonical preparations: a fresh ring
+has $\langle\sigma_i\rangle = +D_i$ and growing, a charged ring
+$\langle\sigma_i\rangle = -D_i$ and consuming, reproducing the C5 limit of
+\cite{p2} at machine precision (gate G6 below). Paper 3 does not contradict
+its companions; it sharpens the arrow from a state sign into a rate sign, in
+exactly the regime (permanent records) where both are monotone.
+
+\emph{Why the local marginal.} The exact global marginal costs $2^{N_r}$ and
+is unusable beyond a handful of rings. The local marginal costs
+$O(2^{\deg+1})$ per site, and gate G4 shows it agrees with the global
+marginal in sign at every site tested (mean correlation $0.97$). The local
+marginal is therefore the production definition: lattices of $256$ rings
+($L=16$) are tractable, and the $2^{N_r}$ object is never built. It is also
+the physically honest choice: $\tau_i$ is the arrow assigned by an observer
+reading only ring $i$'s accessible records, the lattice version of the
+operational marginalization of \cite{p2}.
+
+\subsection{Validation gates}
+\label{sec:gates}
+
+Following the methodology of both companion papers, no physics run is
+performed, and no figure produced, until an independent verification suite
+passes. The six gates connect the lattice engine to every exact result of
+the programme:
+
+\begin{center}
+\begin{tabular}{llr}
+\toprule
+Gate & Statement & Residual \\
+\midrule
+G1 & $\Delta = I + C_{\mathrm{bwd}}$ (\cite{p2}, Thm.~1) on the lattice-generated record law & $2.8\times 10^{-17}$ \\
+G2 & $f=0$ reduction to \cite{p1}, Thm.~2 ($\langle\sigma_i\rangle = D_i$) & $2.2\times 10^{-16}$ \\
+G3 & $L=3$ brute-force state vector vs.\ branch construction & $2.9\times 10^{-17}$ \\
+G4 & local marginal $\equiv$ global marginal (sign $100\%$, corr.\ $0.97$) & sampling \\
+G5 & collision protocol: exact additivity for disjoint baths, $\langle\sigma_i\rangle = D_i$ & $0.0$ \\
+G6 & collision $L=2$ reproduces the \cite{p2} C5 limit at $f=0$ ($+D$, $-D$) & $2.2\times 10^{-16}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{The universal conversion curve}
+\label{sec:conversion}
+
+\subsection{The exact baseline}
+
+One exact test runs through every figure of the paper. At $f = 0$ no witness
+is shared: fresh rings point forward, charged rings backward, and the signed
+alignment must equal the discrete baseline
+%
+\begin{equation}
+A(f{=}0) \;=\; 1 - 2\,\frac{n_c}{N_r}, \qquad n_c = \mathrm{round}(\rho N_r),
+\label{eq:baseline}
+\end{equation}
+%
+the integer contrarian count. It does, with deviation $0.0$ throughout
+(exact). Comparing to the continuum $1-2\rho$ instead produces a spurious
+deviation of order $1/L$, a discretization trap worth recording.
+
+\subsection{One dimension: contagion, but a crossover}
+
+On the chain (Figs.~\ref{fig:chain} and \ref{fig:domains}), the signed
+alignment $A(f)$ rises from the baseline \eqref{eq:baseline} toward full
+alignment as sharing grows. A convention note is required here, recorded
+for reproducibility: the 1D production runs labelled their axis with the
+per-bond fraction $f_b = N_s/(N_p + 2N_s)$, which at $\deg = 2$ is exactly
+half the per-ring convention of Eq.~\eqref{eq:f}; all values quoted in this
+paper are in the unified per-ring convention, $f = 2 f_b$. In that
+convention the conversion onset sits at $f \approx 0.67$--$0.80$, the same
+high-sharing neighbourhood as the 2D conversion curve of the next
+subsection, and as the pair threshold under the same fresh-shared
+preparation with a charge head start ($f^*_{\mathrm{F}} \approx 0.76$ at
+$t = T/2$ in \cite{p2}); the equal-effort point $f^* \approx 0.40$ of
+\cite{p2} is not the relevant comparison, since the lattice contrarian,
+like the head-start mirror ring, begins fully charged. But the transition
+is a crossover, not a phase transition (numerical): the mean
+$\tau$-domain length grows with $f$ while the $L = 8/16/32$ curves
+overlap, with no finite-size divergence, consistent with the absence of a
+1D site-percolation transition ($p_c = 1$) \cite{stauffer}. One dimension
+motivates two.
+% TODO(P3-F, F3): regenerate the two chain figures with the per-ring axis
+% (multiply the labelled f by 2) so figures and text share one convention.
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_chain_alignment.png}{0.85\linewidth}
+\caption{\textbf{Contagion on the chain.} Signed alignment $A(f)$ at several
+contrarian densities $\rho$, rising from the exact $f=0$ baseline
+\eqref{eq:baseline} (deviation $0.0$). The axis of this run is labelled in
+the per-bond convention $f_b = N_s/(N_p+2N_s)$; the per-ring values of
+Eq.~\eqref{eq:f} are $f = 2 f_b$, placing the conversion onset at
+$f \approx 0.67$--$0.80$.}
+\label{fig:chain}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_domains_chain.png}{0.85\linewidth}
+\caption{\textbf{Crossover, not a transition.} Mean $\tau$-domain length on
+the chain: growth with $f$, but the $L = 8/16/32$ curves overlap with no
+finite-size divergence, as expected in 1D.}
+\label{fig:domains}
+\end{figure}
+
+\subsection{The conversion curve and its $\rho$-universality}
+
+The quantity the chain already isolates is the converted fraction of
+contrarians, and it collapses onto one curve in $f$, independent of $\rho$.
+On the square lattice the same collapse holds and sharpens: measured at six
+densities $\rho \in [0.35, 0.72]$, the conversion probability $\conv(f)$ has
+maximal spread $\mathrm{std}_\rho = 0.007$, the sampling floor. The measured
+curve is
+%
+\begin{center}
+\begin{tabular}{lcccccccc}
+\toprule
+$f$ & $0$ & $0.5$ & $0.6$ & $0.67$ & $0.71$ & $0.75$ & $0.78$ & $0.80$ \\
+$\conv(f)$ & $0$ & $0$ & $0.004$ & $0.024$ & $0.111$ & $0.278$ & $0.465$ & $0.606$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+%
+This is the one measured input of the theory; everything downstream is
+textbook. Its $\rho$-universality is not an accident but a structural fact,
+explained mechanically in the next section: a contrarian's conversion is
+decided by its own witness portfolio alone.
+
+\section{The factorization law}
+\label{sec:factorization}
+
+\subsection{Statement}
+
+\begin{theorem}[Factorization law, prescription F]
+\label{thm:factorization}
+Under fresh shared witnesses, the lattice arrow field $\{\tau_i\}$ is an
+independent site-percolation field: ring $i$ points forward with probability
+%
+\begin{equation}
+\peff(\rho, f) \;=\; (1-\rho)\cdot 1 \;+\; \rho\cdot \conv(f)
+\;=\; 1 - \rho\,\big(1 - \conv(f)\big),
+\label{eq:peff}
+\end{equation}
+%
+independently of every other ring. Every collective threshold follows in
+closed form, with no free parameter:
+%
+\begin{align}
+\rhoalign(f) &= \frac{1}{2\,(1-\conv(f))}
+&&\text{(global reversal, } \peff = 1/2\text{)},
+\label{eq:rhoalign}\\[2pt]
+\rhoperc(f) &= \frac{1-p_c}{1-\conv(f)}, \quad p_c = 0.5927
+&&\text{(percolation, } \peff = p_c\text{)}.
+\label{eq:rhoperc}
+\end{align}
+\end{theorem}
+
+The law rests on three structural facts, and its numerical proof is a
+three-step falsification programme (E1--E3) that it survives.
+
+\subsection{The three structural facts}
+
+\emph{(1) Fresh rings never reverse (verified identity).} Under
+prescription F every witness accessible to a fresh ring is fresh, and the
+expected record-by-record increment of
+$\langle\sigma_i^{\mathrm{loc}}\rangle$ is nonnegative, so $\tau_i = +1$
+always. This rests on an exact lemma: the neighbour chiralities are
+marginalized independently and the witnesses partition by bond, so the
+local marginal factorizes,
+$\sigma_i^{\mathrm{loc}} = \sum_{\mathrm{priv}} \sigma_p +
+\sum_{\mathrm{bonds}} \sigma_b$ (checked against the engine at
+$7\times 10^{-16}$), and positivity for arbitrary coordination reduces to a
+single bond. The private increments are the positive closed form of
+\cite{p1} (Theorem 2); the first shared increment is
+$b\,\ln[(2+b)/(2-b)] \ge 0$ in closed form, with $b$ the shared record
+bias; and the higher increments are positive on a $400^2$ symbolic grid
+(minimum $4\times 10^{-9}$, attained only as the new record's bias
+vanishes) and over $2\times 10^4$ randomized configurations of up to seven
+records per bond (minimum $5\times 10^{-7}$). Exhaustively in production:
+$35{,}600$ of $35{,}600$ fresh rings forward, zero backflips. The
+$(1-\rho)\cdot 1$ term of Eq.~\eqref{eq:peff} is exact, and this
+monotonicity is the foundation of the law: it makes every ring's fate a
+local balance.
+
+\emph{(2) Conversion depends on $f$ alone (proven).} In the true branch all
+chiralities are $+1$ and contrarian status is a bath preparation local to
+each witness, so the record law of ring $i$'s accessible witnesses depends
+only on its own portfolio ($N_p$ charged private, $\deg \cdot N_s$ fresh
+shared), never on the placement of other contrarians: the conversion
+probability is a function of $f$ alone by construction. The measured
+$\mathrm{std}_\rho = 0.007$ of Sec.~\ref{sec:conversion} is a check of the
+engine, not evidence for the law.
+
+\emph{(3) Conversions are independent (proven, with its only correction
+localized).} $\tau_i$ is a functional of ring $i$'s accessible records
+alone, records at distinct witnesses are independent given the branch, and
+two rings at lattice distance $d \ge 2$ share no witness: their conversion
+events are therefore exactly independent, and the arrow field is
+$1$-dependent. The theory thus predicts $r(d) = 0$ identically for
+$d \ge 2$, not merely small; the measured bulk correlation
+$r(4 \le d \le 9) = -0.025$ is compatible (Fig.~\ref{fig:independence},
+left), and the only permitted term is the nearest-neighbour correlation,
+measured at $r(1) = +0.112$ ($5539$ pairs, $\sim 8\sigma$), with its
+mechanism explicit: two adjacent contrarians read the same $N_s$ fresh
+witnesses on their shared bond, so they convert slightly together.
+% TODO(P3-F, F2): add error bars on r(2), r(3) to test the sharpened
+% prediction r(d>=2) = 0 directly.
+
+\subsection{Closed forms with no free parameter (E2)}
+
+With $\conv(f)$ interpolated from the measured curve and no fitted parameter
+anywhere, Eq.~\eqref{eq:rhoalign} reproduces the measured global-reversal
+boundary with maximal residual $0.003$ (mean $0.001$), exact within
+sampling, including the divergence: $\rhoalign \to \infty$ exactly when
+$\conv(f) > 1/2$, i.e.\ at $f \approx 0.78$, as observed
+(Sec.~\ref{sec:rhoc}). Eq.~\eqref{eq:rhoperc} reproduces the percolation
+boundary with maximal residual $0.072$ (mean $0.022$); the maximum is a
+single high-$f$ point, a finite-size grid crossing at $L=8$. Both overlays
+are shown in Fig.~\ref{fig:factorization}. At $f = 0$,
+Eq.~\eqref{eq:rhoperc} gives $\rhoperc = 1 - p_c = 0.407$, the flat
+intercept of the phase map of Sec.~\ref{sec:global}, now a one-line
+consequence.
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_factorization.png}{\linewidth}
+\caption{\textbf{Closed-form thresholds from one measured curve (E2), no
+free fit.} Left: the global-reversal boundary $\rhoalign(f)$, measured
+(points) against Eq.~\eqref{eq:rhoalign} (line), maximal residual $0.003$.
+Right: the percolation boundary $\rhoperc(f)$ against Eq.~\eqref{eq:rhoperc},
+maximal residual $0.072$, concentrated at the highest-$f$ point (finite-size
+crossing at $L=8$). $\conv(f)$ is interpolated from the measured conversion
+curve; no parameter is fitted.}
+\label{fig:factorization}
+\end{figure}
+
+\subsection{The ultimate test (E3)}
+
+If Theorem~\ref{thm:factorization} is true, a purely classical, synthetic
+field of independent sites at density $\peff(\rho, f)$, on the same lattices
+with the same contrarian-geometry seeds, must be statistically
+indistinguishable from the quantum lattice. It is: the synthetic
+$\Pperc(\rho)$ curves reproduce the measured quantum ones with mean
+$|\Delta| = 0.040$, below the binomial sampling floor $\approx 0.056$
+(Fig.~\ref{fig:independence}, right). Within our statistics, no observable
+of the arrow field distinguishes the interacting quantum lattice from
+independent coin flips at density $\peff$. This is the precise, falsifiable
+sense of the word \emph{reduction}.
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_independence.png}{\linewidth}
+\caption{\textbf{Independence (E1) and the ultimate test (E3).} Left:
+two-point correlation of contrarian conversion events versus lattice
+separation $d$, bulk-compatible with zero ($r(4\le d\le 9) = -0.025$), with
+a single weak nearest-neighbour correction $r(1) = +0.112$ (shared-bond
+witnesses). Separations are reported for $d \le L/2$; beyond the
+half-lattice the periodic images and the collapsing pair count dominate the
+estimator. Right: spanning probability of the quantum arrow field (solid)
+against a synthetic independent-site field at density $\peff$ on the same
+geometries (dashed): mean $|\Delta| = 0.040$, below the sampling floor
+$0.056$, statistically indistinguishable.}
+\label{fig:independence}
+\end{figure}
+
+\subsection{The accuracy budget, and the class as a corollary}
+\label{sec:budget}
+
+The two residuals of E2 differ by a factor of twenty, and the difference is
+itself a prediction of the structure. The alignment threshold
+\eqref{eq:rhoalign} depends only on the mean occupation
+$\langle p \rangle = \peff$: correlations between sites cancel identically
+in a global average, so the $r(1)$ correction cannot touch it, and its
+residual ($0.003$) sits at the sampling floor. Percolation observables, by
+contrast, are sensitive to local clustering: the weak nearest-neighbour
+correlation makes converted contrarians cluster slightly, shifting spanning
+probabilities at the percent level, the $0.022$ mean residual of
+\eqref{eq:rhoperc}. The same correlation is strictly finite-range (a single
+bond), and short-range correlations are irrelevant for the critical
+behaviour of percolation \cite{stauffer,weinrib}: they shift non-universal
+quantities and leave the class untouched.
+
+\begin{corollary}
+The aligned-domain transition of the lattice arrow field is in the standard
+two-dimensional site-percolation universality class, with $\nu = 4/3$,
+$\beta/\nu = 5/48 \approx 0.104$ and $\gamma/\nu = 43/24 \approx 1.79$
+\cite{stauffer,dennijs}, as a consequence of
+Theorem~\ref{thm:factorization} and E3, with the $r(1)$ correction
+irrelevant by \cite{weinrib}.
+\end{corollary}
+
+One microscopic mechanism, the shared bond, thus accounts for the exactness
+of one threshold, the small residual of the other, and the robustness of
+the class.
+
+\section{Percolation of the global arrow}
+\label{sec:global}
+
+\subsection{A genuine transition in two dimensions}
+
+On the square lattice the forward arrows occupy a fraction $p = (1+A)/2$ of
+sites, and they can now do what the chain forbids: percolate. At
+$\rho = 1/2$, the spanning probability $\Pperc(f)$ for $L \in \{4,5,6,8\}$
+crosses at $f_c = 0.721$ (numerical), a finite-size percolation crossing
+(Fig.~\ref{fig:percolation}); domain snapshots across the transition are
+shown in Fig.~\ref{fig:snapshots}. $f_c$ sits well above the pair threshold
+$f^* \approx 0.40$ for a transparent reason: in 2D the forward arrow must
+reach the site-percolation threshold $p_c = 0.5927$ \cite{newmanziff}, not
+merely a majority. The phase map in the $(f,\rho)$ plane
+(Fig.~\ref{fig:phase}) starts at $\rho \approx 0.41$ at $f = 0$, where
+$1-\rho = p_c$, and rises with sharing; its boundary is the closed form
+\eqref{eq:rhoperc}, overlaid with no free parameter.
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_percolation.png}{0.85\linewidth}
+\caption{\textbf{The percolation crossing.} Spanning probability
+$\Pperc(f)$ at $\rho = 1/2$ for $L \in \{4,5,6,8\}$: the curves cross at
+$f_c = 0.721$.}
+\label{fig:percolation}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_snapshots.png}{\linewidth}
+\caption{\textbf{Aligned domains across the transition.} Arrow-field
+snapshots below, near, and above $f_c$: the forward domain grows from
+disconnected islands to a spanning cluster.}
+\label{fig:snapshots}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_2d_phase.png}{0.85\linewidth}
+\caption{\textbf{Phase map of the global arrow.} Alignment $A(f,\rho)$ on
+the square lattice; the measured percolation boundary (black) rises from
+$\rho = 1-p_c = 0.407$ at $f=0$. Its closed form is
+Eq.~\eqref{eq:rhoperc}, overlaid against the measurements in
+Fig.~\ref{fig:factorization} (right).}
+% TODO(P3-F, F3): _v2 of this figure adds the Eq. (7) line on the map
+% itself (no free parameter); update this caption then.
+\label{fig:phase}
+\end{figure}
+
+\subsection{The global arrow: shared witnesses vote double}
+\label{sec:rhoc}
+
+The critical contrarian density $\rho_c(f)$ at which the global arrow
+reverses ($A = 0$) is flat at $\rho_c \approx 0.50$ up to $f \approx 0.6$,
+then climbs steeply:
+%
+\begin{center}
+\begin{tabular}{lcccccc}
+\toprule
+$f$ & $0.67$ & $0.71$ & $0.75$ & $0.78$ & $0.80$ & $0.83$ \\
+$\rho_c$ & $0.51$ & $0.58$ & $0.70$ & $0.89$ & $>0.93$ & $>0.93$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+%
+Beyond $f \approx 0.78$ the forward arrow wins at every contrarian density
+tested up to $0.93$: $\rho_c$ diverges. No minority, indeed no large
+majority, of contrarians can reverse the global arrow. The mechanism is the
+one \cite{p2} isolated in the two-ring competition: a shared witness writes
+into both its rings' marginal channels at once, so its record counts
+double; here the shared witnesses are fresh, so they weight the forward
+arrow, and the naive majority rule $\rho_c = 1/2$ is broken upward.
+Quantitatively, the entire boundary, divergence included, is the closed
+form \eqref{eq:rhoalign}: the divergence point is
+$\conv(f) = 1/2$, nothing more. The direction of the breaking is set by the
+preparation of the shared witnesses; charged shared witnesses would break
+it downward, the F/M duality again, and Sec.~\ref{sec:M} makes that
+boundary sharp.
+
+\subsection{Universality by equivalence, exponents as consistency checks}
+\label{sec:universality}
+
+The rigorous statement of universality in this paper is the Corollary of
+Sec.~\ref{sec:budget}, not an exponent fit. Direct exponent estimates at
+our sizes ($L \le 24$, $R = 50$ realizations; each lattice site is itself a
+quantum sampling problem) then have a definite epistemic role: they are
+consistency checks of the equivalence, capable of falsifying it, incapable
+of establishing it, and we report them in that spirit
+(Fig.~\ref{fig:convergence}; robustness panels in Appendix~\ref{app:robust}).
+
+\emph{$\gamma/\nu$ (robust, quasi exact).} The susceptibility scaling at
+the crossing gives $\gamma/\nu = 1.78$ against the percolation $1.79$,
+agreement at the percent level, stable across estimators: the strongest
+direct check.
+
+\emph{$\rho_c$ (stable).} The crossing density $\rho_c^{\mathrm{perc}} =
+0.407$ is stable across $L$ and matches the closed form \eqref{eq:rhoperc}.
+
+\emph{$\nu$ (consistent, not pinned).} The slope estimator bends toward the
+percolation value with increasing size (the largest pair, $L=16 \to 24$,
+gives $\nu_{\mathrm{eff}} = 1.43$, drifting toward $4/3$), but $R = 50$
+realizations do not pin it; collapse-metric estimates scatter in
+$1.4$--$2.0$ and are $f$-dependent, a known fragility of collapse metrics
+on coarse grids (the metric rewards large $\nu$, which trivializes the
+rescaling). This also explains why the $f$-driven finite-size scaling of
+the early runs was inconclusive: $f$ moves on the coarse integer-$N_s$
+grid, and no collapse can be pinned on it; $\rho$, moving in steps of
+$1/L^2$, is the native continuous control parameter. We report the drift
+direction and refrain from quoting a measured $\nu$: with two usable
+pairs, panel (c) of Fig.~\ref{fig:convergence} illustrates a trend, not an
+extrapolation. An unequivocal direct $\nu$ requires $L \sim 64$--$128$,
+i.e.\ HPC resources, and is left as the one open numerical item.
+
+\emph{$\beta/\nu$ (weakest, as expected).} Order-parameter estimates give
+$0.13$--$0.27$ against the percolation $0.104$. This is the exponent most
+exposed to corrections to scaling at small $L$, and its slow convergence is
+the expected finite-size pattern, not a tension with the equivalence: the
+same drift toward the percolation slope is visible between the small-$L$
+and large-$L$ estimates.
+
+The consolidated claim is deliberately asymmetric: the class is established
+by equivalence (E3 and the Corollary); the direct exponents are consistent
+with it where they are reliable ($\gamma/\nu$), drifting toward it where
+they are not yet ($\nu$, $\beta/\nu$), and nowhere against it.
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_convergence.png}{\linewidth}
+\caption{\textbf{Exponent consistency checks (slope method, exact density,
+$L \in \{12,16,24\}$, $R=50$).} (a) Spanning probability against exact
+occupied density; the crossing gives $\rho_c = 0.407$, stable. (b) Slope
+scaling at the crossing: the effective slope bends toward the percolation
+value (dotted) with increasing $L$. (c) Pairwise $\nu_{\mathrm{eff}}$
+against $1/L$: the drift is toward $4/3$ (dotted), shown as a trend, not a
+measurement. $\gamma/\nu = 1.78$ (against percolation $1.79$) is the robust
+check; $\beta/\nu$ converges slowest, as expected at these sizes.}
+% TODO(P3-F, F3): switch to fig_p3_convergence_v2.png (neutral title, no
+% headline exponent in title or legend).
+\label{fig:convergence}
+\end{figure}
+
+\section{The boundary condition decides global time}
+\label{sec:M}
+
+Charge the shared-link baths instead of the private ones (prescription M of
+\cite{p2}, $T_c = T$ in Eq.~\eqref{eq:beta}) and the factorization does not
+bend; it breaks. The shared witnesses now consume records, voting backward,
+and still count double. Structural fact (1) fails first and
+catastrophically: $5600$ of $6400$ fresh rings reverse. The global
+alignment at $\rho = 1/2$ plunges from $0$ to $-1$ as $f$ grows, monotone
+down where prescription F is monotone up (Fig.~\ref{fig:prescriptionM}),
+and no independent-site description survives: there is no analogue of
+Eq.~\eqref{eq:peff} in which one species of ring holds a deterministic
+arrow.
+
+This is the boundary of Theorem~\ref{thm:factorization}, not a failure of
+the model, and it closes the arc of the three papers. In \cite{p2} the F/M
+duality decided which of two competing arrows flips; on the lattice it
+decides, in addition, whether the many-arrow problem factorizes at all.
+Under F the monotone structure (fresh implies forward) makes every ring's
+fate a local, independent balance; under M that monotonicity is destroyed
+and the collective problem is genuinely collective. As in the companion
+papers, we claim the structure, not the numbers: the thresholds under M
+depend on the preparation details, and what is prescription-independent is
+the duality itself. The preparation of the shared records, the
+Past-Hypothesis-like boundary condition that both companions deferred to
+cosmology, is here promoted from deciding the sign of the arrow to deciding
+the very tractability class of its emergence.
+
+\begin{figure}[t]
+\centering
+\repofig{fig_p3_prescriptionM.png}{0.72\linewidth}
+\caption{\textbf{The F/M duality sets the sign, and the validity of the
+reduction (E4).} Global alignment $A(f)$ at $\rho = 1/2$ under the two
+shared-witness preparations. F (fresh): forward wins, monotone up,
+factorization holds. M (charged): backward wins, $A \to -1$, and the
+factorization breaks ($5600/6400$ fresh rings reverse), so no species
+carries a deterministic arrow and no independent-site reduction exists.}
+\label{fig:prescriptionM}
+\end{figure}
+
+\section{Discussion}
+\label{sec:discussion}
+
+\emph{Epistemic status, consolidated} (continuing the practice of
+\cite{p1,p2}). Exact: the six gates (machine precision), the $f=0$ baseline
+\eqref{eq:baseline} throughout, the bond factorization of the local
+marginal, structural facts (2) and (3) of the law (proven), the closed
+forms \eqref{eq:rhoalign}--\eqref{eq:rhoperc} given the factorization, and
+the alignment-threshold residual at the sampling floor. Verified identity:
+structural fact (1), the per-bond record-increment positivity (closed form
+at one record, symbolic grid and randomized configurations beyond).
+Measured: the conversion curve $\conv(f)$, the one empirical input. Numerical: the
+percolation phenomenology ($f_c$, the phase map), E1--E3, and the exponent
+checks, with $\gamma/\nu$ quasi exact and robust, and $\nu$ convergent but
+not pinned directly at these sizes; the universality claim rests on the
+equivalence (E3 and the Corollary), not on the exponents.
+Mechanically explained: the $\rho$-universality of $\conv$, the $r(1)$
+correction (shared bond) and the twenty-fold gap between the two E2
+residuals. Prescription-dependent by construction, and claimed as
+structure, not numbers: the sign of the $\rho_c$ breaking and the validity
+of the factorization itself (F holds, M breaks), the lattice expression of
+the F/M duality.
+
+\emph{What the reduction says.} The conjecture that closed both companion
+papers is confirmed, and over-fulfilled: the knitting of local arrows is
+not merely percolation-like, it is percolation, with all model physics
+compressed into one measured single-ring curve. The emergence of a global
+arrow of time in this model is, conditionally on its boundary conditions, a
+solved problem: majority rule and site percolation of an effective forward
+density. We find this compression the most striking output of the
+three-paper programme: a many-body quantum problem whose collective arrow
+admits a complete classical effective description with a single measured
+function as interface.
+
+\emph{What it does not say.} Everything is conditional on the preparation
+of the shared witnesses, and Sec.~\ref{sec:M} shows the condition has
+teeth: under the charged preparation not only the outcome but the reduction
+itself is lost. The model therefore does not derive the direction of the
+global arrow; it derives its propagation law given record-free shared
+environments, a Past Hypothesis in miniature now doing collective work, its
+origin deferred to cosmology as in \cite{p1,p2,halliwell}. If one wants a
+physical image of a universally shared recording environment, the cosmic
+microwave background is the natural candidate, and we leave it at that
+sentence.
+
+\emph{Limitations and openings.} The quantum lattices are small
+($L \le 16$ for thresholds, $L \le 24$ for the convergence checks); the
+direct $\nu$ is not pinned at these sizes, and \texttt{run\_convergence.py}
+is configured for the HPC run ($L \sim 64$--$128$) that would settle it.
+The factorization's structural facts are analytic: (2) and (3) are proven
+from the disjointness of accessible witness sets, and (1) reduces, through
+the exact bond factorization of the local marginal, to a per-bond
+positivity verified symbolically and exhaustively; a closed-form proof of
+that positivity for arbitrarily many shared records per bond is the one
+analytic item left open. The
+$\rho_c(f)$ boundary is already analytic through $\conv$
+\eqref{eq:rhoalign}; the divergence region above $f \approx 0.78$ and the
+exponent map at general $f$ deserve larger lattices. Natural extensions,
+all starting from a closed-form baseline: other lattices and dimensions,
+random graphs, and a dynamic contagion in which converted rings recharge
+their neighbours' witnesses.
+
+\appendix
+
+\section{Definitions and the local marginal}
+
+The lattice engine (\texttt{src/lattice/}) constructs the joint-branch
+record law of \cite{p2} on arbitrary graphs: branch variable
+$a_n(S) = \sum_i s_i G_{i,n}$, collision-protocol biases \eqref{eq:beta},
+exact local marginals by summation over the $2^{\deg}$ neighbour
+configurations. The verification suite (\texttt{verify\_lattice.py})
+implements gates G1--G6 of Sec.~\ref{sec:gates} as independent recodings
+(no imports from production modules), following the practice of
+\cite{p1,p2}; all six pass at the residuals quoted, and the suite runs
+before every production figure. The $O(2^{\deg+1})$-per-site local marginal
+against the $2^{N_r}$ global object (G4, sign agreement $100\%$,
+correlation $0.97$) is what makes $L=16$ (256 rings, about $2$\,s per
+realization at $n_{\mathrm{traj}} = 2500$) tractable.
+
+\section{Numerical protocols}
+
+2D production runs: $L \in \{8,12,16\}$ (thresholds, factorization) and
+$\{12,16,24\}$ (convergence checks), periodic boundary conditions,
+$n_{\mathrm{traj}} = 1500$--$2500$ trajectories per site marginal, $R = 50$
+disorder realizations for the convergence study; contrarian placements
+resampled per realization, with geometry seeds shared between the quantum
+and synthetic runs of E3 (paired comparison). Densities are reported as
+exact occupied fractions $n_c/L^2$. Correlation estimates of E1 use all
+contrarian pairs binned by lattice separation, reported for $d \le L/2$
+(periodic-image convention); the bulk window $4 \le d \le 9$ excludes the
+shared-bond correction at $d=1$. Spanning is defined by cluster wrap in
+either direction. Percolation constants: $p_c = 0.5927$ (site, square
+lattice) \cite{newmanziff}; exponents $\nu = 4/3$, $\beta = 5/36$,
+$\gamma = 43/18$ \cite{stauffer,dennijs}. All figures regenerate from fixed
+seeds by a single command; code at
+\url{https://github.com/lejrimostfa/chiral-ring}.
+
+\section{Robustness}
+\label{app:robust}
+
+\begin{figure}[h]
+\centering
+\repofig{fig_p3_universality.png}{\linewidth}
+\caption{\textbf{Universality consistency checks at $L \le 16$.} (a)
+Collapse of $\Pperc$ at the percolation $\nu = 4/3$ for two sharing
+fractions; the collapse-metric optima scatter ($1.74$ at $f=0.5$, $1.38$ at
+$f=0.71$), illustrating the fragility of collapse metrics at these sizes.
+(b) Order parameter at the crossing: $\beta/\nu$ estimates $0.170/0.126$
+against the percolation $0.104$ (dotted), the slowest-converging check.
+(c) Susceptibility: $\gamma/\nu = 1.70/2.00$ bracketing the percolation
+$1.79$ (dotted). All panels are consistency checks of the equivalence
+(Sec.~\ref{sec:universality}), not exponent measurements.}
+\label{fig:universality_fig}
+\end{figure}
+
+\section*{Acknowledgments}
+
+This work made extensive use of Anthropic's Claude (a large language model)
+as a research assistant, for model design discussions, derivations, code,
+and manuscript drafting. Every analytic claim was verified by an
+independently recoded numerical suite to machine precision. This
+verification loop caught and corrected one convention error during
+development. The author reviewed all derivations and takes sole and full
+responsibility for the content.
+
+\begin{thebibliography}{9}
+
+\bibitem{p1} M. Lejri, \emph{Fixation of a time-reversal-odd observable by
+decoherence: record distinguishability as the local arrow of time in an
+exactly solvable model}, arXiv:XXXX.XXXXX (2026).
+
+\bibitem{p2} M. Lejri, \emph{Collective irreversibility and arrow
+competition in shared quantum environments}, arXiv:XXXX.XXXXX (2026).
+
+\bibitem{zurek2009} W. H. Zurek, \emph{Quantum Darwinism}, Nat. Phys.
+\textbf{5}, 181 (2009).
+
+\bibitem{riedel2012} C. J. Riedel, W. H. Zurek, M. Zwolak, \emph{The rise
+and fall of redundancy in decoherence and quantum Darwinism}, New J. Phys.
+\textbf{14}, 083010 (2012).
+
+\bibitem{newmanziff} M. E. J. Newman, R. M. Ziff, \emph{Efficient Monte
+Carlo algorithm and high-precision results for percolation}, Phys. Rev.
+Lett. \textbf{85}, 4104 (2000).
+
+\bibitem{stauffer} D. Stauffer, A. Aharony, \emph{Introduction to
+Percolation Theory}, 2nd ed. (Taylor \& Francis, London, 1994).
+
+\bibitem{dennijs} M. P. M. den Nijs, \emph{A relation between the
+temperature exponents of the eight-vertex and $q$-state Potts model}, J.
+Phys. A \textbf{12}, 1857 (1979).
+
+\bibitem{weinrib} A. Weinrib, B. I. Halperin, \emph{Critical phenomena in
+systems with long-range-correlated quenched disorder}, Phys. Rev. B
+\textbf{27}, 413 (1983).
+
+\bibitem{halliwell} J. J. Halliwell, J. P\'erez-Mercader, W. H. Zurek
+(eds.), \emph{Physical Origins of Time Asymmetry} (Cambridge Univ. Press,
+1994).
+
+\end{thebibliography}
+
+\end{document}

@@ -25,7 +25,8 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import label
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lattice import build_square, draw_signs, sample_records, local_marginal_sigma
+from lattice import (build_square, draw_signs, sample_records,
+                     local_marginal_sigma, torus_percolation)
 
 FIG = os.path.join(os.path.dirname(__file__), "..", "..", "figures", "paper3", "")
 NP = 8
@@ -58,18 +59,13 @@ def square_arrows(S, Ns, rho, seed):
 
 
 def percolates(grid):
-    """True if a forward (tau=+1) cluster spans top-to-bottom (4-connectivity)."""
-    lab, _ = label(grid > 0)
-    top = set(lab[0]) - {0}
-    bot = set(lab[-1]) - {0}
-    return len(top & bot) > 0
+    """True if a forward (tau=+1) cluster WRAPS the torus (periodic BC), the
+    finite-size percolation criterion consistent with the periodic build_square."""
+    return torus_percolation(grid > 0)[0]
 
 
 def big_cluster_frac(grid):
-    lab, n = label(grid > 0)
-    if n == 0:
-        return 0.0
-    return np.bincount(lab.ravel())[1:].max() / grid.size
+    return torus_percolation(grid > 0)[1]
 
 
 # ----------------------------------------------------------------------

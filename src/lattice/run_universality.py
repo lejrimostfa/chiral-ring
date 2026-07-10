@@ -21,7 +21,8 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import label
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lattice import build_square, draw_signs, sample_records, local_marginal_sigma
+from lattice import (build_square, draw_signs, sample_records,
+                     local_marginal_sigma, torus_percolation)
 
 FIG = os.path.join(os.path.dirname(__file__), "..", "..", "figures", "paper3", "")
 NP, DT, T_CHARGE, NTRAJ = 8, 0.3, 1.0, 1500
@@ -50,16 +51,9 @@ def tau_grid(S, Ns, rho, seed):
 
 
 def stats(grid):
-    lab, n = label(grid > 0)
-    if n == 0:
-        return False, 0.0, 0.0
-    sizes = np.bincount(lab.ravel())[1:]
-    perc = len(set(lab[0]) - {0} & (set(lab[-1]) - {0})) > 0
-    big = sizes.max()
-    Pinf = big / grid.size
-    rest = sizes[sizes != big]
-    S = (rest ** 2).sum() / rest.sum() if rest.sum() > 0 else 0.0
-    return perc, Pinf, S
+    """(perc, Pinf, S) with torus (periodic-BC) connectivity and the wrapping
+    percolation criterion, consistent with the periodic build_square."""
+    return torus_percolation(grid > 0)
 
 
 def zc(x, y, tgt):

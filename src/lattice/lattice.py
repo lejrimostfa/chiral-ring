@@ -44,10 +44,17 @@ def build_chain(L, Np, Ns, g_scale=0.25, seed=0, contrarians=(), T_charge=1.0,
 
 
 def build_square(Lx, Ly, Np, Ns, g_scale=0.25, seed=0, contrarians=(),
-                 T_charge=1.0, shared_strength=1.0):
+                 T_charge=1.0, shared_strength=1.0, periodic=True):
     """2D square lattice (Lx*Ly rings, row-major index i = x + Lx*y).
     4-neighbour bonds (right and up); Ns shared witnesses per bond. Link owner
-    is ('link', (i, j)) with i < j the coupled ring pair."""
+    is ('link', (i, j)) with i < j the coupled ring pair.
+
+    periodic=True (default, production): TORUS. Every ring has coordination 4;
+    horizontal/vertical bonds wrap, ((x+1) mod Lx, (y+1) mod Ly). This matches
+    the manuscript's periodic-boundary 2D lattice and makes the finite-size
+    percolation study boundary-effect free. periodic=False recovers the open
+    (free-boundary) lattice. The Lx=2 (or Ly=2) wrap collapses onto the existing
+    bond (guarded below), so a 2-wide torus keeps a single bond per pair."""
     rng = np.random.default_rng(seed)
     L = Lx * Ly
     cols, Tc, owner = [], [], []
@@ -56,14 +63,23 @@ def build_square(Lx, Ly, Np, Ns, g_scale=0.25, seed=0, contrarians=(),
             c = np.zeros(L); c[i] = rng.uniform(0.5, 1.5) * g_scale
             cols.append(c); Tc.append(T_charge if i in contrarians else 0.0)
             owner.append(('priv', i))
-    bonds = []
+    bonds, seen = [], set()
+
+    def add(i, j):
+        b = (i, j) if i < j else (j, i)
+        if b[0] != b[1] and b not in seen:           # no self-bond, no duplicate
+            seen.add(b); bonds.append(b)
     for y in range(Ly):
         for x in range(Lx):
             i = x + Lx * y
-            if x + 1 < Lx:
-                bonds.append((i, i + 1))             # horizontal
-            if y + 1 < Ly:
-                bonds.append((i, i + Lx))            # vertical
+            if periodic:
+                add(i, ((x + 1) % Lx) + Lx * y)      # horizontal (wraps)
+                add(i, x + Lx * ((y + 1) % Ly))      # vertical   (wraps)
+            else:
+                if x + 1 < Lx:
+                    add(i, i + 1)                    # horizontal (open)
+                if y + 1 < Ly:
+                    add(i, i + Lx)                   # vertical   (open)
     for (i, j) in bonds:                             # shared link baths
         for _ in range(Ns):
             g = rng.uniform(0.5, 1.5) * g_scale * shared_strength
@@ -162,6 +178,57 @@ def local_marginal_sigma(R, G, Tc, param, S_true, i):
         mx = m.max(axis=1, keepdims=True)
         lp[sgn] = mx.squeeze(1) + np.log(np.exp(m - mx).mean(axis=1))
     return lp[+1] - lp[-1] if S_true[i] == 1 else lp[-1] - lp[+1]
+
+
+# ------------------------------------------------ periodic percolation (torus)
+def torus_percolation(mask):
+    """Percolation observables of a boolean field `mask` (shape Ly, Lx) on a
+    TORUS: 4-neighbour connectivity WITH wraparound in both axes.
+
+    Percolation is the WRAPPING criterion (a cluster that connects to its own
+    periodic image, i.e. winds around the torus in x or y), the standard
+    finite-size definition for periodic lattices [Newman-Ziff, PRL 85, 4104].
+    It is detected by giving each cell an unwrapped coordinate during a BFS and
+    flagging a cluster that assigns one cell two coordinates differing by the
+    period. Consistent with the periodic `build_square`.
+
+    Returns (perc: bool, Pinf: float largest-cluster fraction, S: float
+    susceptibility = sum s^2 / sum s over the non-spanning clusters), matching
+    the observables the open-boundary `stats()` used to return."""
+    from collections import deque
+    Ly, Lx = mask.shape
+    visited = np.zeros((Ly, Lx), bool)
+    sizes = []
+    perc = False
+    for sy in range(Ly):
+        for sx in range(Lx):
+            if not mask[sy, sx] or visited[sy, sx]:
+                continue
+            uy = {(sy, sx): sy}; ux = {(sy, sx): sx}       # unwrapped coords
+            q = deque([(sy, sx)]); visited[sy, sx] = True
+            size = 0; wrap = False
+            while q:
+                y, x = q.popleft(); size += 1
+                for dy, dx in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+                    ny, nx = (y + dy) % Ly, (x + dx) % Lx
+                    if not mask[ny, nx]:
+                        continue
+                    nuy, nux = uy[(y, x)] + dy, ux[(y, x)] + dx
+                    if not visited[ny, nx]:
+                        visited[ny, nx] = True
+                        uy[(ny, nx)] = nuy; ux[(ny, nx)] = nux
+                        q.append((ny, nx))
+                    elif nuy != uy[(ny, nx)] or nux != ux[(ny, nx)]:
+                        wrap = True                        # winds around a period
+            sizes.append(size)
+            perc = perc or wrap
+    if not sizes:
+        return False, 0.0, 0.0
+    sizes = np.array(sizes)
+    big = sizes.max()
+    rest = sizes[sizes != big]
+    S = (rest ** 2).sum() / rest.sum() if rest.sum() > 0 else 0.0
+    return perc, big / mask.size, float(S)
 
 
 # --------------------------------------------------- closed-form distinguishab.

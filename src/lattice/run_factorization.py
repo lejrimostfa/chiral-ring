@@ -21,7 +21,8 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import label
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lattice import build_square, draw_signs, sample_records, local_marginal_sigma
+from lattice import (build_square, draw_signs, sample_records,
+                     local_marginal_sigma, torus_percolation)
 
 FIG = os.path.join(os.path.dirname(__file__), "..", "..", "figures", "paper3", "")
 NP, DT, T_CHARGE, NTRAJ, PC = 8, 0.3, 1.0, 2000, 0.5927
@@ -58,8 +59,8 @@ def arrows(S, Ns, rho, seed, prescription="F"):
 
 
 def percolates(grid):
-    lab, _ = label(grid > 0)
-    return len(set(lab[0]) - {0} & (set(lab[-1]) - {0})) > 0
+    """Forward cluster wraps the torus (periodic BC)."""
+    return torus_percolation(grid > 0)[0]
 
 
 def zc(x, y, tgt):

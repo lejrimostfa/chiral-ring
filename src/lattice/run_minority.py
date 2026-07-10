@@ -20,7 +20,8 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import label
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lattice import build_square, draw_signs, sample_records, local_marginal_sigma
+from lattice import (build_square, draw_signs, sample_records,
+                     local_marginal_sigma, torus_percolation)
 
 FIG = os.path.join(os.path.dirname(__file__), "..", "..", "figures", "paper3", "")
 NP = 8
@@ -51,8 +52,8 @@ def square_tau(S, Ns, rho, seed):
 
 
 def percolates(grid):
-    lab, _ = label(grid > 0)
-    return len(set(lab[0]) - {0} & (set(lab[-1]) - {0})) > 0
+    """Forward cluster wraps the torus (periodic BC)."""
+    return torus_percolation(grid > 0)[0]
 
 
 def zero_cross(x, y, target=0.0):
