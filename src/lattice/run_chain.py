@@ -87,24 +87,27 @@ def main():
     print(f"  -> max deviation {worst:.2e} ({'PASS' if worst < 1e-9 else 'CHECK'})")
 
     fs = np.array([frac(Ns) for Ns in NSS])
+    # per-ring convention (Eq. 1): in 1D (bulk degree 2) f_ring = 2 * f_bond.
+    # All axes are in the per-ring convention to match the 2D figures.
+    fs_ring = 2 * fs
 
     # ---------- figure 1: alignment + conversion (L=32) ----------
     fig, ax = plt.subplots(1, 2, figsize=(11, 4.3))
     for rho in RHOS:
         m, s = A[(32, rho)].mean(1), A[(32, rho)].std(1)
-        ax[0].errorbar(fs, m, yerr=s, marker="o", ms=4, capsize=2,
+        ax[0].errorbar(fs_ring, m, yerr=s, marker="o", ms=4, capsize=2,
                        label=f"$\\rho$={rho}")
         ax[0].axhline(1 - 2 * rho, color="gray", ls=":", lw=0.6)
-        ax[1].errorbar(fs, conv[(32, rho)].mean(1), yerr=conv[(32, rho)].std(1),
+        ax[1].errorbar(fs_ring, conv[(32, rho)].mean(1), yerr=conv[(32, rho)].std(1),
                        marker="s", ms=4, capsize=2, label=f"$\\rho$={rho}")
     ax[0].axhline(1, color="green", ls=":", lw=0.8)
-    ax[0].set_xlabel("sharing fraction $f=N_s/(N_p+2N_s)$")
+    ax[0].set_xlabel(r"sharing fraction $f=2N_s/(N_p+2N_s)$ (per-ring)")
     ax[0].set_ylabel(r"signed alignment $A=\langle\tau_i\rangle$")
-    ax[0].set_title("Arrow alignment (chain L=32); dotted = $1-2\\rho$ baseline")
+    ax[0].set_title("Signed alignment on the chain (L=32)")
     ax[0].legend(fontsize=8)
-    ax[1].set_xlabel("sharing fraction $f$")
+    ax[1].set_xlabel(r"sharing fraction $f$ (per-ring)")
     ax[1].set_ylabel("fraction of contrarians converted")
-    ax[1].set_title("Backward arrows flipped forward by shared records")
+    ax[1].set_title("Contrarian conversion versus sharing (L=32)")
     ax[1].legend(fontsize=8)
     fig.tight_layout(); fig.savefig(FIG + "fig_p3_chain_alignment.png", dpi=150)
     plt.close(fig)
@@ -112,18 +115,18 @@ def main():
     # ---------- figure 2: domains + correlation length ----------
     fig, ax = plt.subplots(1, 2, figsize=(11, 4.3))
     for rho in RHOS:
-        ax[0].errorbar(fs, dom[(32, rho)].mean(1), yerr=dom[(32, rho)].std(1),
+        ax[0].errorbar(fs_ring, dom[(32, rho)].mean(1), yerr=dom[(32, rho)].std(1),
                        marker="o", ms=4, capsize=2, label=f"$\\rho$={rho}")
-    ax[0].set_xlabel("sharing fraction $f$")
+    ax[0].set_xlabel(r"sharing fraction $f$ (per-ring)")
     ax[0].set_ylabel(r"mean $\tau$-domain length")
-    ax[0].set_title("Aligned domains grow with sharing (L=32)")
+    ax[0].set_title("Mean domain length versus sharing (L=32)")
     ax[0].legend(fontsize=8)
     for L in LS:
-        ax[1].errorbar(fs, dom[(L, 0.3)].mean(1), yerr=dom[(L, 0.3)].std(1),
+        ax[1].errorbar(fs_ring, dom[(L, 0.3)].mean(1), yerr=dom[(L, 0.3)].std(1),
                        marker="^", ms=5, capsize=2, label=f"L={L}")
-    ax[1].set_xlabel("sharing fraction $f$")
+    ax[1].set_xlabel(r"sharing fraction $f$ (per-ring)")
     ax[1].set_ylabel(r"mean $\tau$-domain length  [$\rho$=0.3]")
-    ax[1].set_title(r"No finite-size divergence in 1D (crossover, not transition)")
+    ax[1].set_title(r"Domain length versus size ($L=8/16/32$, $\rho$=0.3)")
     ax[1].legend(fontsize=8)
     fig.tight_layout(); fig.savefig(FIG + "fig_p3_domains_chain.png", dpi=150)
     plt.close(fig)

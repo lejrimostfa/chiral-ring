@@ -41,8 +41,8 @@ NS = 2                       # f = 4*2/(8+8) = 0.5
 LS = [12, 16, 24]            # HPC: [16, 24, 32, 48]
 R = 50
 NTRAJ = 2000                 # HPC: 4000
-P_LO, P_HI = 0.34, 0.46      # density window around p_c ~ 0.40
-N_DENS = 9
+P_LO, P_HI = 0.37, 0.49      # window recentred on the periodic-BC crossing ~0.43
+N_DENS = 11
 NU_P, BN_P, GN_P = 4.0 / 3.0, 5.0 / 48.0, 43.0 / 24.0
 
 

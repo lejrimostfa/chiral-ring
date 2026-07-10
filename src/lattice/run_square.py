@@ -88,14 +88,23 @@ def main():
     im = ax.imshow(Amap, origin="lower", aspect="auto", cmap="RdBu_r",
                    vmin=-1, vmax=1, extent=[fs[0], fs[-1], rhos_map[0],
                                             rhos_map[-1]])
-    # percolation contour: forward occupation (1+A)/2 = p_c  <=>  A = 2 p_c - 1
+    # measured percolation contour: forward occupation (1+A)/2 = p_c  <=>  A = 2p_c-1
     CS = ax.contour(fs, rhos_map, Amap, levels=[2 * PC - 1], colors="k",
                     linewidths=2)
-    ax.clabel(CS, fmt={2 * PC - 1: "percolation\nthreshold"}, fontsize=8)
+    ax.clabel(CS, fmt={2 * PC - 1: "measured"}, fontsize=8)
+    # closed-form boundary Eq. (7): rho_c^perc(f) = (1-p_c)/(1-conv(f)), no free fit.
+    NS_DATA = np.array([0, 2, 3, 4, 5, 6, 7, 8])
+    CONV_DATA = np.array([0.0, 0.0, 0.005, 0.039, 0.199, 0.42, 0.66, 0.839])
+    conv_f = np.interp(fs, np.array([frac(n) for n in NS_DATA]), CONV_DATA)
+    rho_cf = (1 - PC) / (1 - np.clip(conv_f, 0, 0.999))
+    vis = rho_cf <= rhos_map[-1]
+    ax.plot(fs[vis], rho_cf[vis], "w--", lw=2.2,
+            label=r"Eq.~(7): $(1-p_c)/(1-\mathrm{conv})$")
+    ax.legend(loc="upper left", fontsize=8, framealpha=0.7)
     fig.colorbar(im, ax=ax, label=r"signed alignment $A=\langle\tau\rangle$")
     ax.set_xlabel("sharing fraction $f=4N_s/(N_p+4N_s)$")
     ax.set_ylabel(r"contrarian density $\rho$")
-    ax.set_title("(P3-C) Arrow alignment landscape A(f, $\\rho$), 2D L=6")
+    ax.set_title(r"Arrow alignment $A(f,\rho)$ (2D torus, L=6)")
     fig.tight_layout(); fig.savefig(FIG + "fig_p3_2d_phase.png", dpi=150)
     plt.close(fig)
 
@@ -127,7 +136,7 @@ def main():
     ax.axhline(0.5, color="k", lw=0.4)
     ax.set_xlabel("sharing fraction $f$")
     ax.set_ylabel(r"$P_{\rm perc}$ (spanning forward cluster)")
-    ax.set_title(f"(P3-C) Arrow-domain percolation, $\\rho$={rho_p} "
+    ax.set_title(f"Arrow-domain percolation crossing, $\\rho$={rho_p} "
                  f"(forward $p_c$={PC})")
     ax.legend(fontsize=8)
     fig.tight_layout(); fig.savefig(FIG + "fig_p3_percolation.png", dpi=150)
@@ -190,7 +199,7 @@ def main():
         ax.scatter(xs, ys, s=14, facecolors="none", edgecolors="k", lw=0.8)
         ax.set_title(f"{lab} $f_c$: f={fs[k]:.2f}, A={tau.mean():+.2f}")
         ax.set_xticks([]); ax.set_yticks([])
-    fig.suptitle(r"(P3-C) $\tau$ maps (blue=forward, red=backward; "
+    fig.suptitle(r"$\tau$ maps (blue=forward, red=backward; "
                  r"circles=contrarians), L=8, $\rho$=0.5")
     fig.tight_layout(); fig.savefig(FIG + "fig_p3_snapshots.png", dpi=150)
     plt.close(fig)
