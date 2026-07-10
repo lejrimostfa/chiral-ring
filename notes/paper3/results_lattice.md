@@ -110,6 +110,7 @@ model.
 | 2D: order-parameter threshold | `p_c = 0.5927` (forward occupation) |
 | rho_c(f) reversal of the global arrow | `~0.50 -> 0.89 -> diverges (>0.93)` beyond `f~0.78` (votes double) |
 | Universality class | `nu = 4/3` (2D percolation), interior FSS minimum |
+| **Factorization law** (P3-E, `factorization_theorem.md`) | arrow field == independent site percolation, `p_eff=1-rho(1-conv(f))`; `rho_c^align=1/[2(1-conv)]` (res 0.003), E3 mean Δ=0.040 < noise; F-specific (M breaks it) |
 
 Open / caveats: `nu` is pinned at `f=0.5` on `L<=16`; a full multi-`f` exponent
 map and the `rho_c(f)` divergence point would benefit from larger lattices. The
