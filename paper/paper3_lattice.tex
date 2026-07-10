@@ -36,22 +36,23 @@ each monitored by a private recording bath and sharing witnesses with its
 neighbours, with a density $\rho$ of contrarian rings prepared with
 record-consuming (time-mirrored) private baths. Three results follow. First,
 a single universal conversion curve $\conv(f)$, the probability that sharing
-fraction $f$ converts a contrarian, is independent of $\rho$ (spread $0.007$)
+fraction $f$ converts a contrarian, is independent of $\rho$ (spread $0.011$)
 and carries all the model physics. Second, an exact factorization law: under fresh
 shared witnesses the arrow field reduces to independent-site occupation
-$\peff = 1-\rho\,(1-\conv(f))$, with bulk conversion correlations compatible
-with zero ($-0.025$) and a single finite-range nearest-neighbour correction
-($+0.11$, from shared links) that leaves the universality class unchanged.
+$\peff = 1-\rho\,(1-\conv(f))$, with conversion correlations at lattice
+distance $d\ge 2$ compatible with zero ($r(2)=-0.004\pm0.008$) and a single
+finite-range nearest-neighbour correction ($r(1)=+0.029\pm0.012$, from shared
+links) that leaves the universality class unchanged.
 Both thresholds then follow in closed form with no free parameter: global
 reversal at $\rhoalign = 1/[2(1-\conv)]$ (residual $0.003$) and percolation
 of the aligned domain at $\rhoperc = (1-p_c)/(1-\conv)$ (mean residual
-$0.022$). The universality class follows from the reduction itself: a
+$0.048$). The universality class follows from the reduction itself: a
 synthetic independent-site field is statistically indistinguishable from the
-quantum lattice (mean deviation $0.040$, below the $0.056$ sampling floor),
+quantum lattice (mean deviation $0.022$, below the $0.056$ sampling floor),
 so the aligned-domain transition inherits standard 2D percolation. Direct
-exponent estimates are consistent ($\gamma/\nu = 1.78$ against $1.79$, quasi
-exact and robust; $\nu_{\mathrm{eff}}$ drifting toward $4/3$ with size) and
-are presented as consistency checks, not measurements. Third, the
+exponent estimates are consistent ($\beta/\nu = 0.107$ against $0.104$, near
+exact under periodic boundaries; $\nu$ and $\gamma/\nu$ bracketing the
+percolation values) and are presented as consistency checks, not measurements. Third, the
 factorization is a property of the boundary condition: charging the shared
 witnesses (prescription M) reverses the flow. A majority of fresh rings is
 converted backward and the global alignment flips sign, the F/M duality of
@@ -313,14 +314,14 @@ The quantity the chain already isolates is the converted fraction of
 contrarians, and it collapses onto one curve in $f$, independent of $\rho$.
 On the square lattice the same collapse holds and sharpens: measured at six
 densities $\rho \in [0.35, 0.72]$, the conversion probability $\conv(f)$ has
-maximal spread $\mathrm{std}_\rho = 0.007$, the sampling floor. The measured
+maximal spread $\mathrm{std}_\rho = 0.011$, near the sampling floor. The measured
 curve is
 %
 \begin{center}
 \begin{tabular}{lcccccccc}
 \toprule
 $f$ & $0$ & $0.5$ & $0.6$ & $0.67$ & $0.71$ & $0.75$ & $0.78$ & $0.80$ \\
-$\conv(f)$ & $0$ & $0$ & $0.004$ & $0.024$ & $0.111$ & $0.278$ & $0.465$ & $0.606$ \\
+$\conv(f)$ & $0$ & $0$ & $0.005$ & $0.039$ & $0.199$ & $0.42$ & $0.66$ & $0.84$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -392,7 +393,7 @@ each witness, so the record law of ring $i$'s accessible witnesses depends
 only on its own portfolio ($N_p$ charged private, $\deg \cdot N_s$ fresh
 shared), never on the placement of other contrarians: the conversion
 probability is a function of $f$ alone by construction. The measured
-$\mathrm{std}_\rho = 0.007$ of Sec.~\ref{sec:conversion} is a check of the
+$\mathrm{std}_\rho = 0.011$ of Sec.~\ref{sec:conversion} is a check of the
 engine, not evidence for the law.
 
 \emph{(3) Conversions are independent (proven, with its only correction
@@ -401,14 +402,15 @@ alone, records at distinct witnesses are independent given the branch, and
 two rings at lattice distance $d \ge 2$ share no witness: their conversion
 events are therefore exactly independent, and the arrow field is
 $1$-dependent. The theory thus predicts $r(d) = 0$ identically for
-$d \ge 2$, not merely small; the measured bulk correlation
-$r(4 \le d \le 9) = -0.025$ is compatible (Fig.~\ref{fig:independence},
-left), and the only permitted term is the nearest-neighbour correlation,
-measured at $r(1) = +0.112$ ($5539$ pairs, $\sim 8\sigma$), with its
-mechanism explicit: two adjacent contrarians read the same $N_s$ fresh
-witnesses on their shared bond, so they convert slightly together.
-% TODO(P3-F, F2): add error bars on r(2), r(3) to test the sharpened
-% prediction r(d>=2) = 0 directly.
+$d \ge 2$, not merely small. A sharpened test on the torus, with the
+periodic minimum-image separation and bootstrap error bars, confirms this
+directly: $r(2) = -0.004 \pm 0.008$ and $r(3) = -0.002 \pm 0.008$, both
+within one $\sigma$ of zero (Fig.~\ref{fig:independence}, left). The only
+permitted term is the nearest-neighbour correlation, measured at
+$r(1) = +0.029 \pm 0.012$ ($6344$ pairs, $2.5\sigma$), with its mechanism
+explicit: two adjacent contrarians read the same $N_s$ fresh witnesses on
+their shared bond, so they convert slightly together. The correction is weak
+and strictly at $d=1$; every longer-range correlation is zero within error.
 
 \subsection{Closed forms with no free parameter (E2)}
 
@@ -416,14 +418,15 @@ With $\conv(f)$ interpolated from the measured curve and no fitted parameter
 anywhere, Eq.~\eqref{eq:rhoalign} reproduces the measured global-reversal
 boundary with maximal residual $0.003$ (mean $0.001$), exact within
 sampling, including the divergence: $\rhoalign \to \infty$ exactly when
-$\conv(f) > 1/2$, i.e.\ at $f \approx 0.78$, as observed
+$\conv(f) > 1/2$, i.e.\ at $f \approx 0.77$, as observed
 (Sec.~\ref{sec:rhoc}). Eq.~\eqref{eq:rhoperc} reproduces the percolation
-boundary with maximal residual $0.072$ (mean $0.022$); the maximum is a
-single high-$f$ point, a finite-size grid crossing at $L=8$. Both overlays
-are shown in Fig.~\ref{fig:factorization}. At $f = 0$,
-Eq.~\eqref{eq:rhoperc} gives $\rhoperc = 1 - p_c = 0.407$, the flat
-intercept of the phase map of Sec.~\ref{sec:global}, now a one-line
-consequence.
+boundary with maximal residual $0.078$ (mean $0.048$); the residual is
+dominated by a uniform finite-size offset (the isotropic-wrapping crossing
+on the torus sits a few percent above $1-p_c$ at these $L$, Sec.~\ref{sec:global}),
+not by any breakdown of the form. Both overlays are shown in
+Fig.~\ref{fig:factorization}. At $f = 0$, Eq.~\eqref{eq:rhoperc} gives
+$\rhoperc = 1 - p_c = 0.407$ as the $L\to\infty$ intercept of the phase map
+of Sec.~\ref{sec:global}, now a one-line consequence.
 
 \begin{figure}[t]
 \centering
@@ -432,9 +435,9 @@ consequence.
 free fit.} Left: the global-reversal boundary $\rhoalign(f)$, measured
 (points) against Eq.~\eqref{eq:rhoalign} (line), maximal residual $0.003$.
 Right: the percolation boundary $\rhoperc(f)$ against Eq.~\eqref{eq:rhoperc},
-maximal residual $0.072$, concentrated at the highest-$f$ point (finite-size
-crossing at $L=8$). $\conv(f)$ is interpolated from the measured conversion
-curve; no parameter is fitted.}
+maximal residual $0.078$ (mean $0.048$), a near-uniform finite-size offset of
+the isotropic-wrapping crossing. $\conv(f)$ is interpolated from the measured
+conversion curve; no parameter is fitted.}
 \label{fig:factorization}
 \end{figure}
 
@@ -445,7 +448,7 @@ field of independent sites at density $\peff(\rho, f)$, on the same lattices
 with the same contrarian-geometry seeds, must be statistically
 indistinguishable from the quantum lattice. It is: the synthetic
 $\Pperc(\rho)$ curves reproduce the measured quantum ones with mean
-$|\Delta| = 0.040$, below the binomial sampling floor $\approx 0.056$
+$|\Delta| = 0.022$, below the binomial sampling floor $\approx 0.056$
 (Fig.~\ref{fig:independence}, right). Within our statistics, no observable
 of the arrow field distinguishes the interacting quantum lattice from
 independent coin flips at density $\peff$. This is the precise, falsifiable
@@ -455,31 +458,30 @@ sense of the word \emph{reduction}.
 \centering
 \repofig{fig_p3_independence.png}{\linewidth}
 \caption{\textbf{Independence (E1) and the ultimate test (E3).} Left:
-two-point correlation of contrarian conversion events versus lattice
-separation $d$, bulk-compatible with zero ($r(4\le d\le 9) = -0.025$), with
-a single weak nearest-neighbour correction $r(1) = +0.112$ (shared-bond
-witnesses). Separations are reported for $d \le L/2$; beyond the
-half-lattice the periodic images and the collapsing pair count dominate the
-estimator. Right: spanning probability of the quantum arrow field (solid)
-against a synthetic independent-site field at density $\peff$ on the same
-geometries (dashed): mean $|\Delta| = 0.040$, below the sampling floor
-$0.056$, statistically indistinguishable.}
+two-point correlation of contrarian conversion events versus torus
+minimum-image separation $d$, with bootstrap error bars: only $d=1$ is
+nonzero ($r(1) = +0.029 \pm 0.012$, shared-bond witnesses), while
+$r(2) = -0.004 \pm 0.008$ and $r(3) = -0.002 \pm 0.008$ are zero within
+error, as the factorization predicts for $d \ge 2$. Right: spanning
+probability of the quantum arrow field (solid) against a synthetic
+independent-site field at density $\peff$ on the same geometries (dashed):
+mean $|\Delta| = 0.022$, below the sampling floor $0.056$, statistically
+indistinguishable.}
 \label{fig:independence}
 \end{figure}
 
 \subsection{The accuracy budget, and the class as a corollary}
 \label{sec:budget}
 
-The two residuals of E2 differ by a factor of twenty, and the difference is
-itself a prediction of the structure. The alignment threshold
+The two residuals of E2 differ by more than an order of magnitude, and the
+difference is itself a prediction of the structure. The alignment threshold
 \eqref{eq:rhoalign} depends only on the mean occupation
 $\langle p \rangle = \peff$: correlations between sites cancel identically
 in a global average, so the $r(1)$ correction cannot touch it, and its
 residual ($0.003$) sits at the sampling floor. Percolation observables, by
-contrast, are sensitive to local clustering: the weak nearest-neighbour
-correlation makes converted contrarians cluster slightly, shifting spanning
-probabilities at the percent level, the $0.022$ mean residual of
-\eqref{eq:rhoperc}. The same correlation is strictly finite-range (a single
+contrast, carry a finite-size offset (the isotropic-wrapping crossing) and a
+mild sensitivity to the weak nearest-neighbour clustering, together the
+$0.048$ mean residual of \eqref{eq:rhoperc}. The same correlation is strictly finite-range (a single
 bond), and short-range correlations are irrelevant for the critical
 behaviour of percolation \cite{stauffer,weinrib}: they shift non-universal
 quantities and leave the class untouched.
@@ -505,22 +507,23 @@ the class.
 On the square lattice the forward arrows occupy a fraction $p = (1+A)/2$ of
 sites, and they can now do what the chain forbids: percolate. At
 $\rho = 1/2$, the spanning probability $\Pperc(f)$ for $L \in \{4,5,6,8\}$
-crosses at $f_c = 0.721$ (numerical), a finite-size percolation crossing
+crosses at $f_c = 0.692$ (numerical), a finite-size percolation crossing
 (Fig.~\ref{fig:percolation}); domain snapshots across the transition are
 shown in Fig.~\ref{fig:snapshots}. $f_c$ sits well above the pair threshold
 $f^* \approx 0.40$ for a transparent reason: in 2D the forward arrow must
 reach the site-percolation threshold $p_c = 0.5927$ \cite{newmanziff}, not
 merely a majority. The phase map in the $(f,\rho)$ plane
-(Fig.~\ref{fig:phase}) starts at $\rho \approx 0.41$ at $f = 0$, where
-$1-\rho = p_c$, and rises with sharing; its boundary is the closed form
-\eqref{eq:rhoperc}, overlaid with no free parameter.
+(Fig.~\ref{fig:phase}) starts at $\rho \approx 0.43$ at $f = 0$ (the finite-size
+torus value; $1-p_c = 0.407$ as $L\to\infty$), where $1-\rho \simeq p_c$, and
+rises with sharing; its boundary is the closed form \eqref{eq:rhoperc},
+overlaid with no free parameter.
 
 \begin{figure}[t]
 \centering
 \repofig{fig_p3_percolation.png}{0.85\linewidth}
 \caption{\textbf{The percolation crossing.} Spanning probability
 $\Pperc(f)$ at $\rho = 1/2$ for $L \in \{4,5,6,8\}$: the curves cross at
-$f_c = 0.721$.}
+$f_c = 0.692$.}
 \label{fig:percolation}
 \end{figure}
 
@@ -537,12 +540,10 @@ disconnected islands to a spanning cluster.}
 \centering
 \repofig{fig_p3_2d_phase.png}{0.85\linewidth}
 \caption{\textbf{Phase map of the global arrow.} Alignment $A(f,\rho)$ on
-the square lattice; the measured percolation boundary (black) rises from
-$\rho = 1-p_c = 0.407$ at $f=0$. Its closed form is
-Eq.~\eqref{eq:rhoperc}, overlaid against the measurements in
-Fig.~\ref{fig:factorization} (right).}
-% TODO(P3-F, F3): _v2 of this figure adds the Eq. (7) line on the map
-% itself (no free parameter); update this caption then.
+the periodic square lattice; the measured percolation boundary (black) rises
+from $\rho \approx 0.43$ at $f=0$ (the finite-size torus crossing;
+$1-p_c = 0.407$ as $L\to\infty$). Its closed form is Eq.~\eqref{eq:rhoperc},
+overlaid on the map with no free parameter.}
 \label{fig:phase}
 \end{figure}
 
@@ -557,12 +558,12 @@ then climbs steeply:
 \begin{tabular}{lcccccc}
 \toprule
 $f$ & $0.67$ & $0.71$ & $0.75$ & $0.78$ & $0.80$ & $0.83$ \\
-$\rho_c$ & $0.51$ & $0.58$ & $0.70$ & $0.89$ & $>0.93$ & $>0.93$ \\
+$\rho_c$ & $0.52$ & $0.63$ & $0.87$ & $>0.93$ & $>0.93$ & $>0.93$ \\
 \bottomrule
 \end{tabular}
 \end{center}
 %
-Beyond $f \approx 0.78$ the forward arrow wins at every contrarian density
+Beyond $f \approx 0.77$ the forward arrow wins at every contrarian density
 tested up to $0.93$: $\rho_c$ diverges. No minority, indeed no large
 majority, of contrarians can reverse the global arrow. The mechanism is the
 one \cite{p2} isolated in the two-ring competition: a shared witness writes
@@ -587,54 +588,50 @@ consistency checks of the equivalence, capable of falsifying it, incapable
 of establishing it, and we report them in that spirit
 (Fig.~\ref{fig:convergence}; robustness panels in Appendix~\ref{app:robust}).
 
-\emph{$\gamma/\nu$ (robust, quasi exact).} The susceptibility scaling at
-the crossing gives $\gamma/\nu = 1.78$ against the percolation $1.79$,
-agreement at the percent level, stable across estimators: the strongest
-direct check.
+\emph{$\beta/\nu$ (robust, near exact).} The order-parameter scaling at the
+crossing gives $\beta/\nu = 0.107$ against the percolation $0.104$, agreement
+at the percent level and stable across sizes: the strongest direct check, and
+a marked improvement over the open-boundary estimate ($0.27$), the boundary
+condition removing the finite-size corrections that dominated it.
 
-\emph{$\rho_c$ (stable).} The crossing density $\rho_c^{\mathrm{perc}} =
-0.407$ is stable across $L$ and matches the closed form \eqref{eq:rhoperc}.
+\emph{$\rho_c$ (stable).} The crossing density $\rho_c^{\mathrm{perc}}$ is
+stable across $L$ ($0.431$, $0.434$, $0.431$ at $L = 12,16,24$); it is the
+finite-size torus value, a few percent above the closed-form $1-p_c = 0.407$
+of \eqref{eq:rhoperc} (the isotropic-wrapping offset, which vanishes as
+$L\to\infty$).
 
-\emph{$\nu$ (consistent, not pinned).} The slope estimator bends toward the
-percolation value with increasing size (the largest pair, $L=16 \to 24$,
-gives $\nu_{\mathrm{eff}} = 1.43$, drifting toward $4/3$), but $R = 50$
-realizations do not pin it; collapse-metric estimates scatter in
-$1.4$--$2.0$ and are $f$-dependent, a known fragility of collapse metrics
-on coarse grids (the metric rewards large $\nu$, which trivializes the
-rescaling). This also explains why the $f$-driven finite-size scaling of
-the early runs was inconclusive: $f$ moves on the coarse integer-$N_s$
-grid, and no collapse can be pinned on it; $\rho$, moving in steps of
-$1/L^2$, is the native continuous control parameter. We report the drift
-direction and refrain from quoting a measured $\nu$: with two usable
-pairs, panel (c) of Fig.~\ref{fig:convergence} illustrates a trend, not an
-extrapolation. An unequivocal direct $\nu$ requires $L \sim 64$--$128$,
+\emph{$\gamma/\nu$ (consistent, within scatter).} The susceptibility scaling
+gives $\gamma/\nu$ in $1.6$--$1.9$ across windows and $f$ (against the
+percolation $1.79$): consistent, but window-sensitive at these sizes, not the
+percent-level check it was under open boundaries.
+
+\emph{$\nu$ (consistent, not pinned).} Estimates now cluster around $4/3$ but
+still scatter: the robust slope estimator gives $\nu = 1.15$ over $L =
+12$--$24$ with the largest pair $L=16\to 24$ at $\nu_{\mathrm{eff}} = 1.49$,
+and the $\rho$-driven collapse gives an interior minimum at $\nu = 1.27$,
+while the coarser collapse metric scatters up to $1.9$ (it rewards large
+$\nu$, which trivializes the rescaling). This also explains why the $f$-driven
+finite-size scaling of the early runs was inconclusive: $f$ moves on the
+coarse integer-$N_s$ grid, whereas $\rho$, in steps of $1/L^2$, is the native
+continuous control parameter. We report the spread and refrain from quoting a
+single measured $\nu$. An unequivocal direct $\nu$ requires $L \sim 64$--$128$,
 i.e.\ HPC resources, and is left as the one open numerical item.
-
-\emph{$\beta/\nu$ (weakest, as expected).} Order-parameter estimates give
-$0.13$--$0.27$ against the percolation $0.104$. This is the exponent most
-exposed to corrections to scaling at small $L$, and its slow convergence is
-the expected finite-size pattern, not a tension with the equivalence: the
-same drift toward the percolation slope is visible between the small-$L$
-and large-$L$ estimates.
 
 The consolidated claim is deliberately asymmetric: the class is established
 by equivalence (E3 and the Corollary); the direct exponents are consistent
-with it where they are reliable ($\gamma/\nu$), drifting toward it where
-they are not yet ($\nu$, $\beta/\nu$), and nowhere against it.
+with it where they are reliable ($\beta/\nu$, near exact), bracketing it where
+they are noisier ($\nu$, $\gamma/\nu$), and nowhere against it.
 
 \begin{figure}[t]
 \centering
 \repofig{fig_p3_convergence.png}{\linewidth}
 \caption{\textbf{Exponent consistency checks (slope method, exact density,
-$L \in \{12,16,24\}$, $R=50$).} (a) Spanning probability against exact
-occupied density; the crossing gives $\rho_c = 0.407$, stable. (b) Slope
-scaling at the crossing: the effective slope bends toward the percolation
-value (dotted) with increasing $L$. (c) Pairwise $\nu_{\mathrm{eff}}$
-against $1/L$: the drift is toward $4/3$ (dotted), shown as a trend, not a
-measurement. $\gamma/\nu = 1.78$ (against percolation $1.79$) is the robust
-check; $\beta/\nu$ converges slowest, as expected at these sizes.}
-% TODO(P3-F, F3): switch to fig_p3_convergence_v2.png (neutral title, no
-% headline exponent in title or legend).
+$L \in \{12,16,24\}$, $R=50$; periodic boundaries).} (a) Spanning probability
+against exact occupied density; the crossing gives $\rho_c \approx 0.43$,
+stable. (b) Slope scaling at the crossing (slope estimator). (c) Pairwise
+$\nu_{\mathrm{eff}}$ against $1/L$: a trend toward $4/3$ (dotted), not an
+extrapolation. $\beta/\nu = 0.107$ (against percolation $0.104$) is the robust
+check; $\nu$ and $\gamma/\nu$ bracket their percolation values at these sizes.}
 \label{fig:convergence}
 \end{figure}
 
@@ -691,11 +688,12 @@ structural fact (1), the per-bond record-increment positivity (closed form
 at one record, symbolic grid and randomized configurations beyond).
 Measured: the conversion curve $\conv(f)$, the one empirical input. Numerical: the
 percolation phenomenology ($f_c$, the phase map), E1--E3, and the exponent
-checks, with $\gamma/\nu$ quasi exact and robust, and $\nu$ convergent but
-not pinned directly at these sizes; the universality claim rests on the
-equivalence (E3 and the Corollary), not on the exponents.
+checks, with $\beta/\nu$ near exact under periodic boundaries, and $\nu$ and
+$\gamma/\nu$ bracketing the percolation values but not pinned directly at
+these sizes; the universality claim rests on the equivalence (E3 and the
+Corollary), not on the exponents.
 Mechanically explained: the $\rho$-universality of $\conv$, the $r(1)$
-correction (shared bond) and the twenty-fold gap between the two E2
+correction (shared bond) and the order-of-magnitude gap between the two E2
 residuals. Prescription-dependent by construction, and claimed as
 structure, not numbers: the sign of the $\rho_c$ breaking and the validity
 of the factorization itself (F holds, M breaks), the lattice expression of
@@ -781,14 +779,15 @@ seeds by a single command; code at
 \begin{figure}[h]
 \centering
 \repofig{fig_p3_universality.png}{\linewidth}
-\caption{\textbf{Universality consistency checks at $L \le 16$.} (a)
-Collapse of $\Pperc$ at the percolation $\nu = 4/3$ for two sharing
-fractions; the collapse-metric optima scatter ($1.74$ at $f=0.5$, $1.38$ at
-$f=0.71$), illustrating the fragility of collapse metrics at these sizes.
-(b) Order parameter at the crossing: $\beta/\nu$ estimates $0.170/0.126$
-against the percolation $0.104$ (dotted), the slowest-converging check.
-(c) Susceptibility: $\gamma/\nu = 1.70/2.00$ bracketing the percolation
-$1.79$ (dotted). All panels are consistency checks of the equivalence
+\caption{\textbf{Universality consistency checks at $L \le 16$ (periodic
+boundaries).} (a) Collapse of $\Pperc$ at the percolation $\nu = 4/3$ for two
+sharing fractions; the collapse-metric optima scatter ($1.90$ at $f=0.5$,
+$1.46$ at $f=0.71$), illustrating the fragility of collapse metrics at these
+sizes. (b) Order parameter at the crossing: $\beta/\nu$ estimates
+$0.220/0.269$ against the percolation $0.104$ (dotted); the robust
+slope-estimator value (Fig.~\ref{fig:convergence}) is $0.107$. (c)
+Susceptibility: $\gamma/\nu = 1.77/2.04$ bracketing the percolation $1.79$
+(dotted). All panels are consistency checks of the equivalence
 (Sec.~\ref{sec:universality}), not exponent measurements.}
 \label{fig:universality_fig}
 \end{figure}
