@@ -17,8 +17,12 @@ depuis le `.tex` si on les réutilise).
   - `351ddbd` F0 : note de convention f (`notes/paper3/f_convention.md`)
   - `e2b9197` moteur périodique + `torus_percolation` + wiring 5 scripts
   - `21d559e` F4 : manuscrit aux nombres périodiques + narratif exposants
-  - (F3 figures + F5 : commit suivant)
-- Gates : **6/6 PASS** inchangés (ils utilisent `build_chain`, resté OUVERT).
+  - `9acc8ca` F2 : test d'indépendance affûté (torus, barres bootstrap)
+  - `b669629` F3 : 13 figures régénérées périodiques + captions
+  - `69e5fa4` F5 : ce compte rendu
+  - `4028b8d` F1/G7 : `verify_C1.py` + `exact_reduction.md` + déclaration G7
+- Gates : **7/7 PASS** (G1-G6 `verify_lattice.py` sur `build_chain` resté OUVERT ;
+  G7 `verify_C1.py` factorisation par bond + positivité d'incrément).
 
 ## 1. LA décision : bords périodiques (2D uniquement)
 
@@ -44,13 +48,16 @@ Implémenté :
 
 - **F0** : gates 6/6 (résidus ≤ 2.9e-17). `f_convention.md` : 1D per-bond
   `Ns/(Np+2Ns)`, 2D per-ring `4Ns/(Np+4Ns)`, relation exacte 1D `f_ring=2·f_bond`.
-- **F1 / G7** : **BLOQUÉ** — `verify_C1.py` et `notes/paper3/exact_reduction.md`
-  jamais fournis (le prompt les disait "fournis" ; introuvables partout). Les
-  nombres du fait (1) déjà dans le manuscrit (7e-16, grille 400², 4e-9, 5e-7,
-  35600/35600) sont **indépendants de la topologie** (positivité d'incrément
-  par bond), donc TOUJOURS VALIDES malgré le passage au périodique. G7 = juste
-  relancer le script fourni pour confirmer → à faire quand l'utilisateur le
-  dépose.
+- **F1 / G7** : **FAIT** (`4028b8d`). L'utilisateur a fourni `verify_C1.py` +
+  `exact_reduction.md`. Script copié dans `src/lattice/` (adapté à la signature
+  production `local_marginal_sigma(R,G,Tc,param,S_true,i)`), lancé, **PASS** :
+  LEMME factorisation par bond vs moteur = **1.2e-15** ; C1 K=0→1 =
+  `b·ln[(2+b)/(2-b)]` (sympy) ; grille K=1→2 min +4.4e-9 ; 20000 configs
+  min +4.8e-7 ; séquences min +6.7e-5. **Prop. C = identité vérifiée.**
+  Suite de gates maintenant **7/7** (G1-G6 `verify_lattice.py` + G7
+  `verify_C1.py`). Manuscrit : ligne G7 dans le tableau, six→sept, `verify_C1`
+  en annexe, résidu fait(1) synchronisé à 1.2e-15. `exact_reduction.md` (Prop.
+  A/B prouvées, C vérifiée) dans `notes/paper3/`.
 - **F2** : `run_independence_v2.py` (tore, `d_eff` min-image périodique,
   barres bootstrap). **PASS** :
   `r(1)=+0.029±0.012` (2.5σ, 6344 paires), `r(2)=-0.004±0.008`,
@@ -124,12 +131,11 @@ place (l'historique git garde les anciennes) → aucun re-câblage des
 
 ## 6. État du `.tex` et reste à faire
 
-- `.tex` : nombres + narratif + captions à jour, 0 TODO. **NON compilé ici**
+- `.tex` : nombres + narratif + captions + G7 à jour, 0 TODO. **NON compilé ici**
   (pas de LaTeX) → l'utilisateur lance `pdflatex paper3_lattice.tex` ×2, exiger
   0 erreur. Les figures sont dans `figures/paper3/` (le `\repofig` les inclut).
-- **F1/G7** : déposer `verify_C1.py` (→ `src/lattice/`) + `exact_reduction.md`
-  (→ `notes/paper3/`), lancer, déclarer G7, statuer (prouvé deg≤2 / vérifié /
-  corroboré 35600). Les nombres du fait (1) sont déjà dans le `.tex`.
+  **C'est le seul reste bloquant côté machine.**
+- **F1/G7** : FAIT (§2) — 7/7 gates.
 - **Notes stale** : `results_lattice.md`, `factorization_theorem.md`,
   `files/compte_rendu_paper3.md` contiennent des chiffres pré-périodiques.
   À régénérer depuis le `.tex` si réutilisés (le `.tex` fait foi).
