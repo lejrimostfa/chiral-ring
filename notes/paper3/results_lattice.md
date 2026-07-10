@@ -109,8 +109,9 @@ model.
 | 2D: percolation point (`rho=0.5`) | `f_c = 0.721` |
 | 2D: order-parameter threshold | `p_c = 0.5927` (forward occupation) |
 | rho_c(f) reversal of the global arrow | `~0.50 -> 0.89 -> diverges (>0.93)` beyond `f~0.78` (votes double) |
-| Universality class | `nu = 4/3` (2D percolation), interior FSS minimum |
-| **Factorization law** (P3-E, `factorization_theorem.md`) | arrow field == independent site percolation, `p_eff=1-rho(1-conv(f))`; `rho_c^align=1/[2(1-conv)]` (res 0.003), E3 mean Δ=0.040 < noise; F-specific (M breaks it) |
+| Universality class | 2D percolation, established by the E3 EQUIVALENCE (below), not by direct exponents |
+| Direct exponents (reinforcement) | `gamma/nu = 1.78 == perc 1.79` (robust); `nu` consistent, trends toward 4/3 with size but NOT pinned at `L<=24` (scatters 1.4-2.0); `rho_c=0.407` stable. Unequivocal direct `nu` needs `L~64-128` (HPC) — each site is a quantum sampling. |
+| **Factorization law** (P3-E, `factorization_theorem.md`) | arrow field == independent site percolation, `p_eff=1-rho(1-conv(f))`; `rho_c^align=1/[2(1-conv)]` (res 0.003), E3 mean Δ=0.040 < noise; F-specific (M breaks it). **This equivalence is the rigorous universality argument.** |
 
 Open / caveats: `nu` is pinned at `f=0.5` on `L<=16`; a full multi-`f` exponent
 map and the `rho_c(f)` divergence point would benefit from larger lattices. The

@@ -81,28 +81,64 @@ la session P3-A..P3-D. À lire avant de continuer ; ne pas redécouvrir ce qui s
    anneaux (local_marginal_sigma par site). n_traj=1500-2500 suffit pour le SIGNE.
 8. cwd du shell : lancer avec chemins ABSOLUS (le cwd dérive entre calls).
 
-## 6. Reste à faire / ouvertures
+## 6. MISE À JOUR — P3-E (factorisation) + exposants (fait après P3-D)
 
-- **nu seulement à f=0.5, L<=16.** Pour un exposant robuste : carte nu(f)
-  multi-f, L jusqu'à 24-32, plus de réalisations. (Le résultat nu=4/3 est solide
-  mais mono-point.)
-- **Rédaction du manuscrit Paper 3** (pas commencée). Titre de travail :
-  « Percolation de l'alignement des flèches ». notes/paper3/results_lattice.md
-  est le squelette des résultats.
-- Fil conducteur des 3 papiers : théorème `Delta=I+C_bwd` (P2) porté au réseau
-  (G1) ; dualité de prescription F/M (P2 C5) -> signe de rho_c (P3). À mettre en
-  avant dans l'intro.
-- Extensions possibles : autres réseaux (triangulaire, 3D) ; test percolation
-  vs Ising plus poussé (autres exposants beta, gamma) ; contagion dynamique
-  (temps réel) ; frontière rho_c(f) analytique via rho_c=1/(2(1-conv(f))).
+**P3-E — Loi de factorisation (`8b36d64`, `factorization_theorem.md` = Section 4).**
+Le champ de flèches sous prescription F EST une percolation de sites
+indépendants d'occupation `p_eff = 1 - rho(1-conv(f))`. Prouvé (run_factorization.py, L=8) :
+- E1 indépendance : bulk `r(4<=d<=9)=-0.025`~0 ; seule correction voisine
+  `r(1)=+0.112` (lien partagé). No-backflip 35600/35600. conv(f) universelle en
+  rho (std 0.007).
+- E2 formes closes SANS fit : `rho_c^align=1/[2(1-conv)]` résidu **0.003 (exact)** ;
+  `rho_c^perc=(1-p_c)/(1-conv)` résidu max 0.072.
+- E3 test ultime : champ de sites indépendants reproduit P_perc, mean|Δ|=0.040 <
+  plancher de bruit 0.056 → **indistinguable**.
+- E4 frontière : sous prescription **M** (liens partagés chargés), la
+  factorisation CASSE (5600/6400 anneaux frais retournés, A→-1). Signe fixé par
+  la prépa des témoins = dualité F/M du papier 2.
 
-## 7. Commandes
+**Exposants — statut HONNÊTE (`0eecea6`, `bbacaca`).** À L<=24 ils NE sont PAS
+pinnés proprement :
+- `run_universality.py` (métrique de collapse, fragile) : nu=1.74 (f=0.5) vs
+  1.38 (f=0.71) → scatter, PAS f-indépendant. Le nu=4/3 "propre" de P3-D était
+  en partie une grille chanceuse.
+- `run_convergence.py` (estimateur robuste = pente au seuil ; densité exacte
+  `n_c/L^2` ; L={12,16,24}) : `rho_c`=0.407 stable ; **`gamma/nu=1.78` == perc
+  1.79 (quasi exact, robuste)** ; nu : la pente se courbe vers la valeur perc
+  aux grandes tailles (paire 16->24 -> nu_eff=1.43->4/3) mais bruit R=50 empêche
+  de clouer ; beta/nu=0.27 (le plus dur). Données brutes : `convergence_data.npz`.
+- **Conclusion** : cohérent avec percolation 2D (gamma/nu exact, nu qui converge),
+  mais la mesure DIRECTE ne le prouve pas à ces tailles. **La preuve rigoureuse
+  d'universalité = E3 (équivalence), PAS l'exposant en force.** Un ν sans
+  équivoque en direct demande L~64-128 (HPC) car chaque site coûte un
+  échantillonnage quantique.
+
+## 7. Reste à faire / ouvertures
+
+- **Rédaction du manuscrit Paper 3** (pas commencée). Squelette = `results_lattice.md`
+  + `factorization_theorem.md` (Section 4). Angle à vendre : "au lieu de forcer
+  l'exposant sur des réseaux géants, on PROUVE la réduction à une percolation
+  indépendante (E3) et l'universalité suit".
+- **Exposant sans équivoque (optionnel, HPC)** : `run_convergence.py` est prêt et
+  configurable (changer `LS=[16,24,32,48]`, R>=200, NTRAJ>=4000 en tête de
+  fichier) → lancer sur cluster pour extrapoler nu->4/3.
+- Fil des 3 papiers : théorème `Delta=I+C_bwd` (P2) -> réseau (G1) ; dualité F/M
+  (P2 C5) -> signe de rho_c (P3).
+- Extensions : autres réseaux (triangulaire, 3D) ; contagion dynamique ; frontière
+  `rho_c(f)=1/[2(1-conv(f))]` déjà analytique (P3-E).
+
+## 8. Commandes
 
     cd /Users/mostfa/chiral-ring/src/lattice
-    ../../.venv/bin/python verify_lattice.py    # 6 gates (obligatoire avant figs)
-    ../../.venv/bin/python run_chain.py          # 1D  (~2-3 min)
-    ../../.venv/bin/python run_square.py         # 2D percolation (~5-8 min)
-    ../../.venv/bin/python run_minority.py       # rho_c + FSS (~20 min)
+    ../../.venv/bin/python verify_lattice.py     # 6 gates (obligatoire avant figs)
+    ../../.venv/bin/python run_chain.py           # 1D            (~2-3 min)
+    ../../.venv/bin/python run_square.py          # 2D percolation (~5-8 min)
+    ../../.venv/bin/python run_minority.py        # rho_c + FSS    (~20 min)
+    ../../.venv/bin/python run_factorization.py   # loi de factorisation (~14 min)
+    ../../.venv/bin/python run_universality.py    # exposants nu(f) (~30 min)
+    ../../.venv/bin/python run_convergence.py      # convergence nu/beta/gamma (~30 min)
 
-Règle : AUCUNE figure tant que les 6 gates ne passent pas. Commits par sprint.
-NE PAS pousser sans accord de l'utilisateur.
+État : Paper 3 complet côté RÉSULTATS (P3-A..E + exposants). Branche
+`paper3-lattice`, NON poussée. Prochaine grande étape = le manuscrit.
+Règle : AUCUNE figure tant que les 6 gates ne passent pas. NE PAS pousser sans
+accord de l'utilisateur.
