@@ -3,16 +3,18 @@
 Session **P1-G**. Repo `chiral-ring`. Traçabilité de la révision v1.1 du papier 1
 (version lettre) et du gate modèle-indépendant qui la certifie.
 
-> ⚠️ **État des fichiers manuscrit v1.1** : `main.tex` (v1.1), `fig2_sequence.png`
-> et `main.pdf` (compilé côté Claude, 9 pages) étaient annoncés comme *fournis*
-> mais **ne sont présents ni sur le disque ni dans l'historique git** (toutes
-> branches). Aucun dossier d'artefacts « lettre » du papier 1 n'existe dans ce
-> repo (seul `paper/paper3_lattice.{tex,pdf}` est présent ; `figures/paper1/`
-> contient des PNG à nomenclature différente — `fig1_pip`, `fig2_cotransition`,
-> …, **pas** `fig1_schematic`/`fig3`/`fig5b`…). **V2 est donc en attente de
-> livraison des fichiers** (voir RESTE À FAIRE dans le compte rendu P1-G). Ce
-> présent document consigne la *substance* de v1.1 et le gate déjà livré ; il
-> n'affirme pas que le tex/pdf/figure sont intégrés.
+> ✅ **État des fichiers manuscrit v1.1** (mis à jour après livraison auteur) :
+> dossier `paper/article1/arxiv_submission_paper1/` — `main.tex` **v1.1**
+> intégré (Branch Arrow Theorem dans abstract/Main/Methods ; abstract clos par
+> « The laws carry no arrow; conditioned histories do. » ; paragraphe
+> decoherent histories + refs `GellMann1993` & `Hartle2013`), `fig2_sequence.png`
+> présent, et les 8 `\includegraphics` (fig1_schematic, fig3, fig4, fig5b, fig6,
+> fig8, fig9, fig2_sequence) **résolvent tous sur disque**. Le Methods promet
+> « scripts in the repository » → tenu par CHECK 7 / `src/verify_branch_arrow.py`.
+> **Restent à régénérer** (pas de LaTeX ici, non recompilé) : `manuscript.pdf`
+> (compile pré-v1.1 du 7 juil.) et le zip arXiv (l'ancien v1.0 a été retiré) —
+> après validation auteur. Version **extended** du papier 1 : intouchée
+> (miroir v1.1 en session dédiée).
 
 ## 1. Branch Arrow Theorem (cœur de v1.1)
 
@@ -70,12 +72,12 @@ ses verdicts numériquement (tolérances : (a),(b),résidu produit `< 1e-9` ;
   condition initiale record-free }.
 - **Inessentiel** = { les 3 sites ; la géométrie ; les couplages ; N }.
 
-## 4. `fig2_sequence.png` (figure conceptuelle, **en attente de livraison**)
+## 4. `fig2_sequence.png` (figure conceptuelle, **intégrée**)
 
 Séquence en **4 étapes**, chaque étape certifiée par une quantité *mesurée* du
 papier ; boucle de **révocabilité** dessinée sous les étages cohérents.
-À déposer à côté du `main.tex` lettre (même dossier que les autres `fig*` de la
-lettre), une fois les fichiers fournis.
+Présente à côté du `main.tex` lettre (`paper/article1/arxiv_submission_paper1/`),
+référencée à la ligne `\includegraphics{fig2_sequence.png}` du tex.
 
 ## 5. Abstract & Discussion
 
