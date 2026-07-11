@@ -58,32 +58,31 @@ ALL CHECKS: PASS
 
 ---
 
-## V2 — Intégration des fichiers v1.1 : **BLOQUÉ (fichiers jamais livrés)**
+## V2 — Intégration des fichiers v1.1 : **PASS** (source ; PDF/zip à régénérer)
 
-Les fichiers annoncés comme *fournis* — `main.tex` (v1.1), `fig2_sequence.png`,
-`main.pdf` — sont **introuvables** :
+> Note historique : à l'ouverture de session ces fichiers étaient **absents**
+> (disque + historique git toutes branches). L'auteur a ensuite ajouté les
+> dossiers `paper/article1` & `paper/article2`, puis **remplacé `main.tex` et
+> ajouté `fig2_sequence.png`** par la v1.1. État final vérifié ci-dessous.
 
-- absents du disque (racine, `files/`, `paper/`, `figures/`, `~/Downloads`,
-  `~/Desktop`, recherche système) ;
-- **jamais** présents dans l'historique git (toutes branches : `main`,
-  `paper3-lattice`, remotes) — vérifié via `git log --all --name-only`.
+Dossier cible confirmé : **`paper/article1/arxiv_submission_paper1/`**.
 
-De plus, **aucun dossier d'artefacts « lettre » du papier 1 n'existe** dans ce
-repo :
+- `main.tex` = **v1.1** (vérifié) : théorème dans l'abstract (« …instances of a
+  model-independent theorem (Methods)… » + « The laws carry no arrow; conditioned
+  histories do. »), paragraphe **Branch Arrow Theorem** en Methods (H1-H3 +
+  preuve 4 lignes + « scripts in the repository »), paragraphe decoherent
+  histories avec refs `GellMann1993` (l.164, PRD 47, 3345 (1993)) et `Hartle2013`
+  (l.165, arXiv:1301.2844).
+- `fig2_sequence.png` : **présent**, référencé l.109.
+- **Tous les 8 `\includegraphics` résolvent sur disque** à côté du tex :
+  fig1_schematic, fig4, fig5b, fig3, fig6, fig8, fig9, fig2_sequence → OK.
+- **Non recompilé** (pas de LaTeX ici) : `manuscript.pdf` est la compile
+  **pré-v1.1** (7 juil. 16:28, antérieure aux éditions v1.1) ; l'ancien zip
+  arXiv v1.0 a été **retiré** par l'auteur. PDF + zip → **à régénérer après
+  validation auteur** (cf. RESTE À FAIRE).
 
-- seul tex/pdf présent : `paper/paper3_lattice.{tex,pdf}` (papier 3) ;
-- `figures/paper1/` contient bien 11 PNG mais à **nomenclature différente**
-  (`fig1_pip`, `fig2_cotransition`, `fig3_histograms`, `fig4_collision`,
-  `fig5_scaling`, `fig5b_ratio_errorbars`, `fig6_collapse`, `fig7_variantB`,
-  `fig8_hysteresis`, `fig9_ratchet`) — **pas** `fig1_schematic`, ni les
-  `fig3/fig4/fig5b/fig6/fig8/fig9` référencés par le `main.tex` v1.1 attendu.
-
-**Conséquence** : impossible de placer les fichiers, impossible de vérifier
-que les `\includegraphics` de `main.tex` (fig1_schematic, fig3, fig4, fig5b,
-fig6, fig8, fig9, fig2_sequence) résolvent sur disque. **Aucune fabrication**
-de manuscrit / PDF / figure n'a été faite (ce serait inventer l'artefact).
-Recompilation : de toute façon impossible ici (pas de LaTeX). V2 **en attente
-de livraison** des 3 fichiers + confirmation du dossier cible.
+Commit `d7c04f8` (V2) : ajoute `paper/article1` (lettre v1.1 + PDFs) et
+`paper/article2` (artefacts fournis). Extended papier 1 : **intouchée**.
 
 ---
 
@@ -102,21 +101,22 @@ attente) et n'affirme pas leur intégration. Commit `1ace36c` (V3).
 
 ## RESTE À FAIRE (explicite)
 
-1. **[BLOQUANT V2]** Livrer sur cette machine `main.tex` (v1.1),
-   `fig2_sequence.png`, `main.pdf`, **et** confirmer/creer le dossier cible des
-   artefacts « lettre » du papier 1 (il n'existe pas encore). Sans ces
-   fichiers, V2 ne peut être ni exécuté ni vérifié.
-2. Une fois V2 fait : vérifier que **toutes** les figures référencées par
-   `\includegraphics` existent à côté du tex ; **ne pas recompiler** (pas de
-   LaTeX ici ; le PDF fourni fait foi).
+1. ~~[BLOQUANT V2] Livrer main.tex v1.1 + fig2_sequence.png + dossier cible~~ →
+   **FAIT** (auteur, en session) ; V2 vérifié PASS (source). ~~Vérifier que les
+   figures résolvent~~ → **FAIT** (8/8).
+2. **[LIVE] Recompiler la lettre v1.1** (hors de cette machine, pas de LaTeX
+   ici) → produire le `manuscript.pdf` v1.1 (le PDF sur disque est la compile
+   pré-v1.1 du 7 juil.) **et regénérer le zip arXiv** `arxiv_submission_paper1`
+   (l'ancien v1.0 a été retiré ; son `main.tex` bundlé était pré-v1.1 et sans
+   fig2_sequence), après validation auteur.
 3. **Miroir v1.1 sur la version extended** du papier 1 — session dédiée, tex à
-   fournir. Hors périmètre P1-G.
-4. **Régénération des zips arXiv** après validation auteur.
-5. **Décision de branche** : les commits P1-G (V1/V3) sont sur `paper3-lattice`
+   fournir. Hors périmètre P1-G. (Les PDFs extended sur disque —
+   `manuscript_extended{,_fr}.pdf` — sont committés tels quels, non modifiés.)
+4. **Décision de branche** : les commits P1-G (V1-V4) sont sur `paper3-lattice`
    (HEAD courant). Le papier 1 « complet » vit sur `main`. À trancher : rebaser
    / cherry-pick les commits P1-G vers `main` ou une branche `paper1-v1.1`
    dédiée avant push.
-6. **Push** : uniquement sur **OK explicite** de l'auteur. Rien n'est poussé.
+5. **Push** : uniquement sur **OK explicite** de l'auteur. Rien n'est poussé.
 
 ---
 
@@ -124,6 +124,6 @@ attente) et n'affirme pas leur intégration. Commit `1ace36c` (V3).
 
 - `b03c0a1` — V1 : gate `src/verify_branch_arrow.py` + CHECK 7 (7/7 PASS).
 - `1ace36c` — V3 : `notes/paper1/changelog_v1.1.md` (traçabilité v1.1).
-- *(ce fichier)* — V4 : compte rendu P1-G.
-
-V2 : **aucun commit** (bloqué, fichiers absents).
+- `8bb69ed` — V4 : compte rendu P1-G (version initiale, V2 alors bloqué).
+- `d7c04f8` — V2 : intégration lettre v1.1 (`paper/article1`) + `paper/article2`.
+- *(ce commit)* — V3/V4 : notes remises à jour après livraison auteur (V2 PASS).
