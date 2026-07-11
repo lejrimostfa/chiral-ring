@@ -112,5 +112,34 @@ print(f"  exact conditional <I> matches Bayes posterior, all 16 records "
       f"... PASS: {ok6}")
 
 print("=" * 60)
-allok = ok1 and ok2 and ok3 and ok4 and ok5 and ok6
+print("CHECK 7: Branch Arrow Theorem gate (src/verify_branch_arrow.py)")
+# Model-independent theorem gate: run the standalone script as a subprocess
+# (keeps it invocable alone, isolates its rng) and assert its conclusions
+# numerically. The script IS the spec; here we only read its verdicts.
+import subprocess, re, os
+_here = os.path.dirname(os.path.abspath(__file__))
+_ba = subprocess.run([sys.executable, os.path.join(_here, "verify_branch_arrow.py")],
+                     capture_output=True, text=True)
+_out = _ba.stdout
+def _num(pat):
+    m = re.search(pat, _out)
+    return float(m.group(1)) if m else float("nan")
+a     = _num(r"\(a\).*?:\s*([-\d.eE+]+)")
+b     = _num(r"\(b\).*?:\s*([-\d.eE+]+)")
+gap   = _num(r"additivity gap.*?:\s*([-\d.eE+]+)")
+prod  = _num(r"product law.*?=\s*([-\d.eE+]+)")
+teven = _num(r"T-even control: <sigma_s> =\s*([-\d.eE+]+)")
+D     = _num(r"while D =\s*([-\d.eE+]+)")
+# (a),(b),product-law residual are analytically 0 (machine precision);
+# correlated additivity gap and marginal distinguishability D are strictly > 0.
+ok7 = (_ba.returncode == 0 and abs(a) < 1e-12 and abs(b) < 1e-12
+       and abs(prod) < 1e-9 and abs(gap - 1.237) < 1e-3
+       and abs(teven) < 1e-15 and D > 0)
+print(f"  (a) sigma[xi]=0 : {abs(a) < 1e-12};  (b) <sigma_s>=D_KL : {abs(b) < 1e-12};"
+      f"  product-law additivity exact : {abs(prod) < 1e-9}")
+print(f"  correlated gap = {gap:.3f} (>0, needs cond. indep.);  "
+      f"T-even <sigma_s>={teven:.1f} while D={D:.3f}>0 ... PASS: {ok7}")
+
+print("=" * 60)
+allok = ok1 and ok2 and ok3 and ok4 and ok5 and ok6 and ok7
 print(f"ALL CHECKS: {'PASS' if allok else 'FAIL'}")
