@@ -1,0 +1,278 @@
+\pdfoutput=1
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.4cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{subcaption}
+\usepackage[colorlinks=true,allcolors=blue]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{observation}{Observation}
+\newcommand{\Iop}{\hat{I}}
+\newcommand{\KL}{D_{\mathrm{KL}}}
+\newcommand{\Cbwd}{C_{\mathrm{bwd}}}
+
+\newcommand{\figorbox}[2]{\IfFileExists{#1}{\includegraphics[width=#2]{#1}}{\fbox{\parbox{#2}{\centering\vspace{2.2cm}\texttt{[insert \detokenize{#1} from repository]}\vspace{2.2cm}}}}}
+
+\title{\bfseries Collective irreversibility and arrow competition\\ in shared quantum environments}
+\author{Mostfa Lejri\\[2pt]
+\small Independent Researcher}
+\date{\small Draft: \today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+In a companion work we showed, in an exactly solvable model of a chiral ring monitored by a recording bath, that the local arrow of time is spontaneously broken at the level of branches and equals, within a branch, the information content of the environmental records. Here we ask what changes when the environment is \emph{shared}. We extend the model to $M$ chiral rings coupled to a common qubit bath. The joint-branch structure keeps every quantity in closed form. Three results follow. First, a shared environment fixes only what it can distinguish: identical couplings create an exact decoherence-free sector in which the total current becomes objective while individual chiralities remain forever unresolved, entanglement between the rings survives indefinitely, and the single-ring universality of the companion paper breaks in a controlled way. Second, joint irreversibility exceeds the sum of its parts: for a pair of rings, the additivity deficit $\Delta=\sigma_S-\sum_i\sigma_i$ (strictly positive in every regime tested) decomposes exactly into a bounded conditional mutual information between the chiralities plus an extensive, collective backward term whose non-negativity is proven at leading order in record strength and conjectured in general. The deficit shows a universal small-record ratio of $1/8$ and a crossover from coherent $N^2$ growth to extensive $N$ growth: irreversibility is born collectively and matures additively. Third, when two rings with opposed arrows (one forward, one time-mirrored) share a fraction $f$ of their witnesses, exactly one arrow reverses, at a sharp threshold: the phase boundary $f^*(t)$ is set by the preparation of the shared records; forward and mirrored preparations are exact duals meeting at a common equal-effort threshold $f^*\approx0.40<1/2$, so that shared records outvote exclusive ones. The boundary condition of the records, not a majority of witnesses, decides the direction of local time.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+In the companion paper \cite{Lejri2026} we studied how decoherence fixes the orientation of a time-reversal-odd observable (the circulation of a three-site chiral ring) monitored by a bath of recording qubits. The model is exactly solvable, and two exact statements organize it: the unconditional stochastic entropy production vanishes identically, so the arrow of time is spontaneously broken and exists only relative to a branch (the comparison an embedded observer can operationally make \cite{Mlodinow2014}); and the branch-relative entropy production equals the accumulated Kullback--Leibler distinguishability of the records, so that the experienced irreversibility \emph{is} the record information, in the time-reversal-comparison sense of stochastic thermodynamics \cite{Maes2003,Callens2004,Landi2021}. A single scalar (the record distinguishability $D$) was found to govern decoherence, branch polarization, redundancy and entropy production alike.
+
+That analysis concerned one system and its private environment. Yet almost nothing in nature owns its environment: the photons that record the state of one object go on to record others, and the "contagion" of local arrows into a consistent global one (conjectured but not demonstrated in \cite{Lejri2026}, records begetting records in the Darwinian sense \cite{Zurek2009,Zurek2022}) is a question about \emph{shared} records. Sharing raises three questions that the single-ring model cannot pose. What can a common environment fix, when its records respond only to collective variables? What does joint irreversibility cost, beyond the sum of the parts? And when two systems carrying \emph{opposed} arrows (one accumulating records, one consuming them) share witnesses that cannot do both, which arrow survives?
+
+This paper answers the three questions in the minimal extension of \cite{Lejri2026}: $M$ chiral rings coupled to one qubit bath. Because each chirality is separately conserved, the global state remains a sum of $2^M$ branch products and every quantity below is in closed form; all numerical statements were validated against brute-force state-vector evolution at machine precision, and the $M{=}1$ limit reproduces the companion model exactly. The answers are: (i) the environment elevates to objectivity exactly what it can distinguish. An exact decoherence-free sector protects both the ambiguity of individual chiralities and the entanglement between rings, and marks the precise boundary of the single-scalar universality of \cite{Lejri2026} (Sec.~\ref{sec:fix}); (ii) joint irreversibility carries an irreducibly collective component, with an exact decomposition theorem, a perturbative universal $1/8$ small-record law, and a coherent-to-extensive crossover reminiscent of superradiance (Sec.~\ref{sec:collective}); (iii) arrow competition has a genuine threshold, whose position is set by the boundary condition of the shared records and at which a minority of shared witnesses defeats a majority of exclusive ones (Sec.~\ref{sec:competition}). Section~\ref{sec:discussion} discusses what this says about the origin of a global arrow, and what it leaves open.
+
+\section{The multi-ring model}\label{sec:model}
+
+\subsection{Joint branches and closed forms}
+
+Each of $M$ three-site chiral rings carries a conserved chirality $s_i=\pm1$ (the T-odd pointer doublet of \cite{Lejri2026}). The joint branch is $S=(s_1,\dots,s_M)$, one of $2^M$. The bath is $N$ qubits, initialized in $|+_x\rangle^{\otimes N}$ unless stated otherwise, with coupling matrix $g_{i,n}\ge0$:
+\begin{equation}
+H_{\mathrm{int}}=\sum_i \frac{\Iop_i}{I_0}\otimes\sum_n g_{i,n}\sigma_z^{(n)},
+\qquad
+a_n(S)=\sum_i s_i\, g_{i,n}.
+\end{equation}
+Conditional on $S$, qubit $n$ rotates as $e^{-i a_n(S)t\,\sigma_z}$, so the global state is a sum of $2^M$ branch products and every bipartite object is closed-form. The overlap between branches is $c_n(S,S';t)=\cos\!\big((a_n(S)-a_n(S'))t\big)$, the decoherence matrix $\Gamma_{S,S'}(t)=\prod_n c_n(S,S';t)$, and the joint reduced state of the rings, in the chiral basis, has entries $\Gamma_{S,S'}/2^M$. A structural consequence used throughout:
+\begin{equation}
+\Gamma_{S,S'}(t)=1\ \ \forall t \iff a_n(S)=a_n(S')\ \ \forall n
+\qquad\text{(exact decoherence-free condition).}
+\label{eq:dfs}
+\end{equation}
+In the collision protocol (qubit $n$ measured in $\sigma_y$ after its interaction window), $P(r_n{=}{+}1|S)=(1+\sin(2a_n(S)\Delta t))/2$. The Bayes posterior over the $2^M$ branches defines per-ring polarizations $P_i=\mathbb E_\xi|\mathbb E[s_i|\xi]|$, the joint branch-relative entropy production $\sigma_S[\xi]=\sum_n\ln[P(r_n|S)/P(r_n|{-}S)]$, and marginal productions $\sigma_i$ built from the marginal likelihood ratios $P(\xi|s_i{=}{+}1)/P(\xi|s_i{=}{-}1)$ (other chiralities summed). For $M{=}2$ an exact \emph{linearization lemma} holds and powers the analytics of Sec.~\ref{sec:collective}:
+\begin{equation}
+\sin\!\big(2a_n(S)t\big)=s_1\tilde u_n+s_2\tilde v_n,
+\qquad
+\tilde u_n=\sin(2g_{1,n}t)\cos(2g_{2,n}t),\ \
+\tilde v_n=\cos(2g_{1,n}t)\sin(2g_{2,n}t).
+\label{eq:linlemma}
+\end{equation}
+
+\subsection{Mirror preparation and entangled initial states}
+
+Two extensions supply the boundary conditions of Sec.~\ref{sec:competition} and the entanglement probe of Sec.~\ref{sec:fix}. A \emph{mirror bath} is prepared in the $\Theta$-conjugate of the final state of a forward evolution of duration $T$: its record quality decreases, $\varepsilon_n(t)=|\sin(2g_n(T-t))|$, records are consumed rather than accumulated, and the branch-relative entropy production is negative. A local arrow pointing the other way, legitimate as a boundary condition (the initial ring--bath state is then entangled, and is declared as such). For shared qubits between a forward and a mirror bath, three preparations are considered, unified by the closed form $\beta_n=\sin\!\big(2a_n(S)(t-T_c)\big)$: fresh ($T_c{=}0$, prescription F), mirror-charged ($T_c{=}T$, prescription M), and half-charged ($T_c{=}T/2$, prescription H). Separately, the pair of rings can be prepared in the entangled state $(|{+}{-}\rangle+|{-}{+}\rangle)/\sqrt2$, whose concurrence follows in closed form from the $4\times4$ matrix $\Gamma$.
+
+All results below at $M{=}2$, $N{=}64$, ten disorder realizations and $2\times10^4$ trajectories per point unless stated; validation gates (exact $M{=}1$ reduction, brute force at $N{=}8$ on the $9\cdot2^8$-dimensional state vector, exact additivity for disjoint baths) all pass at the $10^{-14}$--$10^{-16}$ level.
+
+\section{What a shared environment can fix}\label{sec:fix}
+
+\subsection{The decoherence-free sector and partial objectivity}
+
+When the two rings couple identically to every qubit ($g_{1,n}=g_{2,n}$), the record variable $a_n(S)=(s_1+s_2)g_n$ responds only to the \emph{total} chirality. By \eqref{eq:dfs} the zero-total-chirality coherence is exactly protected, the record-level counterpart of a decoherence-free subspace \cite{LidarDFS,Zanardi}: $\Gamma_{(+-),(-+)}(t)=1$ for all times, while $\Gamma_{(++),(--)}$ dies at the usual decoherence rate (Fig.~\ref{fig:dfs}a). The Darwinian consequence is a \emph{partial} classicality: the total current becomes fully objective ($P_{\mathrm{total}}\to1$) in the redundancy sense of quantum Darwinism \cite{Zurek2009,Riedel2012}, while the individual chiralities remain forever at chance, $P_1$ pinned at $0.50$; against $P_1\to1$ the moment the couplings are generic (Fig.~\ref{fig:dfs}b). The environment elevates to the status of a classical fact exactly what it can distinguish, and nothing more.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.58\linewidth}
+\figorbox{fig_multi_b_dfs_coherence.png}{\linewidth}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.40\linewidth}
+\figorbox{fig_multi_b_objectivity.png}{\linewidth}
+\caption{}
+\end{subfigure}
+\caption{\textbf{The environment fixes what it can distinguish.}
+\textbf{a}, Identical couplings: the zero-total-chirality coherence $\Gamma_{(+-),(-+)}$ is exactly protected for all times (left), against generic decay for random couplings (right).
+\textbf{b}, Objectivity is partial in the decoherence-free sector: the total current polarizes fully while the individual chirality stays at chance ($P_1=0.50$); random couplings restore $P_1\to1$.}
+\label{fig:dfs}
+\end{figure}
+
+\subsection{Entanglement survives exactly where no records form}
+
+Prepared in $(|{+}{-}\rangle+|{-}{+}\rangle)/\sqrt2$, the pair lives entirely inside the protected sector when couplings are identical: the relative distinguishability $D_{\mathrm{rel}}$ of the branches $({+}{-})$ and $({-}{+})$ is identically zero and the concurrence stays $C(t)\equiv1$ indefinitely. With generic couplings, records about the relative chirality form, and $C$ falls monotonically as a function of $D_{\mathrm{rel}}$ alone (Fig.~\ref{fig:concurrence}). Entanglement and records occupy complementary territory: inter-ring entanglement persists precisely in the sector about which the environment writes nothing, and is converted to classical correlation exactly as the corresponding records accumulate. This gives quantitative form, within the model, to the complementarity between surviving quantum correlations and Darwinian classicality.
+
+\begin{figure}[t]
+\centering
+\figorbox{fig_multi_c3_concurrence.png}{0.92\linewidth}
+\caption{\textbf{Entanglement survives exactly where no records form.} Left: concurrence of the entangled ring pair; constant at $1$ in the decoherence-free sector (identical couplings, $D_{\mathrm{rel}}\equiv0$), decaying for generic couplings. Right: $C$ collapses onto a single decreasing function of the relative record distinguishability $D_{\mathrm{rel}}$.}
+\label{fig:concurrence}
+\end{figure}
+
+\subsection{The boundary of single-scalar universality}
+
+In \cite{Lejri2026}, the branch polarization of a single ring collapsed onto a universal function of one scalar, the accumulated distinguishability. Bath sharing preserves this collapse remarkably well (across shared fractions $f\in\{0,0.25,0.5,0.75,1\}$ and generic couplings the per-ring polarization $P_i$ versus its marginal distinguishability $D_i$ has RMS residual $0.018\pm0.004$) but the decoherence-free sector breaks it by a factor $22$ in RMS ($0.401\pm0.010$; worst-case separation $15.5\times$ across disorder), with points pinned at $(D_i>0,\ P_i=0.5)$ (Fig.~\ref{fig:collapse2}). The mechanism is the one identified above: in the protected sector the marginal records are \emph{branch-inhomogeneous} (perfectly resolving in the aligned branches, mute in the anti-aligned ones) and no branch-averaged scalar can summarize them. The single-scalar universality of the companion paper thus acquires its validity condition: \emph{the collapse holds when records are branch-homogeneous}, and the decoherence-free sector is its exact counterexample.
+
+\begin{figure}[t]
+\centering
+\figorbox{fig_multi_collapse.png}{0.7\linewidth}
+\caption{\textbf{Conditional universality.} Per-ring polarization versus marginal distinguishability: the single-scalar collapse of the companion paper survives bath sharing at all fractions $f$ (generic couplings; RMS $0.018\pm0.004$) and is broken by the decoherence-free sector (crosses at $P_i=0.5$; RMS $0.401\pm0.010$).}
+\label{fig:collapse2}
+\end{figure}
+
+\section{Collective irreversibility}\label{sec:collective}
+
+\subsection{The additivity deficit and what it is not}
+
+Define the deficit $\Delta=\sigma_S-\sum_i\sigma_i$, the excess of the joint branch-relative entropy production over the sum of the marginals. For disjoint baths, $\Delta=0$ exactly (verified to $10^{-14}$); bath sharing switches it on monotonically (Fig.~\ref{fig:deficit}b), and it is strictly positive throughout. Our first guess (that $\Delta$ is the multi-information of the records about the chiralities, a synergy in the partial-information sense \cite{WilliamsBeer}) fails for a structural reason worth recording: $\Delta$ is \emph{extensive}, growing linearly with the number of shared records ($\Delta=0.688\,N-0.38$, $R^2=0.99995$ at fixed sharing), while any multi-information of $M$ chirality bits is bounded by $M\ln2$. The deficit is not a correlation measure. It is an irreversibility with no single-ring owner.
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.58\linewidth}
+\figorbox{fig_multi_c_deficit.png}{\linewidth}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.40\linewidth}
+\figorbox{fig_multi_d_sweep_f.png}{\linewidth}
+\caption{}
+\end{subfigure}
+\caption{\textbf{The additivity deficit is extensive and collective.}
+\textbf{a}, Generic shared bath: $\Delta\ge0$ grows to tens of nats, while the record multi-information stays below its $M\ln2$ bound. The deficit is not a correlation measure.
+\textbf{b}, The deficit and the record-induced ring--ring correlation switch on with the shared fraction $f$.}
+\label{fig:deficit}
+\end{figure}
+
+\subsection{An exact decomposition}
+
+What the deficit is, exactly, is the content of our main analytic result.
+
+\begin{theorem}[Deficit decomposition]\label{th:decomp}
+For a uniform prior over joint branches and a record law with antipodal flip symmetry (conditional independence \emph{not} required),
+\begin{equation}
+\Delta \;=\; I(s_1;s_2\,|\,\xi)\;+\;\Cbwd,
+\qquad
+\Cbwd=-\,2^{-M}\sum_S\sum_\xi P(\xi|{-}S)\,J(\xi,S),\quad
+J=\ln\frac{P(\xi|S)\,P(\xi)^{M-1}}{\prod_i P(\xi|s_i)} .
+\label{eq:decomp}
+\end{equation}
+\end{theorem}
+
+Here $I(s_1;s_2|\xi)$ is the posterior conditional mutual information between the chiralities given the records (bounded by $\ln2$, and therefore never the carrier of the extensive part) while $\Cbwd$ is a genuinely collective object: the same synergy functional $J$, evaluated not on the forward record distribution but on the distribution of the \emph{time-reversed} branch. The identity \eqref{eq:decomp} was verified by an independently recoded suite on disjoint, shared and decoherence-free configurations to $1.8\times10^{-15}$ (disjoint baths give $\Delta=I=\Cbwd=0$ identically). The positivity of $\Cbwd$ is \emph{proven at leading order in record strength}: subtracting the two expansions of the next subsection gives $\Cbwd=\tfrac72 w^2\lambda^4+O(\lambda^6)$, a square, hence nonnegative for arbitrary couplings. Globally it remains a conjecture; supported by an exhaustive grid at $N{=}1$ (minimum $-4\times10^{-16}$, machine zero) and six thousand random record laws at $N{=}2$--$4$ (minimum $+1.6\times10^{-8}$), with equality attained at disjoint baths, so the inequality is sharp. If it holds in general, Theorem~\ref{th:decomp} acquires the status of a second law for collective irreversibility: the deficit can never fall below the conditional mutual information of the chiralities.
+
+\subsection{The $1/8$ law and the coherent-to-extensive crossover}
+
+Expanding at small record strength (all $\tilde u_n,\tilde v_n=O(\lambda)$, lemma \eqref{eq:linlemma}), a symbolic computation at $N=1$ and $N=2$ with fully generic couplings gives
+\begin{equation}
+\Delta = 4w^2\lambda^4+O(\lambda^6),\qquad
+I(s_1;s_2|\xi)=\tfrac12 w^2\lambda^4+O(\lambda^6),\qquad
+w=\sum_n \tilde u_n\tilde v_n ,
+\end{equation}
+with the $\lambda^2$ terms identically zero: the bounded share of the deficit is \emph{universally} $I/\Delta=1/8$ at leading order, independent of the couplings (confirmed numerically at $N{=}10$: $0.12487$). More telling than the constant is the structure: at small records $\Delta\propto w^2\sim N^2$ (the collective irreversibility is born \emph{coherently}, as an all-pairs effect, superextensive in the shared records, in formal analogy with superradiant emission \cite{Dicke}) and only at strong records does it cross over to the extensive linear law $0.688\,N$. This also explains an honest negative result: a record-by-record decomposition of $\Delta$ is \emph{not} exact (residuals $0.2$--$0.85$ of either sign). It could not be, in a regime where the deficit is an interference of pairs.
+
+Finally, the detailed fluctuation theorem \cite{Maes2003,Landi2021} holds at trajectory level for the joint production, $p(\sigma)/p(-\sigma)=e^{\sigma}$ with fitted slopes $1.00$--$1.02$, and negative-$\sigma$ trajectories exist with exponential suppression (their fraction falling from $0.31$ to $0.01$ as $D$ grows). The multi-ring model inherits, and passes, the full stochastic-thermodynamic consistency tests of the companion paper (Fig.~\ref{fig:ft}).
+
+\begin{figure}[t]
+\centering
+\figorbox{fig_multi_f_fluctuation.png}{0.92\linewidth}
+\caption{\textbf{Detailed fluctuation theorem for the joint arrow.} Left: distributions of the joint branch-relative entropy production at three times; backward excursions ($\sigma<0$) exist and are exponentially suppressed. Right: $\ln[p(\sigma)/p(-\sigma)]$ against $\sigma$; slopes $1.00\pm0.02$.}
+\label{fig:ft}
+\end{figure}
+
+\section{Arrow competition}\label{sec:competition}
+
+\subsection{Frustrated witnesses and the exactly-one-flips invariant}
+
+Ring 1 owns a forward bath (fresh witnesses, accumulating records, $\sigma_1>0$); ring 2 owns a mirror bath (charged witnesses, consuming records, $\sigma_2<0$). A fraction $f$ of the witnesses is shared and cannot do both. The frustration setup requires a modelling choice for the shared witnesses; prescriptions F, M and H bracket that choice, and throughout this section we claim the structure of the results, not the numerical values of the thresholds. The outcome, across the shared-preparation prescriptions F (fresh), M (mirror-charged) and H (half-charged), obeys one rule without exception:
+
+\begin{observation}[Exactly one arrow flips]
+For every prescription and every $f$ at which a reversal occurs, exactly one of the two branch-relative arrows changes sign: never both, never a mutual annihilation. Which one flips is decided by the preparation of the shared witnesses: fresh shared witnesses reverse the mirror arrow ($f^*_{\mathrm F}$), charged ones reverse the forward arrow ($f^*_{\mathrm M}$), and half-charged ones are informationally mute at their exact dilution point (mid-charge), on either side of which they flip one arrow or the other. The identity of the reversed arrow itself switches across the dilution point, while remaining unique at every $(f,t)$.
+\end{observation}
+
+\begin{figure}[t]
+\centering
+\begin{subfigure}[t]{0.58\linewidth}
+\figorbox{fig_multi_e_frustration.png}{\linewidth}
+\caption{}
+\end{subfigure}\hfill
+\begin{subfigure}[t]{0.40\linewidth}
+\figorbox{fig_multi_e_crossing.png}{\linewidth}
+\caption{}
+\end{subfigure}
+\caption{\textbf{Arrow frustration.}
+\textbf{a}, Joint evolution of the two branch-relative productions as the shared fraction grows (prescription F): the forward arrow attenuates, the mirror arrow is pulled up and through zero.
+\textbf{b}, Sign reversal of the mirror arrow at the threshold $f^*$ (here at fixed $t=0.5$ under prescription F).}
+\label{fig:frustration}
+\end{figure}
+
+\subsection{The phase diagram and the F/M duality}
+
+The threshold is sharp ($\mathrm{std}(f^*)\le0.04$ over twenty disorder realizations, independent of $N$) but it is a \emph{moving} boundary: $f^*$ depends on time as the mirror charge is consumed. The full object is the phase diagram in the $(f,t)$ plane (Fig.~\ref{fig:phase}). Its structure resolves what first appeared as a puzzle: at $t=0.5$ the thresholds under F and M differ starkly ($0.76$ versus $0.10$), but this is a head-start effect, not physics of the preparations. At \emph{equal effort} ($t=T/2$, where the accumulated and remaining record reservoirs are comparable) the two boundaries meet: $f^*_{\mathrm F}=0.403\pm0.049$ and $f^*_{\mathrm M}=0.399\pm0.039$ are statistically identical. This duality is not an accident. It is microreversibility \cite{Lejri2026} acting on the boundary conditions: "fresh witnesses versus a mirror arrow" and "charged witnesses versus a forward arrow" are $\Theta$-images of one another, and the symmetry must be (and is) restored when neither side starts ahead. Prescription H is not intermediate but non-monotone: its dilution point at mid-charge is a wall ($f^*\to1$), and the arrow it reverses switches identity across it, half-charged witnesses acting on one side of the point as charged and on the other as fresh.
+
+The common equal-effort threshold carries the paper's last structural fact: $f^*\approx0.40<1/2$. \textbf{Shared records outvote exclusive ones.} A shared witness writes into \emph{both} marginal channels at once, so its record weighs roughly twice that of an exclusive witness in the competition. A forty-percent minority of shared witnesses defeats the sixty-percent majority of exclusive ones. The direction of local time, in this model, is not decided by a majority of witnesses but by a weighted vote in which the environment's shared records carry double weight; and the weights themselves are set by the boundary condition of those records.
+
+\begin{figure}[t]
+\centering
+\figorbox{fig_multi_phase_diagram.png}{0.8\linewidth}
+\caption{\textbf{Phase diagram of arrow competition.} Reversal boundaries $f^*(t)$ for the three shared-witness preparations (bands: $\pm1$ std over disorder). F and M are duals, pivoting through the common equal-effort point $f^*\approx0.40$; H is non-monotone, with an exact dilution point at mid-charge at which no reversal is possible ($f^*_{\mathrm H}\to1$) and across which the identity of the reversed arrow switches. Limits: $f^*_{\mathrm F}\to0.994$ ($t\to0$) and $\to0$ ($t\to T$); $f^*_{\mathrm M}$ mirror-symmetric; truncated segments indicate parameter ranges with no reversal in $f\in[0,1]$.}
+\label{fig:phase}
+\end{figure}
+
+\section{Discussion}\label{sec:discussion}
+
+The three findings share a common structure. A shared environment fixes what it can distinguish (Sec.~\ref{sec:fix}). It charges an irreversibility that belongs to the collective rather than to any single part (Sec.~\ref{sec:collective}); and when arrows compete it arbitrates through a weighted vote whose weights are set by the boundary condition of its records (Sec.~\ref{sec:competition}). In each case the operative agents are the records themselves, through their resolving power, their joint cost, and their preparation. The epistemic status of the results deserves one consolidated statement. Exact: the closed forms, the protection condition \eqref{eq:dfs}, the decomposition identity of Theorem~\ref{th:decomp}, $\Delta=0$ for disjoint baths, and the $M{=}1$ reduction to the companion model. Perturbative: the $1/8$ ratio and $\Cbwd\ge0$, proven at leading order in record strength. Numerical: the phase diagram, the one-arrow-flips invariant, the extensive fit, and the collapse statistics. Conjectural: the global positivity of $\Cbwd$, the behaviour at general $M$, and the percolation of a global arrow.
+
+For the question that motivated this work (how local arrows might knit into a global one) the model delivers a mechanism and a caution in one. The mechanism: arrow alignment is a genuine threshold phenomenon, self-averaging and sharp, in which shared records dominate. A percolating network of shared environments is therefore a plausible carrier of a consistent global arrow, and the natural next step is a lattice of rings with nearest-neighbour bath overlap, asking whether alignment percolates. The caution: everything is inherited from boundary conditions. The winner of every competition is decided by the preparation of the shared witnesses. The equal-effort symmetry of F and M shows that the dynamics itself takes no side. As in the companion paper, but now with a competitive edge to it, the model \emph{mechanizes} a Past-Hypothesis-like assumption locally (record-free (or record-charged) initial environments) and defers its origin to cosmology, where the question has stood since the classic assessments of time asymmetry \cite{Halliwell1994}.
+
+Limitations are as in \cite{Lejri2026}, plus three of its own. Most results are at $M=2$. The exactly-one-flips invariant and the doubled weight of shared records at general $M$ are open. The frustration setup required a modelling choice for the shared witnesses. We turned this dependence into a result (the F/M duality and its pivot), but other prescriptions exist and move $f^*$. We claim the structure, not the number. And $\Cbwd\ge0$, proven here at leading order in record strength, remains a conjecture globally. A full proof (plausible routes are a lautum-information framing, or a KL superadditivity along the branch hypercube enabled by the linearization lemma) would complete the second-law reading of Theorem~\ref{th:decomp}. Finally, the small-record $N^2$ regime invites its own question, which we leave open: whether the coherent birth of collective irreversibility has an experimental signature in engineered baths. The flux-qubit platform of the companion paper \cite{Friedman2000} extends naturally to two coupled persistent-current qubits sharing an ancilla register.
+
+\appendix
+
+\section{Closed forms and the linearization lemma}
+For $M{=}2$, $a_n(S)=s_1g_{1,n}+s_2g_{2,n}$ with $s_i=\pm1$ gives, by the angle-addition formula, Eq.~\eqref{eq:linlemma} exactly; every record bias is a linear form in the branch variables with coefficients $(\tilde u_n,\tilde v_n)$. Explicitly, the objects used in the text are the following. The joint reduced state of the rings in the chiral basis $\{|{+}{+}\rangle,|{+}{-}\rangle,|{-}{+}\rangle,|{-}{-}\rangle\}$ has entries $[\rho_{12}]_{S,S'}=\Gamma_{S,S'}/4$ with $\Gamma_{S,S'}(t)=\prod_n\cos\!\big((a_n(S)-a_n(S'))\,t\big)$; identical couplings give $a_n({+}{-})=a_n({-}{+})=0$, hence the exact protection \eqref{eq:dfs}. For the entangled preparation $(|{+}{-}\rangle+|{-}{+}\rangle)/\sqrt2$ the dynamics stays in the zero-total-chirality sector and the concurrence \cite{Wootters} is $C(t)=|\Gamma_{({+}{-}),({-}{+})}(t)|$. The relative distinguishability of Fig.~\ref{fig:concurrence} is the accumulated KL divergence between the record laws of the two sector branches. Marginal likelihoods are $P(\xi|s_i)=2^{-(M-1)}\sum_{s_{j\ne i}}P(\xi|S)$, and the marginal production used throughout is $\sigma_i[\xi]=\ln[P(\xi|s_i)/P(\xi|{-}s_i)]$. This choice is operational rather than arbitrary: it is exactly the entropy production that an observer of ring $i$ alone would assign, comparing the record likelihoods accessible without any knowledge of the other ring. The deficit $\Delta$ then measures precisely what the collection of local views misses, which is the object of Sec.~\ref{sec:collective}. Alternative marginalizations exist and would shift $\Delta$ quantitatively. The decomposition of Theorem~\ref{th:decomp} is stated, and verified, for this operational choice. The mirror and half-charged preparations enter only through the unified record bias $\beta_n=\sin\!\big(2a_n(S)(t-T_c)\big)$, $T_c\in\{0,T/2,T\}$ for prescriptions F, H, M. A pure mirror bath at zero sharing has $\varepsilon_n(t)=|\sin(2g_n(T-t))|$, hence $\langle\sigma\rangle=-D$ of the corresponding forward run, the validated $f{=}0$ limit.
+
+\section{Decomposition theorem: derivation and verification}\label{app:proofs2}
+\textit{Step 1 (pointwise identity).} With $\sigma_S=\ln[P(\xi|S)/P(\xi|{-}S)]$, $\sigma_i=\ln[P(\xi|s_i)/P(\xi|{-}s_i)]$ and the synergy functional $J(\xi,S)=\ln P(\xi|S)+(M{-}1)\ln P(\xi)-\sum_i\ln P(\xi|s_i)$, direct cancellation of the $\ln P(\xi)$ terms gives, for every trajectory and every $M$,
+\[
+\sigma_S[\xi]-\sum_i\sigma_i[\xi]\;=\;J(\xi,S)-J(\xi,{-}S).
+\]
+\textit{Step 2 (forward average of the first term).} Averaging over the forward ensemble (uniform, independent branch prior), $\mathbb E_{\mathrm{fwd}}[\ln P(\xi|S)/P(\xi)]=I(S{:}\xi)$ and $\mathbb E_{\mathrm{fwd}}[\ln P(\xi|s_i)/P(\xi)]=I(s_i{:}\xi)$, so $\mathbb E_{\mathrm{fwd}}[J(\xi,S)]=I(S{:}\xi)-\sum_iI(s_i{:}\xi)$, which for $M{=}2$ equals the posterior conditional mutual information $I(s_1;s_2|\xi)$ by the chain rule (the prior mutual information vanishes).
+\textit{Step 3 (the backward term).} The remainder is $-\mathbb E_{\mathrm{fwd}}[J(\xi,{-}S)]$; relabelling the branch sum $S\to{-}S$ (the prior is antipodally symmetric) turns the weight $P(\xi|S)$ into $P(\xi|{-}S)$ and yields exactly $\Cbwd$ of Eq.~\eqref{eq:decomp}.
+\textit{Step 4 (hypotheses).} Only the uniform prior and the antipodal relabelling are used; conditional independence of the records is nowhere required, so the theorem covers interacting record laws as well.
+\textit{Small-record expansion.} Writing all biases $\tilde u_n,\tilde v_n=O(\lambda)$ (lemma \eqref{eq:linlemma}), symbolic computation at $N{=}1,2$ with fully generic couplings gives $\Delta=4w^2\lambda^4+O(\lambda^6)$ and $I=\tfrac12w^2\lambda^4+O(\lambda^6)$, $w=\sum_n\tilde u_n\tilde v_n$, with all $\lambda^2$ terms identically zero; hence $I/\Delta\to1/8$ and $\Cbwd=\tfrac72w^2\lambda^4\ge0$ at leading order (numerical check at $N{=}10$: $0.12487$).
+\textit{Verification.} An independently recoded suite (no imports from the production modules) checks: the identity on disjoint, shared and decoherence-free configurations to $\le1.8\times10^{-15}$ (disjoint gives $\Delta=I=\Cbwd=0$ identically). The symbolic expansion above; and the positivity of $\Cbwd$ on an exhaustive grid at $N{=}1$ (minimum $-4\times10^{-16}$) and on six thousand random record laws at $N{=}2$--$4$ (minimum $+1.6\times10^{-8}$).
+
+\section{Numerical protocols}
+$M{=}2$, $N{=}64$ (validation at $N{=}8$ brute force, dimension $9\cdot2^8$), ten disorder realizations, $2\times10^4$ trajectories per point; phase diagram on a $30$-point time grid with per-realization threshold extraction (twenty realizations for the stability study; $\mathrm{std}(f^*)\le0.04$; $T_{\mathrm{charge}}=1$). Errors are standard deviations over disorder. All figures regenerate from fixed seeds by a single command; code at \url{https://github.com/lejrimostfa/chiral-ring}.
+
+
+Robustness figures: threshold sign-reversal per prescription (Fig.~\ref{fig:presc}), stability of $f^*$ across disorder and bath size (Fig.~\ref{fig:fstar}), the extensive fit of the deficit (Fig.~\ref{fig:defscale}), and collapse residuals with disorder bands (Fig.~\ref{fig:colerr}).
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[t]{0.49\linewidth}\figorbox{fig_multi_c5_prescriptions.png}{\linewidth}\caption{}\label{fig:presc}\end{subfigure}\hfill
+\begin{subfigure}[t]{0.49\linewidth}\figorbox{fig_multi_fstar_stability.png}{\linewidth}\caption{}\label{fig:fstar}\end{subfigure}\\[3pt]
+\begin{subfigure}[t]{0.49\linewidth}\figorbox{fig_multi_deficit_scaling.png}{\linewidth}\caption{}\label{fig:defscale}\end{subfigure}\hfill
+\begin{subfigure}[t]{0.49\linewidth}\figorbox{fig_multi_collapse_errors.png}{\linewidth}\caption{}\label{fig:colerr}\end{subfigure}
+\caption{\textbf{Robustness.} \textbf{(a)} $\sigma$ versus shared fraction for the three prescriptions with disorder bands; \textbf{(b)} $f^*$ mean $\pm$ std versus $N$ at two times; \textbf{(c)} deficit versus number of shared records and versus bath size, with the extensive fit $\Delta=0.688\,N-0.38$ ($R^2=0.99995$); \textbf{(d)} collapse RMS per disorder realization, generic versus decoherence-free sector.}
+\end{figure}
+
+
+\section*{Acknowledgments}
+This work made extensive use of Anthropic's Claude (a large language model) as a research assistant, for model design discussions, derivations, code, and manuscript drafting. Every analytic claim was verified by an independently recoded numerical suite to machine precision. This verification loop caught and corrected one convention error during development. The author reviewed all derivations and takes sole and full responsibility for the content.
+
+\clearpage
+\begin{thebibliography}{9}\small
+\bibitem{Lejri2026} M.~Lejri, Fixation of a time-reversal-odd observable by decoherence: record distinguishability as the local arrow of time in an exactly solvable model, arXiv:XXXX.XXXXX (2026).
+\bibitem{Zurek2009} W.~H. Zurek, Quantum Darwinism, \emph{Nat. Phys.} \textbf{5}, 181 (2009).
+\bibitem{Riedel2012} C.~J. Riedel, W.~H. Zurek, M.~Zwolak, \emph{New J. Phys.} \textbf{14}, 083010 (2012).
+\bibitem{Zurek2022} W.~H. Zurek, \emph{Entropy} \textbf{24}, 1520 (2022).
+\bibitem{LidarDFS} D.~A. Lidar, I.~L. Chuang, K.~B. Whaley, Decoherence-free subspaces for quantum computation, \emph{Phys. Rev. Lett.} \textbf{81}, 2594 (1998).
+\bibitem{Zanardi} P.~Zanardi, M.~Rasetti, Noiseless quantum codes, \emph{Phys. Rev. Lett.} \textbf{79}, 3306 (1997).
+\bibitem{Wootters} W.~K. Wootters, Entanglement of formation of an arbitrary state of two qubits, \emph{Phys. Rev. Lett.} \textbf{80}, 2245 (1998).
+\bibitem{Maes2003} C.~Maes, K.~Neto\v{c}n\'y, \emph{J. Stat. Phys.} \textbf{110}, 269 (2003).
+\bibitem{Callens2004} I.~Callens, W.~De Roeck, T.~Jacobs, C.~Maes, K.~Neto\v{c}n\'y, \emph{Physica D} \textbf{187}, 383 (2004).
+\bibitem{Landi2021} G.~T. Landi, M.~Paternostro, \emph{Rev. Mod. Phys.} \textbf{93}, 035008 (2021).
+\bibitem{WilliamsBeer} P.~L. Williams, R.~D. Beer, Nonnegative decomposition of multivariate information, arXiv:1004.2515 (2010).
+\bibitem{Dicke} R.~H. Dicke, Coherence in spontaneous radiation processes, \emph{Phys. Rev.} \textbf{93}, 99 (1954).
+\bibitem{Mlodinow2014} L.~Mlodinow, T.~A. Brun, \emph{Phys. Rev. E} \textbf{89}, 052102 (2014).
+\bibitem{Halliwell1994} J.~J. Halliwell, J.~P\'erez-Mercader, W.~H. Zurek (eds.), \emph{Physical Origins of Time Asymmetry} (Cambridge Univ. Press, 1994).
+\bibitem{Friedman2000} J.~R. Friedman \emph{et al.}, \emph{Nature} \textbf{406}, 43 (2000).
+\end{thebibliography}
+
+\end{document}
