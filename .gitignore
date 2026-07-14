@@ -2,3 +2,7 @@ __pycache__/
 *.pyc
 .DS_Store
 .venv/
+
+# Session dump: drafts only — finals live in their respective folders
+# (paper/article1/extended/ holds the recovered extended source).
+all files of session 1/
