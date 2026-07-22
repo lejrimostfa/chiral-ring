@@ -3,6 +3,15 @@ __pycache__/
 .DS_Store
 .venv/
 
+# LaTeX build artifacts (compiled PDFs of manuscripts ARE versioned)
+*.aux
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.fls
+*.fdb_latexmk
+
 # Session dump: drafts only — finals live in their respective folders
 # (paper/article1/extended/ holds the recovered extended source).
 all files of session 1/
