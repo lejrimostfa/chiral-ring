@@ -93,19 +93,20 @@ ax2 = ax1.twinx()
 ax2.plot(ts, Rd, label=r"$R_{0.1}(t)$ redundancy", color="tab:blue")
 ax2.set_ylabel(r"$R_{\delta}$", color="tab:blue")
 h1, l1 = ax1.get_legend_handles_labels(); h2, l2 = ax2.get_legend_handles_labels()
-ax1.legend(h1 + h2, l1 + l2, loc="center right", fontsize=8)
+ax1.legend(h1 + h2, l1 + l2, loc="upper center",
+           bbox_to_anchor=(0.5, -0.18), ncol=4, fontsize=8, frameon=False)
 plt.title("Co-transition, baseline N = 16 (random couplings)")
-plt.tight_layout(); plt.savefig(FIG + "fig2_cotransition.png", dpi=150)
+plt.tight_layout(); plt.savefig(FIG + "fig2_cotransition_v2.png", dpi=150)
 
 # fig 3: chirality histograms (unimodal -> bimodal)
 fig, axes = plt.subplots(1, 4, figsize=(11, 2.8), sharey=True)
-for ax, t in zip(axes, [0.5, 1.5, 3.0, 8.0]):
+for ax, t in zip(axes, [0.1, 0.5, 1.5, 8.0]):
     _, pol = exact.sample_polarization(g, t, n_traj=20000,
                                        rng=np.random.default_rng(13))
     ax.hist(pol, bins=60, range=(-1, 1), density=True, color="tab:red", alpha=0.8)
     ax.set_title(f"t = {t:g}"); ax.set_xlabel(r"$\langle I\rangle_\xi / I_0$")
 axes[0].set_ylabel("density")
 plt.suptitle("Branch-level chirality: spontaneous T-symmetry breaking", y=1.02)
-plt.tight_layout(); plt.savefig(FIG + "fig3_histograms.png", dpi=150,
+plt.tight_layout(); plt.savefig(FIG + "fig3_histograms_v2.png", dpi=150,
                                 bbox_inches="tight")
 print("figures written to", FIG)
