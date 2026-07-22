@@ -14,7 +14,7 @@
 \title{\bfseries Classical records make the local arrow of time permanent}
 \author{Mostfa Lejri\\[2pt]
 \small Independent Researcher}
-\date{\small Draft: \today}
+\date{\small Draft: July 7, 2026}
 
 \begin{document}
 \maketitle
@@ -65,13 +65,13 @@ Tracking three quantities through the transition (the decoherence of the system 
 \caption{}
 \end{subfigure}\\[4pt]
 \begin{subfigure}[t]{0.95\linewidth}
-\includegraphics[width=\linewidth]{fig3_histograms.png}
+\includegraphics[width=\linewidth]{fig3_histograms_v2.png}
 \caption{}
 \end{subfigure}
 \caption{\textbf{Fixation precedes objectivity.}
 \textbf{a}, Decoherence $S(\rho_S)$, branch polarization $P$, record distinguishability $D$ and redundancy $R_\delta$ versus time in the collision protocol ($N=120$): $P$ locks to $S$ while $R$ lags fourfold; the sampled entropy production $\langle\sigma\rangle$ (dots) falls exactly on $D$ [Eq.~\eqref{eq:identity}].
 \textbf{b}, The ratio $t_P/t_S$ saturates at $0.956\pm0.003$ beyond $N\approx64$ (ten disorder realizations per size): locking at a fixed sub-unit ratio in the large-bath limit.
-\textbf{c}, Distribution of the conditional current across branches: unimodal and time-symmetric before the transition, bimodal at $\pm I_0$ after; spontaneous T-symmetry breaking.}
+\textbf{c}, Distribution of the conditional current across branches at four times ($t_S = 0.4$): unimodal at zero before the transition ($t = 0.1$), spreading through mid-transition ($t = 0.5$), sharply bimodal at $\pm I_0$ after. The two peaks remain of equal weight at all times: the ensemble stays exactly T-symmetric (the unconditional result above); the breaking is per-history, not ensemble-level.}
 \label{fig:cotransition}
 \end{figure}
 
@@ -126,7 +126,7 @@ Baseline: $\Theta = K_{\mathrm{ring}}\otimes(i\sigma_yK)^{\otimes N}$, under whi
 Collision protocol: qubit $n$ interacts during $[t_{n-1},t_n]$, measured in the $\sigma_y$ (Helstrom-optimal) basis. $P(r_n|s)=(1+r_ns\varepsilon_n)/2$ with $\varepsilon_n=\sin(2g_n\Delta t)$ (baseline) or $\sqrt{1-|c_n|^2}$ (degrading records). $\sigma[\xi]=\ln P_{\mathrm{fwd}}(\xi)-\ln P_{\mathrm{bwd}}(\tilde\xi)$ vanishes identically after branch averaging (double sign flip plus symmetric prior). Branch-relative: $\sigma_s[\xi]=\sum_n\ln[(1+r_ns\varepsilon_n)/(1-r_ns\varepsilon_n)]$, with $\langle\sigma_s\rangle=\sum_n\varepsilon_n\ln[(1+\varepsilon_n)/(1-\varepsilon_n)]=D$. All six formal steps were verified by an independent numerical suite (machine precision; repository).
 
 \paragraph{Branch Arrow Theorem.}
-Hypotheses: (H1) microreversible dynamics with a two-valued branch variable $s = \pm 1$ exchanged by the antiunitary $\Theta$; (H2) record trajectories $\xi$ with conjugate $\tilde\xi$ (reversed order, T-odd data) satisfying the antipodal covariance $P_{\mathrm{fwd}}(\xi|{-s}) = P_{\mathrm{fwd}}(\tilde\xi|s)$, and a $\Theta$-imaged backward protocol, so that $P_{\mathrm{bwd}}(\tilde\xi|s) = P_{\mathrm{fwd}}(\xi|{-s})$; (H3) symmetric branch prior. Conclusions: (a) $\sigma[\xi] = \ln P_{\mathrm{fwd}}(\xi) - \ln P_{\mathrm{bwd}}(\tilde\xi) = 0$ for every $\xi$; (b) $\sigma_s[\xi] = \ln[P(\xi|s)/P(\xi|{-s})]$, hence $\langle\sigma_s\rangle = D_{\mathrm{KL}}[P(\cdot|s)\,\|\,P(\cdot|{-s})] \ge 0$, reducing to the additive form of Eq.~\eqref{eq:identity} exactly when the records are conditionally independent. Proof of (a): $P_{\mathrm{bwd}}(\tilde\xi) = \tfrac12\sum_s P_{\mathrm{fwd}}(\xi|{-s}) = P_{\mathrm{fwd}}(\xi)$. Proof of (b): $P_{\mathrm{bwd}}(\tilde\xi|s) = P(\xi|{-s})$ by (H2), and the expectation of the log-likelihood ratio under $P(\cdot|s)$ is the stated divergence. Conditional independence is nowhere required; it is used only to write the divergence as a sum. The theorem was verified as an independent gate on randomly drawn \emph{correlated} record laws satisfying (H2) (conclusions (a) and (b) at machine precision; additivity gap up to $1.2$ nats for correlated laws, zero for product laws) and on a T-even control (conjugation fixing the branch: $\sigma_s \equiv 0$ while the marginal distinguishability grows), scripts in the repository. The chiral ring satisfies (H1)--(H3) by the constructions above.
+Hypotheses: (H1) microreversible dynamics with a two-valued branch variable $s = \pm 1$ exchanged by the antiunitary $\Theta$; (H2) record trajectories $\xi$ with conjugate $\tilde\xi$ (reversed order, T-odd data) satisfying the antipodal covariance $P_{\mathrm{fwd}}(\xi|{-s}) = P_{\mathrm{fwd}}(\tilde\xi|s)$, and a $\Theta$-imaged backward protocol, so that $P_{\mathrm{bwd}}(\tilde\xi|s) = P_{\mathrm{fwd}}(\xi|{-s})$ (the covariance is the T-oddness of the datum; the protocol converts it into the second equality, the only one the proofs use); (H3) symmetric branch prior. Conclusions: (a) $\sigma[\xi] = \ln P_{\mathrm{fwd}}(\xi) - \ln P_{\mathrm{bwd}}(\tilde\xi) = 0$ for every $\xi$; (b) $\sigma_s[\xi] = \ln[P(\xi|s)/P(\xi|{-s})]$, hence $\langle\sigma_s\rangle = D_{\mathrm{KL}}[P(\cdot|s)\,\|\,P(\cdot|{-s})] \ge 0$, reducing to the additive form of Eq.~\eqref{eq:identity} exactly when the records are conditionally independent. Proof of (a): $P_{\mathrm{bwd}}(\tilde\xi) = \tfrac12\sum_s P_{\mathrm{fwd}}(\xi|{-s}) = P_{\mathrm{fwd}}(\xi)$. Proof of (b): $P_{\mathrm{bwd}}(\tilde\xi|s) = P(\xi|{-s})$ by (H2), and the expectation of the log-likelihood ratio under $P(\cdot|s)$ is the stated divergence. Conditional independence is nowhere required; it is used only to write the divergence as a sum. The theorem was verified as an independent gate on randomly drawn \emph{correlated} record laws satisfying (H2) (conclusions (a) and (b) at machine precision; additivity gap up to $1.2$ nats for correlated laws, zero for product laws) and on a T-even control (conjugation fixing the branch: $\sigma_s \equiv 0$ while the marginal distinguishability grows), scripts in the repository. The chiral ring satisfies (H1)--(H3) by the constructions above.
 
 \paragraph{Statistics.}
 Reported errors are standard deviations over ten independent disorder realizations of the couplings. Trajectory sampling: $5\times10^4$ per curve point (up to $3\times10^5$ for the hysteresis floor test), making Monte-Carlo noise subdominant. Master curve for collapse residuals: quantile-binned running median over 200 time points per realization; confidence interval on the maximal residual by bootstrap (200 resamples).
