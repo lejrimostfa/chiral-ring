@@ -9,6 +9,8 @@
 \hypersetup{colorlinks=true, linkcolor=blue!60!black, citecolor=blue!60!black, urlcolor=blue!60!black}
 
 \newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{conjecture}{Conjecture}
 \newtheorem{corollary}{Corollary}
 
 \newcommand{\peff}{p_{\mathrm{eff}}}
@@ -20,7 +22,7 @@
 \newcommand{\repofig}[2]{\IfFileExists{#1}{\includegraphics[width=#2]{#1}}{\fbox{\parbox{#2}{\centering\vspace{2em}\texttt{\detokenize{#1}}\\ (figure in \texttt{figures/paper3/})\vspace{2em}}}}}
 
 \title{Percolation of the arrow of time:\\
-an exact factorization law for lattices of shared quantum environments}
+a factorization law for lattices of shared quantum environments}
 \author{Mostfa Lejri\\ \small Independent Researcher}
 \date{\small Draft: July 2026}
 
@@ -37,14 +39,14 @@ neighbours, with a density $\rho$ of contrarian rings prepared with
 record-consuming (time-mirrored) private baths. Three results follow. First,
 a single universal conversion curve $\conv(f)$, the probability that sharing
 fraction $f$ converts a contrarian, is independent of $\rho$ (spread $0.011$)
-and carries all the model physics. Second, an exact factorization law: under fresh
+and carries all the model physics. Second, a factorization law with an explicitly tiered status: under fresh
 shared witnesses the arrow field reduces to independent-site occupation
 $\peff = 1-\rho\,(1-\conv(f))$, with conversion correlations at lattice
 distance $d\ge 2$ compatible with zero ($r(2)=-0.004\pm0.008$) and a single
 finite-range nearest-neighbour correction ($r(1)=+0.029\pm0.012$, from shared
 links) that leaves the universality class unchanged.
-Both thresholds then follow in closed form with no free parameter: global
-reversal at $\rhoalign = 1/[2(1-\conv)]$ (residual $0.003$) and percolation
+Both thresholds then follow in closed form with no
+free parameter, with distinct standings: the global reversal at $\rhoalign = 1/[2(1-\conv)]$ (residual $0.003$) and percolation
 of the aligned domain at $\rhoperc = (1-p_c)/(1-\conv)$ (mean residual
 $0.048$). The universality class follows from the reduction itself: a
 synthetic independent-site field is statistically indistinguishable from the
@@ -82,9 +84,19 @@ and the identity of the loser, is set by the preparation of the shared
 records (the F/M duality). Both papers end on the same conjecture, stated in
 \cite{p1} as a contagion of local arrows into a consistent global one
 (records begetting records, in the Darwinian sense of
-\cite{zurek2009,riedel2012}) and in \cite{p2} as the natural next step: a
+\cite{zurek2003,zurek2009,riedel2012,ollivier,korbicz}) and in \cite{p2} as the natural next step: a
 lattice of rings with nearest-neighbour bath overlap, asking whether
-alignment percolates.
+alignment percolates. The possibility that emergent arrows point in
+different directions in different regions, consistently with global time
+symmetry, was raised at the level of decoherent-histories cosmology by
+Hartle \cite{hartle}; and local arrows differing from the global
+Hamiltonian time have recently been defined for quantum many-body systems
+through spacetime entropies \cite{yates}. What neither line supplies, and
+what the record-theoretic construction of \cite{p1,p2} makes possible, is
+a microscopic carrier for the \emph{interaction} of local arrows: here the
+arrows compete through shared records \cite{maccone,zurekbook}, whose
+proliferation is itself generic \cite{brandao}, and the question of a
+global arrow becomes quantitative.
 
 This paper answers that question, and the answer has more structure than the
 conjecture asked for. The many-arrow problem does not merely resemble a
@@ -96,14 +108,14 @@ a single conversion curve $\conv(f)$, the probability that a contrarian ring
 is converted by sharing fraction $f$, is independent of the contrarian
 density $\rho$ and carries all the model physics
 (Sec.~\ref{sec:conversion}). Second (the factorization law, carrying the paper; two of its three
-structural facts are proven, the third verified as a positivity identity,
-and a three-step numerical falsification programme fails to break it): the
-arrow field
-is an independent site-percolation field of occupation
-$\peff = 1 - \rho(1-\conv(f))$, every collective threshold follows in closed
-form with no free parameter, and the universality class of the
-aligned-domain transition is inherited from standard two-dimensional
-percolation by equivalence rather than measured
+structural facts are proven, the third is a conjectured positivity,
+proven for the first record and verified numerically beyond, and a
+three-step falsification programme fails to break the law): the arrow field
+reduces to independent-site occupation $\peff = 1 - \rho(1-\conv(f))$,
+exactly for the global-reversal threshold and effectively, up to one weak
+finite-range correction, for percolation observables; both closed forms
+carry no free parameter, and the universality class of the aligned-domain
+transition is argued by equivalence rather than measured
 (Secs.~\ref{sec:factorization} and \ref{sec:global}). Third (the boundary,
 exact in its mechanism): the reduction is a property of the record boundary
 condition. Charging the shared witnesses reverses the global arrow and
@@ -159,9 +171,9 @@ window $\Delta t = 0.3$, charge time $T = 1.0$, couplings drawn as in
 A fraction $\rho$ of rings, chosen uniformly at random (the contrarian
 minority), is prepared with a mirror-charged private bath: following the
 mirror preparation of \cite{p2}, their private witnesses start in the
-$\Theta$-conjugate of a forward evolution of duration $T$, so their records
-are consumed rather than accumulated and their branch-relative entropy
-production is negative. The remaining fraction $1-\rho$ (the fresh majority)
+$\Theta$-conjugate of a forward evolution of duration $T$, so their records are consumed rather than
+accumulated and their branch-relative entropy production is negative, the
+open-system realization of an opposed local arrow \cite{guff}. The remaining fraction $1-\rho$ (the fresh majority)
 owns record-free private baths. The shared witnesses on every bond are
 prepared fresh, prescription F of \cite{p2}, except in Sec.~\ref{sec:M},
 where they are charged (prescription M). All preparations enter through the
@@ -182,7 +194,9 @@ the next subsection is well defined.
 \label{sec:arrow}
 
 For a single ring, \cite{p1} identified the branch-relative entropy
-production with the record distinguishability $D$; for two competing rings,
+production (throughout, in the stochastic-thermodynamic sense of a
+forward/backward record log-ratio \cite{seifert,landi}) with the record
+distinguishability $D$; for two competing rings,
 \cite{p2} used the sign of the marginal production $\sigma_i$ as the arrow.
 On the lattice we refine the state sign into a rate sign:
 %
@@ -219,7 +233,8 @@ marginal in sign at every site tested (mean correlation $0.97$). The local
 marginal is therefore the production definition: lattices of $256$ rings
 ($L=16$) are tractable, and the $2^{N_r}$ object is never built. It is also
 the physically honest choice: $\tau_i$ is the arrow assigned by an observer
-reading only ring $i$'s accessible records, the lattice version of the
+reading only ring $i$'s accessible records, whose memories are themselves
+records \cite{mlodinow}, the lattice version of the
 operational marginalization of \cite{p2}.
 
 \subsection{Validation gates}
@@ -243,7 +258,7 @@ G3 & $L=3$ brute-force state vector vs.\ branch construction & $2.9\times 10^{-1
 G4 & local marginal $\equiv$ global marginal (sign $100\%$, corr.\ $0.97$) & sampling \\
 G5 & collision protocol: exact additivity for disjoint baths, $\langle\sigma_i\rangle = D_i$ & $0.0$ \\
 G6 & collision $L=2$ reproduces the \cite{p2} C5 limit at $f=0$ ($+D$, $-D$) & $2.2\times 10^{-16}$ \\
-G7 & bond factorization $\sigma_i^{\mathrm{loc}} = \sum\sigma_p + \sum\sigma_b$ + fresh-increment positivity (Sec.~\ref{sec:factorization}) & $1.2\times 10^{-15}$ \\
+G7 & bond factorization + fresh-increment positivity (Sec.~\ref{sec:factorization}) & $1.2\times 10^{-15}$ \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -335,10 +350,39 @@ decided by its own witness portfolio alone.
 
 \subsection{Statement}
 
-\begin{theorem}[Factorization law, prescription F]
+The law is stated as a ladder, so that every rung carries its own
+epistemic weight: two proven propositions, one conjecture with its
+verification record, and a theorem conditional on the conjecture, whose two
+conclusions have different standings.
+
+\begin{proposition}[proven]
+\label{prop:structure}
+Under prescription F and the true branch: (a) the local marginal
+factorizes over bonds,
+$\sigma_i^{\mathrm{loc}} = \sum_{\mathrm{priv}} \sigma_p +
+\sum_{\mathrm{bonds}} \sigma_b$; (b) the arrow field $\{\tau_i\}$ is
+$1$-dependent: rings at lattice distance $d \ge 2$ share no witness and
+their arrows are exactly independent; (c) the conversion probability of a
+contrarian is a function of its own witness portfolio alone, hence of $f$
+alone.
+\end{proposition}
+
+\begin{conjecture}[monotonicity]
+\label{conj:mono}
+For a fresh ring, every expected record increment of
+$\langle\sigma_i^{\mathrm{loc}}\rangle$ is nonnegative, so that
+$\tau_i = +1$ deterministically. Status: proven in closed form for the
+first shared record ($b\,\ln[(2+b)/(2-b)] \ge 0$); reduced to a single
+bond by Proposition~\ref{prop:structure}(a); positive on a $400^2$
+symbolic grid and $2\times 10^4$ randomized configurations (gate G7);
+corroborated exhaustively in production ($35{,}600/35{,}600$, zero
+backflips). It is not proven for arbitrarily many records per bond.
+\end{conjecture}
+
+\begin{theorem}[Factorization law, prescription F; conditional on
+Conjecture~\ref{conj:mono}]
 \label{thm:factorization}
-Under fresh shared witnesses, the lattice arrow field $\{\tau_i\}$ is an
-independent site-percolation field: ring $i$ points forward with probability
+Ring $i$ points forward with probability
 %
 \begin{equation}
 \peff(\rho, f) \;=\; (1-\rho)\cdot 1 \;+\; \rho\cdot \conv(f)
@@ -346,17 +390,28 @@ independent site-percolation field: ring $i$ points forward with probability
 \label{eq:peff}
 \end{equation}
 %
-independently of every other ring. Every collective threshold follows in
-closed form, with no free parameter:
+and two conclusions follow, with different standings. (i) Exact: the
+global-reversal threshold depends only on this mean occupation, so
+correlations cancel identically and
 %
 \begin{align}
 \rhoalign(f) &= \frac{1}{2\,(1-\conv(f))}
-&&\text{(global reversal, } \peff = 1/2\text{)},
-\label{eq:rhoalign}\\[2pt]
+&&\text{(global reversal, } \peff = 1/2\text{)}.
+\label{eq:rhoalign}
+\end{align}
+%
+(ii) Effective: percolation observables coincide with those of an
+independent site field at occupation $\peff$, hence
+%
+\begin{align}
 \rhoperc(f) &= \frac{1-p_c}{1-\conv(f)}, \quad p_c = 0.5927
-&&\text{(percolation, } \peff = p_c\text{)}.
+&&\text{(percolation, } \peff = p_c\text{)},
 \label{eq:rhoperc}
 \end{align}
+%
+up to the single finite-range correction permitted by
+Proposition~\ref{prop:structure}(b), the nearest-neighbour conversion
+correlation, measured weak ($r(1) = +0.029 \pm 0.012$).
 \end{theorem}
 
 The law rests on three structural facts, and its numerical proof is a
@@ -364,7 +419,8 @@ three-step falsification programme (E1--E3) that it survives.
 
 \subsection{The three structural facts}
 
-\emph{(1) Fresh rings never reverse (verified identity).} Under
+\emph{(1) Fresh rings never reverse (Conjecture~\ref{conj:mono}:
+proven at one record, verified beyond).} Under
 prescription F every witness accessible to a fresh ring is fresh, and the
 expected record-by-record increment of
 $\langle\sigma_i^{\mathrm{loc}}\rangle$ is nonnegative, so $\tau_i = +1$
@@ -395,8 +451,9 @@ probability is a function of $f$ alone by construction. The measured
 $\mathrm{std}_\rho = 0.011$ of Sec.~\ref{sec:conversion} is a check of the
 engine, not evidence for the law.
 
-\emph{(3) Conversions are independent (proven, with its only correction
-localized).} $\tau_i$ is a functional of ring $i$'s accessible records
+\emph{(3) Conversions are $1$-dependent
+(Proposition~\ref{prop:structure}(b), proven; strict independence is the
+effective statement).} $\tau_i$ is a functional of ring $i$'s accessible records
 alone, records at distinct witnesses are independent given the branch, and
 two rings at lattice distance $d \ge 2$ share no witness: their conversion
 events are therefore exactly independent, and the arrow field is
@@ -482,16 +539,16 @@ contrast, carry a finite-size offset (the isotropic-wrapping crossing) and a
 mild sensitivity to the weak nearest-neighbour clustering, together the
 $0.048$ mean residual of \eqref{eq:rhoperc}. The same correlation is strictly finite-range (a single
 bond), and short-range correlations are irrelevant for the critical
-behaviour of percolation \cite{stauffer,weinrib}: they shift non-universal
+behaviour of percolation \cite{stauffer,harris1974,weinrib}: they shift non-universal
 quantities and leave the class untouched.
 
 \begin{corollary}
 The aligned-domain transition of the lattice arrow field is in the standard
 two-dimensional site-percolation universality class, with $\nu = 4/3$,
 $\beta/\nu = 5/48 \approx 0.104$ and $\gamma/\nu = 43/24 \approx 1.79$
-\cite{stauffer,dennijs}, as a consequence of
-Theorem~\ref{thm:factorization} and E3, with the $r(1)$ correction
-irrelevant by \cite{weinrib}.
+\cite{stauffer,dennijs}, conditionally on Conjecture~\ref{conj:mono} and on the standard
+irrelevance of finite-range correlations \cite{harris1974,weinrib,weinrib1984};
+E3 is the direct statistical test of this conclusion.
 \end{corollary}
 
 One microscopic mechanism, the shared bond, thus accounts for the exactness
@@ -616,6 +673,23 @@ continuous control parameter. We report the spread and refrain from quoting a
 single measured $\nu$. An unequivocal direct $\nu$ requires $L \sim 64$--$128$,
 i.e.\ HPC resources, and is left as the one open numerical item.
 
+A remark on a neighbouring literature sharpens what the class means. The
+model's cast (a contrarian minority, conversion by neighbours, a majority
+rule for the global outcome) is the standard cast of sociophysics
+\cite{galam}, and lattice opinion models with up-down symmetry and a
+stochastic update dynamics fall, by a well-tested conjecture
+\cite{grinstein}, in the \emph{Ising} universality class, as the
+majority-vote model does \cite{deoliveira}. The arrow lattice escapes that
+conjecture for a structural reason: there is no opinion dynamics. Each
+contrarian converts (or not) in a single quenched draw decided by its own
+witnesses, with no feedback from the converted state of its neighbours, and
+the factorization law is precisely the statement that this removes the
+interaction. Percolation rather than Ising exponents are therefore not a
+numerical accident but the measurable signature of the reduction; a
+dynamical variant in which converted rings recharge their neighbours'
+witnesses (Sec.~\ref{sec:discussion}) would be the controlled way to
+reintroduce the interaction and, presumably, the Ising class.
+
 The consolidated claim is deliberately asymmetric: the class is established
 by equivalence (E3 and the Corollary); the direct exponents are consistent
 with it where they are reliable ($\beta/\nu$, near exact), bracketing it where
@@ -678,25 +752,34 @@ carries a deterministic arrow and no independent-site reduction exists.}
 \label{sec:discussion}
 
 \emph{Epistemic status, consolidated} (continuing the practice of
-\cite{p1,p2}). Exact: the seven gates (machine precision), the $f=0$ baseline
-\eqref{eq:baseline} throughout, the bond factorization of the local
-marginal, structural facts (2) and (3) of the law (proven), the closed
-forms \eqref{eq:rhoalign}--\eqref{eq:rhoperc} given the factorization, and
-the alignment-threshold residual at the sampling floor. Verified identity:
-structural fact (1), the per-bond record-increment positivity (closed form
-at one record, symbolic grid and randomized configurations beyond).
-Measured: the conversion curve $\conv(f)$, the one empirical input. Numerical: the
-percolation phenomenology ($f_c$, the phase map), E1--E3, and the exponent
-checks, with $\beta/\nu$ near exact under periodic boundaries, and $\nu$ and
-$\gamma/\nu$ bracketing the percolation values but not pinned directly at
-these sizes; the universality claim rests on the equivalence (E3 and the
-Corollary), not on the exponents.
-Mechanically explained: the $\rho$-universality of $\conv$, the $r(1)$
-correction (shared bond) and the order-of-magnitude gap between the two E2
-residuals. Prescription-dependent by construction, and claimed as
-structure, not numbers: the sign of the $\rho_c$ breaking and the validity
-of the factorization itself (F holds, M breaks), the lattice expression of
-the F/M duality.
+\cite{p1,p2}, and made granular for this paper in the table below: the
+reader should be able to audit every claim's standing at a glance).
+
+\begin{center}
+\small
+\begin{tabular}{p{0.40\linewidth}p{0.17\linewidth}p{0.28\linewidth}}
+\toprule
+Claim & Standing & Evidence \\
+\midrule
+Gates G1--G7; $f{=}0$ baseline & exact & machine precision \\
+Bond factorization of $\sigma_i^{\mathrm{loc}}$ & proven & + engine check $10^{-15}$ \\
+$1$-dependence ($r(d) \equiv 0$, $d \ge 2$) & proven & + $r(2),r(3)$ compatible with $0$ \\
+$\conv$ a function of $f$ alone & proven & + $\mathrm{std}_\rho = 0.011$ (engine check) \\
+Monotonicity (fresh $\Rightarrow$ forward) & conjectured & closed form at one record; G7 scans; $35{,}600/35{,}600$ \\
+$\rhoalign = 1/[2(1-\conv)]$ & exact given Conj.~\ref{conj:mono} & residual $0.003$, at floor \\
+Independent-site description; $\rhoperc$ closed form & effective & $r(1) = 0.029 \pm 0.012$; residual $0.048$; E3 below noise \\
+Universality class ($\nu = 4/3$) & argued (RG irrelevance) & \cite{harris1974,weinrib,weinrib1984} + E3 + $\beta/\nu = 0.107$ \\
+$\conv(f)$ curve & measured & the one empirical input \\
+$f_c$, phase map, divergence of $\rho_c$ & numerical & periodic engine \\
+Direct $\nu$, $\gamma/\nu$ & not pinned & bracket percolation values; $L \le 24$ \\
+Sign of breaking; validity of the reduction & prescription-dependent & F holds, M breaks (structure, not numbers) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Mechanically explained, on top of the table: the $\rho$-universality of
+$\conv$, the $r(1)$ correction (shared bond), and the order-of-magnitude
+gap between the two E2 residuals.
 
 \emph{What the reduction says.} The conjecture that closed both companion
 papers is confirmed, and over-fulfilled: the knitting of local arrows is
@@ -714,8 +797,8 @@ of the shared witnesses, and Sec.~\ref{sec:M} shows the condition has
 teeth: under the charged preparation not only the outcome but the reduction
 itself is lost. The model therefore does not derive the direction of the
 global arrow; it derives its propagation law given record-free shared
-environments, a Past Hypothesis in miniature now doing collective work, its
-origin deferred to cosmology as in \cite{p1,p2,halliwell}. If one wants a
+environments, a Past Hypothesis in miniature now doing collective work, its origin deferred to cosmology as in
+\cite{p1,p2,halliwell,alkhalili}. If one wants a
 physical image of a universally shared recording environment, the cosmic
 microwave background is the natural candidate, and we leave it at that
 sentence.
@@ -732,10 +815,19 @@ that positivity for arbitrarily many shared records per bond is the one
 analytic item left open. The
 $\rho_c(f)$ boundary is already analytic through $\conv$
 \eqref{eq:rhoalign}; the divergence region above $f \approx 0.78$ and the
-exponent map at general $f$ deserve larger lattices. Natural extensions,
-all starting from a closed-form baseline: other lattices and dimensions,
-random graphs, and a dynamic contagion in which converted rings recharge
-their neighbours' witnesses.
+exponent map at general $f$ deserve larger lattices. Our percolation
+transition of the arrow's \emph{orientation} is complementary to the sharp
+information-propagation transitions recently identified in
+Darwinism-encoding dynamics on tree circuits \cite{fertecao}: there the
+critical object is whether information broadcasts at all; here the
+broadcast is given and the critical object is which temporal orientation it
+carries. On the experimental side, quantum Darwinism has now been
+observed in nitrogen-vacancy centres \cite{unden} and superconducting
+circuits \cite{zhu}, which makes the flux-qubit \cite{friedman} lattice of
+the outlook less speculative than when the programme began. Natural
+extensions, all starting from a closed-form baseline: other lattices and
+dimensions, random graphs, and a dynamic contagion in which converted rings
+recharge their neighbours' witnesses.
 
 \appendix
 
@@ -769,7 +861,7 @@ contrarian pairs binned by lattice separation, reported for $d \le L/2$
 (periodic-image convention); the bulk window $4 \le d \le 9$ excludes the
 shared-bond correction at $d=1$. Spanning is defined by cluster wrap in
 either direction. Percolation constants: $p_c = 0.5927$ (site, square
-lattice) \cite{newmanziff}; exponents $\nu = 4/3$, $\beta = 5/36$,
+lattice) \cite{newmanziff,newmanziff2001}; exponents $\nu = 4/3$, $\beta = 5/36$,
 $\gamma = 43/18$ \cite{stauffer,dennijs}. All figures regenerate from fixed
 seeds by a single command; code at
 \url{https://github.com/lejrimostfa/chiral-ring}.
@@ -812,6 +904,16 @@ exactly solvable model}, arXiv:XXXX.XXXXX (2026).
 \bibitem{p2} M. Lejri, \emph{Collective irreversibility and arrow
 competition in shared quantum environments}, arXiv:XXXX.XXXXX (2026).
 
+\bibitem{zurek2003} W. H. Zurek, Rev. Mod. Phys. \textbf{75}, 715 (2003).
+
+\bibitem{ollivier} H. Ollivier, D. Poulin, W. H. Zurek, \emph{Objective
+properties from subjective quantum states}, Phys. Rev. Lett. \textbf{93},
+220401 (2004).
+
+\bibitem{korbicz} J. K. Korbicz, \emph{Roads to objectivity: quantum
+Darwinism, spectrum broadcast structures, and strong quantum Darwinism},
+Quantum \textbf{5}, 571 (2021).
+
 \bibitem{zurek2009} W. H. Zurek, \emph{Quantum Darwinism}, Nat. Phys.
 \textbf{5}, 181 (2009).
 
@@ -833,6 +935,77 @@ Phys. A \textbf{12}, 1857 (1979).
 \bibitem{weinrib} A. Weinrib, B. I. Halperin, \emph{Critical phenomena in
 systems with long-range-correlated quenched disorder}, Phys. Rev. B
 \textbf{27}, 413 (1983).
+
+\bibitem{hartle} J. B. Hartle, \emph{The quantum mechanical arrows of
+time}, arXiv:1301.2844 (2013).
+
+\bibitem{yates} A. G. Yates, J. Cotler, N. Maskara, M. D. Lukin,
+\emph{Local arrows of time in quantum many-body systems}, arXiv:2511.09758
+(2025).
+
+\bibitem{maccone} L. Maccone, \emph{Quantum solution to the
+arrow-of-time dilemma}, Phys. Rev. Lett. \textbf{103}, 080401 (2009).
+
+\bibitem{zurekbook} W. H. Zurek, \emph{Decoherence and Quantum Darwinism:
+From Quantum Foundations to Classical Reality} (Cambridge Univ. Press,
+2025).
+
+\bibitem{brandao} F. G. S. L. Brand\~ao, M. Piani, P. Horodecki,
+\emph{Generic emergence of classical features in quantum Darwinism}, Nat.
+Commun. \textbf{6}, 7908 (2015).
+
+\bibitem{fertecao} B. Fert\'e, X. Cao, \emph{Quantum Darwinism-encoding
+transitions on expanding trees}, arXiv:2312.04284 (2023).
+
+\bibitem{zhu} Z. Zhu \emph{et al.}, \emph{Observation of quantum
+Darwinism and the origin of classicality with superconducting circuits},
+Sci. Adv. \textbf{11}, eadx6857 (2025).
+
+\bibitem{seifert} U. Seifert, \emph{Stochastic thermodynamics,
+fluctuation theorems and molecular machines}, Rep. Prog. Phys.
+\textbf{75}, 126001 (2012).
+
+\bibitem{landi} G. T. Landi, M. Paternostro, Rev. Mod. Phys. \textbf{93},
+035008 (2021).
+
+\bibitem{mlodinow} L. Mlodinow, T. A. Brun, Phys. Rev. E \textbf{89},
+052102 (2014).
+
+\bibitem{guff} T. Guff, C. U. Shastry, A. Rocco, \emph{Emergence of
+opposing arrows of time in open quantum systems}, Sci. Rep. \textbf{15},
+3658 (2025).
+
+\bibitem{alkhalili} J. Al-Khalili, E. K. Chen, \emph{The decoherent arrow
+of time and the entanglement past hypothesis}, Found. Phys. \textbf{54},
+49 (2024).
+
+\bibitem{unden} T. K. Unden, D. Louzon, M. Zwolak, W. H. Zurek,
+F. Jelezko, \emph{Revealing the emergence of classicality using
+nitrogen-vacancy centers}, Phys. Rev. Lett. \textbf{123}, 140402 (2019).
+
+\bibitem{friedman} J. R. Friedman \emph{et al.}, Nature \textbf{406}, 43
+(2000).
+
+\bibitem{harris1974} A. B. Harris, \emph{Effect of random defects on the
+critical behaviour of Ising models}, J. Phys. C \textbf{7}, 1671 (1974).
+
+\bibitem{weinrib1984} A. Weinrib, \emph{Long-range correlated
+percolation}, Phys. Rev. B \textbf{29}, 387 (1984).
+
+\bibitem{newmanziff2001} M. E. J. Newman, R. M. Ziff, \emph{Fast Monte
+Carlo algorithm for site or bond percolation}, Phys. Rev. E \textbf{64},
+016706 (2001).
+
+\bibitem{galam} S. Galam, \emph{Contrarian deterministic effects on
+opinion dynamics: ``the hung elections scenario''}, Physica A \textbf{333},
+453 (2004).
+
+\bibitem{deoliveira} M. J. de Oliveira, \emph{Isotropic majority-vote
+model on a square lattice}, J. Stat. Phys. \textbf{66}, 273 (1992).
+
+\bibitem{grinstein} G. Grinstein, C. Jayaprakash, Yu He, \emph{Statistical
+mechanics of probabilistic cellular automata}, Phys. Rev. Lett.
+\textbf{55}, 2527 (1985).
 
 \bibitem{halliwell} J. J. Halliwell, J. P\'erez-Mercader, W. H. Zurek
 (eds.), \emph{Physical Origins of Time Asymmetry} (Cambridge Univ. Press,
